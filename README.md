@@ -1,7 +1,7 @@
 
 ### Frontend for Coldsewoo's web project with Vue.js and webpack
 
-# Plugins included (bolierplate)
+# Plugins included
 #### vuetify
 #### vuex
 #### router
