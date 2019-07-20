@@ -9,7 +9,7 @@ import store from './store'
 
 Vue.prototype.$axios = axios
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(Vuetify)
 
 /* eslint-disable no-new */
