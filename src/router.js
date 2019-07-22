@@ -7,7 +7,6 @@ import Vuestagram from './views/Vuestagram.vue';
 import Users from './views/Users.vue';
 import Blog from './views/Blog.vue';
 import Currency from './views/Currency.vue';
-import test from './views/test.vue';
 import About from './views/About.vue';
 
 // Components
@@ -156,7 +155,6 @@ export default new Router({
       name: 'Currency',
       component: Currency,
     },
-    { path: '/test', component: test },
     { path: '/404', component: notFound },
     { path: '*', redirect: '/404' },
   ],
