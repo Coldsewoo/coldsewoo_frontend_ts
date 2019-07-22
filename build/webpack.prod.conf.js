@@ -90,6 +90,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*'],
       },
+      {
+        from: path.resolve(__dirname,'../_redirects'),
+        to: config.build.assetsRoot
+      }
     ]),
   ],
 })
