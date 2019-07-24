@@ -19,7 +19,7 @@ import userDelete from './components/users/delete.vue';
 import findIdPassword from './components/users/findidpassword.vue';
 // blog Components
 import newArticle from './components/blog/newArticle.vue';
-import article from './components/blog/article.vue';
+import singleArticle from './components/blog/singleArticle.vue';
 import categoryView from './components/blog/categoryView.vue';
 import editArticle from './components/blog/editArticle.vue';
 import editCategory from './components/blog/editCategory.vue';
@@ -109,13 +109,13 @@ export default new Router({
         {
           path: 'category/Main/:articleId',
           name: 'mainArticle',
-          component: article,
+          component: singleArticle,
           props: true,
         },
         {
           path: 'category/:tab/:menu/:submenu/:articleId',
           name: 'article',
-          component: article,
+          component: singleArticle,
           props: true,
         },
         {

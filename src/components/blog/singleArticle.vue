@@ -13,7 +13,7 @@
       </v-flex>
     </v-layout>
     <section class="article">
-      <EditorContent :editor="editor" class="editor__content" />
+      <editorItem />
     </section>
     <section class="right">
       <v-dialog v-model="deleteDialog" width="500">
@@ -27,7 +27,7 @@
           <v-card-title class="headline grey lighten-2" primary-title>Delete category</v-card-title>
 
           <v-card-text class="dialogText">
-            <p>Do you want to remove this article?</p>
+            <p>The article will be deleted.</p>
           </v-card-text>
 
           <v-divider />
@@ -51,40 +51,11 @@
 </template>
 
 <script>
-import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History,
-  Image,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  CodeBlockHighlight,
-} from 'tiptap-extensions';
-import TextSize from '@/assets/textSize.js';
-import TextColor from '@/assets/fontColor.js';
+import editorItem from '@/components/blog/editorView.vue'
 
 export default {
   components: {
-    EditorContent,
+    editorItem,
   },
   props: {
     articleId: {
@@ -94,43 +65,6 @@ export default {
   },
   data() {
     return {
-      article: {},
-      editor: new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new HorizontalRule(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Image(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History(),
-          new Table(),
-          new TableHeader(),
-          new TableCell(),
-          new TableRow(),
-          new CodeBlockHighlight({
-            languages: {
-              javascript,
-              css,
-            },
-          }),
-          new TextColor(),
-          new TextSize(),
-        ],
-        content: '',
-        editable: false,
-      }),
       monthEng: this.$store.state.postStore.monthEng,
       deleteDialog: false,
     };
@@ -146,30 +80,27 @@ export default {
         return result;
       } return '';
     },
+    article() {
+      return this.$store.state.blogStore.currentArticle
+    },
   },
   mounted() {
-    this.getSingleArticle();
+    this.getSingleArticle()
   },
   beforeDestroy() {
-    this.editor.destroy();
+    this.$store.commit('blogStore/setCurrentArticle', 'reset')
   },
   methods: {
     getSingleArticle() {
       this.$store
         .dispatch('blogStore/getSingleArticle', this.articleId)
-        .then((res) => {
-          this.article = res.data.data;
-          this.editor.setContent(this.article.content);
-        })
-        .catch(console.error);
     },
-    deleteArticle() {
+    async deleteArticle() {
       const imageDeleteArr = this.article.images.map(e =>
         this.$store.dispatch('blogStore/deleteImage', e.pId),
       );
-      Promise.all(imageDeleteArr).then(() => {
-        this.$store.dispatch('blogStore/deleteArticle', this.article);
-      });
+      if (imageDeleteArr.length > 0) await Promise.all(imageDeleteArr);
+      this.$store.dispatch('blogStore/deleteArticle', this.article);
     },
     editArticle() {
       this.$router.push(`/blog/edit/${this.articleId}`);
@@ -179,9 +110,6 @@ export default {
       url = url.split('/');
       url.pop();
       this.$router.push(`${url.join('/')}/`);
-      // url.split("/").shift();
-      // url = url.join("/") + "/";
-      // this.$router.push(url);
     },
   },
 };

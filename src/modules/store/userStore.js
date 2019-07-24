@@ -91,8 +91,6 @@ const userStore = {
           localStorage.setItem('username', res.data.data.username);
           localStorage.setItem('refreshToken', res.data.data.refreshToken);
           localStorage.setItem('expiresIn', res.data.data.expiresIn);
-          localStorage.setItem('role', res.data.data.role);
-
           context.commit('saveToken', res.data, { root: true });
           context.commit('postStore/goHome', null, { root: true });
           return new Promise((resolve, reject) => resolve());

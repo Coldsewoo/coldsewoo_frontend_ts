@@ -9,7 +9,11 @@ import store from './store'
 
 Vue.prototype.$axios = axios
 
-Vue.config.productionTip = true
+Vue.config.productionTip = false
+
+// for dev
+Vue.config.devtools = process.env.NODE_ENV === 'development';
+
 Vue.use(Vuetify)
 
 /* eslint-disable no-new */

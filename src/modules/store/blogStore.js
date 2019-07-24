@@ -10,6 +10,7 @@ const blogStore = {
     selectedPosts: [],
     selectedCategory: 'Main',
     latestImageURL: {},
+    currentArticle: {},
   },
   getters: {
     categoriesList(state) {
@@ -115,10 +116,16 @@ const blogStore = {
     onImageSelected(state, payload) {
       state.latestImageURL = payload;
     },
+    setCurrentArticle(state, payload) {
+      if (payload === 'reset') state.currentArticle = {};
+      else {
+        state.currentArticle = payload;
+        state.currentArticle.images = payload.images ? payload.images : [];
+      }
+    },
   },
   actions: {
     async getPosts(context) {
-      console.log(API_URL)
       try {
         const result = await axios({
           url: `${API_URL}/blog`,
@@ -154,7 +161,7 @@ const blogStore = {
           url: `${API_URL}/blog/articles/${articleId}`,
           method: 'GET',
         });
-        return res;
+        context.commit('setCurrentArticle', res.data.data)
       } catch (err) {
         console.log(err);
       }
