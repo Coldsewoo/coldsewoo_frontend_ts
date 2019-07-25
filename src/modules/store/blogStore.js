@@ -1,6 +1,6 @@
 import axios from 'axios';
 import router from '@/router.js';
-import API_URL from '@/lib/globalVar';
+import { API_URL } from '@/lib/globalVar';
 
 const blogStore = {
   namespaced: true,
@@ -234,7 +234,7 @@ const blogStore = {
           });
         }
       } catch (err) {
-        console.log(err);
+        // do nothing
       }
     },
     async onImageSelected(context, payload) {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import router from '@/router.js';
-import API_URL from '@/lib/globalVar';
+import { API_URL } from '@/lib/globalVar';
 
 const userStore = {
   namespaced: true,
@@ -91,6 +91,8 @@ const userStore = {
           localStorage.setItem('username', res.data.data.username);
           localStorage.setItem('refreshToken', res.data.data.refreshToken);
           localStorage.setItem('expiresIn', res.data.data.expiresIn);
+          localStorage.setItem('role', res.data.data.role);
+
           context.commit('saveToken', res.data, { root: true });
           context.commit('postStore/goHome', null, { root: true });
           return new Promise((resolve, reject) => resolve());
@@ -106,6 +108,7 @@ const userStore = {
       localStorage.removeItem('username');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('expiresIn');
+      localStorage.removeItem('role');
       context.commit('logout', null, { root: true });
       router.replace('/users/login');
     },

@@ -35,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-import API_URL from '@/lib/globalVar';
+import { API_URL } from '@/lib/globalVar';
 
 export default {
   name: 'Categoryview',

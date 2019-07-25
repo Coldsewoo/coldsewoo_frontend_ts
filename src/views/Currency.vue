@@ -103,7 +103,7 @@
 
 <script>
 import axios from 'axios';
-import API_URL from '@/lib/globalVar';
+import { API_URL } from '@/lib/globalVar';
 import currencyCode from '../assets/currCode.js';
 
 Number.prototype.getComma = function () {

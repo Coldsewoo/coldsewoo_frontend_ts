@@ -18,7 +18,7 @@
     <section class="right">
       <v-dialog v-model="deleteDialog" width="500">
         <template v-slot:activator="{ on }">
-          <v-btn class="error" fab flat v-on="on">
+          <v-btn v-if="editPriv" class="error" fab flat v-on="on">
             <v-icon>delete</v-icon>
           </v-btn>
         </template>
@@ -40,7 +40,7 @@
         </v-card>
       </v-dialog>
 
-      <v-btn class="primary" fab flat @click="editArticle">
+      <v-btn class="primary" v-if="editPriv" fab flat @click="editArticle">
         <v-icon>edit</v-icon>
       </v-btn>
       <v-btn class="success" fab flat @click="goList">
@@ -82,6 +82,14 @@ export default {
     },
     article() {
       return this.$store.state.blogStore.currentArticle
+    },
+    editPriv() {
+      const isLoggedIn = this.$store.state.isLoggedIn;
+      const role = this.$store.state.token.role;
+      const username = this.$store.state.token.username;
+      const adminIndex = ['Admin', 'Owner']
+
+      return isLoggedIn && (username === this.article.username || adminIndex.includes(role))
     },
   },
   mounted() {
