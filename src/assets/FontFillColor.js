@@ -17,7 +17,7 @@ export default class FontFillColor extends Mark {
         {
           style: 'background-color',
           getAttrs: mark =>
-            (mark.indexOf("rgb") !== -1 ? { fontFillColor: mark } : ""),
+            (mark.indexOf('rgb') !== -1 ? { fontFillColor: mark } : ''),
         },
       ],
       toDOM: mark => [
