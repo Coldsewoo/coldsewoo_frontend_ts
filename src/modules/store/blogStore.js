@@ -133,7 +133,7 @@ const blogStore = {
         });
         context.commit('getPosts', result);
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async saveArticle(context, payload) {
@@ -151,7 +151,7 @@ const blogStore = {
           resolve(result);
         });
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async getSingleArticle(context, payload) {
@@ -163,7 +163,7 @@ const blogStore = {
         });
         context.commit('setCurrentArticle', res.data.data)
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async getCategories(context, payload) {
@@ -175,10 +175,10 @@ const blogStore = {
         if (res.data.success) {
           context.commit('saveCategories', res.data.data);
         } else {
-          console.log(res.data);
+          context.commit('addError', res.data.message, { root: true })
         }
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async selectMenuItem(context, payload) {
@@ -194,10 +194,10 @@ const blogStore = {
             selected: payload,
           });
         } else {
-          console.log(res.data);
+          context.commit('addError', res.data.message, { root: true })
         }
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async deleteArticle(context, payload) {
@@ -214,7 +214,7 @@ const blogStore = {
           router.push(`/blog/category/${payload.categories.path}`);
         }
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async saveCategoryChanged(context, payload) {
@@ -240,22 +240,26 @@ const blogStore = {
     async onImageSelected(context, payload) {
       const formData = new FormData();
       formData.append('image', payload);
-      const imgRes = await axios({
-        url: `${API_URL}/images/blog`,
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/form-data',
-          'x-access-token': context.rootState.token.token,
-        },
-        data: formData,
-      });
-      if (imgRes.data.success) {
-        return new Promise((resolve, reject) => {
-          context.commit('onImageSelected', imgRes.data.data);
-          setTimeout(() => {
-            resolve(imgRes.data.data);
-          }, 0);
+      try {
+        const imgRes = await axios({
+          url: `${API_URL}/images/blog`,
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/form-data',
+            'x-access-token': context.rootState.token.token,
+          },
+          data: formData,
         });
+        if (imgRes.data.success) {
+          return new Promise((resolve, reject) => {
+            context.commit('onImageSelected', imgRes.data.data);
+            setTimeout(() => {
+              resolve(imgRes.data.data);
+            }, 0);
+          });
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
       }
     },
     async deleteImage(context, payload) {
@@ -272,7 +276,7 @@ const blogStore = {
           resolve();
         });
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
   },

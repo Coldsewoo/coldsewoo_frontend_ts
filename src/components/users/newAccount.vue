@@ -13,12 +13,6 @@
               <span>Forgot Password?</span>
             </v-tooltip>
           </v-toolbar>
-          <v-alert
-            v-for="(message, i) in newAccountStatus.message"
-            :key="i"
-            :value="!newAccountStatus.success"
-            type="error"
-          >{{ message }}</v-alert>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -168,12 +162,6 @@ export default {
       },
       errors: {},
     };
-  },
-  computed: {
-    ...mapState(['newAccountStatus']),
-  },
-  watch: {
-    newAccountStatus() { },
   },
   mounted() {
     if (this.$store.state.token.token) this.$router.push('/');

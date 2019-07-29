@@ -8,14 +8,6 @@
           </v-card-title>
 
           <v-card-text class="subheading">
-            <v-alert
-              :value="!deleteStatus"
-              color="error"
-              icon="priority_high"
-              outline
-            >
-              Error!
-            </v-alert>
             Are you sure to delete your account : {{ user.username }} ?
             <br />
             All your posts also will be deleted!
@@ -157,9 +149,6 @@ export default {
     },
     postText() {
       return this.showProfile ? 'Hide Profile' : 'Show Profile';
-    },
-    deleteStatus() {
-      return this.$store.state.userStore.deleteAccountStatus.status;
     },
   },
   watch: {

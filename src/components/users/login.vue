@@ -13,7 +13,6 @@
               <span>Forgot Password?</span>
             </v-tooltip>
           </v-toolbar>
-          <v-alert :value="!loginStatus.success" type="error">{{ errorMessage }}</v-alert>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -72,31 +71,20 @@ export default {
     token() {
       return this.$store.state.token;
     },
-    loginStatus() {
-      return this.$store.state.userStore.loginStatus;
-    },
   },
   watch: {
     token() {
-      if (this.token.length) this.$router.go(-1);
+      if (this.token) this.$router.go(-1);
     },
-    loginStatus() {
-      this.errorMessage = this.loginStatus.message;
-    },
+
   },
   mounted() {
     if (this.$store.state.token.token) return this.$router.push('/');
-    this.$store.commit('userStore/loginFailed', {
-      data: null,
-      errors: null,
-      message: '',
-      success: true,
-    });
   },
   methods: {
     login() {
-      this.$store.dispatch('userStore/login', this.loginForm).then(() => {
-        if (this.$store.state.userStore.loginStatus.success) {
+      this.$store.dispatch('userStore/login', this.loginForm).then((success) => {
+        if (success) {
           this.$router.push('/');
         }
       });

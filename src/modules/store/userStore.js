@@ -10,24 +10,6 @@ const userStore = {
       nickname: '',
       avatar: '',
     },
-    loginStatus: {
-      data: null,
-      errors: null,
-      message: '',
-      success: true,
-    },
-    newAccountStatus: {
-      success: true,
-      message: [],
-    },
-    deleteAccountStatus: {
-      status: true,
-      message: [],
-    },
-    resetPasswordStauts: {
-      status: true,
-      message: null,
-    },
   },
   getters: {
     // newAccountResultGetters: function(state) {
@@ -66,14 +48,14 @@ const userStore = {
           context.dispatch('logout');
           router.push('/users/login');
         } else {
-          const message = [];
+          console.log(res.data.errors)
           for (const item in res.data.errors) {
-            message.push(res.data.errors[item].message);
+            context.commit('addError', res.data.errors[item].message, { root: true });
           }
-          context.commit('newAccountFailed', message);
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
+        context.commit('addError', err.message, { root: true })
       }
     },
     async login(context, payload) {
@@ -95,12 +77,12 @@ const userStore = {
 
           context.commit('saveToken', res.data, { root: true });
           context.commit('postStore/goHome', null, { root: true });
-          return new Promise((resolve, reject) => resolve());
+          return new Promise((resolve, reject) => resolve(true));
         }
-        context.commit('loginFailed', res.data);
-        return new Promise((resolve, reject) => resolve());
+        context.commit('addError', res.data.message, { root: true });
+        return new Promise((resolve, reject) => resolve(false))
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     logout(context) {
@@ -123,32 +105,32 @@ const userStore = {
           context.dispatch('logout');
           router.replace('/users/login');
         } else {
-          console.log('error?');
-          const message = [];
           for (const item in res.data.errors) {
-            message.push(res.data.errors[item].message);
+            context.commit('addError', res.data.errors[item].message, { root: true });
           }
-          context.commit('newAccountFailed', message);
         }
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async deleteAccount(context, payload) {
-      const deleteRes = await axios({
-        url: `${API_URL}/users/${payload._id}`,
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': context.rootState.token.token,
-        },
-      });
-      if (deleteRes.data.success) {
-        context.commit('deleteAccountFailed', true);
-        context.dispatch('logout');
-        router.push('/');
-      } else {
-        context.commit('deleteAccountFailed', false);
+      try {
+        const deleteRes = await axios({
+          url: `${API_URL}/users/${payload._id}`,
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': context.rootState.token.token,
+          },
+        });
+        if (deleteRes.data.success) {
+          context.dispatch('logout');
+          router.push('/');
+        } else {
+          context.commit('addError', deleteRes.data.message, { root: true });
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true });
       }
     },
     async resetPasswordSubmit(context, payload) {
@@ -162,20 +144,14 @@ const userStore = {
           },
         });
         if (usernameRes.data.success) {
-          context.commit('resetPasswordSubmit', {
-            status: true,
-            message: null,
-          });
           return new Promise((resolve, reject) => {
             resolve(usernameRes.data.data.email);
           });
         }
-        context.commit('resetPasswordSubmit', {
-          status: false,
-          message: usernameRes.data.message,
-        });
+        context.commit('addError', usernameRes.data.message, { root: true })
+        return new Promise((resolve, reject) => resolve(false))
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async resetPasswordCodeSubmit(context, payload) {
@@ -189,18 +165,12 @@ const userStore = {
           },
         });
         if (codeRes.data.success) {
-          context.commit('resetPasswordSubmit', {
-            status: true,
-            message: null,
-          });
-          return new Promise((resolve, reject) => resolve());
+          return new Promise((resolve, reject) => resolve(true));
         }
-        context.commit('resetPasswordSubmit', {
-          status: false,
-          message: codeRes.data.message,
-        });
+        context.commit('addError', codeRes.data.message, { root: true })
+        return new Promise((resolve, reject) => resolve(false))
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true })
       }
     },
     async saveNewPassword(context, payload) {
@@ -214,18 +184,12 @@ const userStore = {
           },
         });
         if (saveRes.data.success) {
-          context.commit('resetPasswordSubmit', {
-            status: true,
-            message: null,
-          });
-          return new Promise((resolve, reject) => resolve());
+          return new Promise((resolve, reject) => resolve(true));
         }
-        context.commit('resetPasswordSubmit', {
-          status: false,
-          message: saveRes.data.message,
-        });
+        context.commit('addError', saveRes.data.message, { root: true });
+        return new Promise((resolve, reject) => resolve(false));
       } catch (err) {
-        console.log(err);
+        context.commit('addError', err.message, { root: true });
       }
     },
   },

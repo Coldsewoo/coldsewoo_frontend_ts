@@ -5,6 +5,7 @@ import store from '../store.js'
 export default function setup() {
   axios.interceptors.request.use(
     (config) => {
+      config.headers['Access-Control-Allow-Origin'] = '*'
       const token = store.state.token.token
       if (!store.state.tooManyRequests) {
         if (token) {
@@ -12,7 +13,7 @@ export default function setup() {
         }
         return config
       }
-      store.dispatch('tooManyRequestsAlert')
+      store.dispatch('addError', 'tooManyRequestsAlert')
     },
     (err) => {
       return Promise.reject(err)
@@ -39,19 +40,10 @@ export default function setup() {
         store.dispatch('userStore/logout')
       } else if (res.data.message === 'TooManyRequests') {
         store.dispatch('tooManyRequestsAlert', true)
-      } else if (res.data.message === 'newAccountError') {
-        return res
-      } else {
-        console.log('interceptors successFalse data ----')
-        console.log(res.data)
-        console.log('interceptors successFalse data ----')
-        return res
-      }
+      } else return res;
     },
     (error) => {
-      console.log('interceptors error data ----')
-      console.log(error)
-      console.log('interceptors error data ----')
+      return error;
     },
   )
 }

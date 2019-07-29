@@ -455,21 +455,23 @@ export default {
     },
     onImageSelected(e, command) {
       const image = e.target.files[0];
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(image);
-      fileReader.onload = async (e) => {
-        this.previewImage = e.target.result;
-        const result = await this.$store.dispatch(
-          'blogStore/onImageSelected',
-          this.previewImage,
-        );
-        const src = result.image;
-        command({ src });
-        this.imagesToUpload.push(result);
-        this.$nextTick(() => {
-          this.previewImage = null;
-        });
-      };
+      if (image.type.match('image.*')) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(image);
+        fileReader.onload = async (e) => {
+          this.previewImage = e.target.result;
+          const result = await this.$store.dispatch(
+            'blogStore/onImageSelected',
+            this.previewImage,
+          );
+          const src = result.image;
+          command({ src });
+          this.imagesToUpload.push(result);
+          this.$nextTick(() => {
+            this.previewImage = null;
+          });
+        };
+      } else this.$store.commit('addError', 'Invalid Image')
     },
   },
 };

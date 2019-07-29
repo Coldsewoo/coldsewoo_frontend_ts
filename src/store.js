@@ -19,10 +19,7 @@ export default new Vuex.Store({
     },
     isLoggedIn: !!localStorage.getItem('token'),
     user: {},
-    errorAlert: {
-      status: false,
-      message: null,
-    },
+    errorsList: [],
   },
   getters: {},
   mutations: {
@@ -45,6 +42,20 @@ export default new Vuex.Store({
     },
     tooManyRequests(state, payload) {
       state.tooManyRequests = payload;
+    },
+    errorChecked(state, payload) {
+      const index = payload;
+      state.errorsList.splice(index, 1);
+    },
+    addError(state, payload) {
+      const error = {
+        message: payload,
+        type: 'error',
+      }
+      state.errorsList.push(error)
+    },
+    resetErrors(state, payload) {
+      state.errorsList = [];
     },
   },
   actions: {

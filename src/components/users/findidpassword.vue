@@ -7,7 +7,6 @@
             <v-toolbar-title>Reset password</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-alert :value="!resetPasswordStauts.status" type="error">{{ errorMessage }}</v-alert>
           <v-card-text>
             <div v-if="step === 1" style="margin:10px auto;text-align:center;font-size:15px;">
               <Strong>Please enter your username</Strong>
@@ -74,7 +73,6 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn v-if="step === 1" color="error" @click.prevent="cancel">cancel</v-btn>
-
             <v-btn v-if="step === 1" color="primary" @click.prevent="submit">Submit</v-btn>
             <v-btn v-if="step === 2" color="primary" @click.prevent="submitCode">Submit</v-btn>
             <v-btn v-if="step === 3" color="primary" @click.prevent="saveNewPassword">Submit</v-btn>
@@ -125,42 +123,25 @@ export default {
     token() {
       return this.$store.state.token;
     },
-    resetPasswordStauts() {
-      return this.$store.state.userStore.resetPasswordStauts;
-    },
-    resetPasswordMessage() {
-      return this.$store.state.userStore.resetPasswordStauts.message;
-    },
   },
   watch: {
     token() {
       if (this.token.length) this.$router.go(-1);
     },
-    resetPasswordStauts() {
-      this.errorMessage = this.resetPasswordStauts.message;
-    },
-    resetPasswordMessage() {
-      this.errorMessage = this.resetPasswordMessage;
-    },
   },
   mounted() {
     if (this.$store.state.token.token) return this.$router.push('/');
-    this.$store.commit('userStore/loginFailed', {
-      data: null,
-      errors: null,
-      message: '',
-      success: true,
-    });
   },
   methods: {
     submit() {
       this.$store
         .dispatch('userStore/resetPasswordSubmit', this.submitForm.username)
         .then((email) => {
-          if (this.$store.state.userStore.resetPasswordStauts.status) {
+          if (!email) this.step = 1;
+          else {
             this.email = email;
             this.step = 2;
-          } else this.step = 1;
+          }
         });
     },
     getItem() {
@@ -172,8 +153,8 @@ export default {
     submitCode() {
       this.$store
         .dispatch('userStore/resetPasswordCodeSubmit', this.submitForm.code)
-        .then(() => {
-          if (this.$store.state.userStore.resetPasswordStauts.status) {
+        .then((res) => {
+          if (res) {
             this.step = 3;
           } else this.step = 2;
         });
@@ -185,8 +166,8 @@ export default {
           newPassword: this.submitForm.newPassword,
           passwordConfirmation: this.submitForm.newPasswordConfirmation,
         })
-        .then(() => {
-          if (this.$store.state.userStore.resetPasswordStauts.status) { this.$router.push('/users/login'); } else this.step = 3;
+        .then((res) => {
+          if (res) { this.$router.push('/users/login'); } else this.step = 3;
         });
     },
   },
