@@ -18,7 +18,7 @@
     <section class="right">
       <v-dialog v-model="deleteDialog" width="500">
         <template v-slot:activator="{ on }">
-          <v-btn v-if="editPriv" class="error" fab flat v-on="on">
+          <v-btn v-if="editPriv" class="error" small fab flat v-on="on">
             <v-icon>delete</v-icon>
           </v-btn>
         </template>
@@ -40,10 +40,10 @@
         </v-card>
       </v-dialog>
 
-      <v-btn class="primary" v-if="editPriv" fab flat @click="editArticle">
+      <v-btn class="primary" v-if="editPriv" fab flat small @click="editArticle">
         <v-icon>edit</v-icon>
       </v-btn>
-      <v-btn class="success" fab flat @click="goList">
+      <v-btn class="success" fab flat small @click="goList">
         <v-icon>list</v-icon>
       </v-btn>
     </section>
@@ -129,7 +129,10 @@ export default {
     margin-top: 15px;
     margin-bottom: 10px;
     width: 100%;
-    border: solid 1px #00000009;
+    .editor__content {
+      border-top: solid 1px black;
+      border-bottom: solid 1px black;
+    }
   }
 
   .header {

@@ -7,7 +7,11 @@ $color-grey: #dddddd;
   font-size: 1.3em;
 
   img {
-    max-width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 70%;
+    max-width: 85%;
   }
 
   hr {

@@ -137,11 +137,13 @@ export default {
 
   .editor {
     width: 100%;
+    background-color:#FCFCFC;
   }
 
   .editor__content {
-    border: solid 2px black;
-    padding: 8px;
+    border-top: solid 2px rgb(213, 213, 213);
+    border-bottom: solid 1px rgb(213, 213, 213);
+    padding: 15px;
     margin-top: 20px;
   }
 

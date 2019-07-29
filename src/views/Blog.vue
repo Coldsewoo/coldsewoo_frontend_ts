@@ -1,14 +1,15 @@
 <template>
   <v-container>
-    <v-layout row wrap pa-1 ma-1>
+    <v-layout row wrap pt-1 pb-1 ma-1>
       <v-layout>
         <v-flex xs12>
-          <v-tabs fixed-tabs height="30">
+          <v-tabs grow height="30" slider-color="green">
             <v-tab
               v-for="(tab, i) in ordered"
               :key="i"
               :class="{ 'tab-selected': currentTab === i }"
               class="tab_header"
+
               @click="selectTab(i)"
             >{{ i }}</v-tab>
             <v-tab-item v-for="(tab, i) in ordered" :key="i">
@@ -55,7 +56,8 @@
               fab
               flat
               top
-              class="new_article primary"
+              small
+              class="new_article green"
               v-on="on"
             >
               <v-icon>menu</v-icon>
@@ -69,7 +71,7 @@
               active-class="none"
               class="menu-list"
             >
-              <v-icon color="#7a22ffaa">{{ menu.icon }}</v-icon>
+              <v-icon color="green">{{ menu.icon }}</v-icon>
               <v-spacer />
               <v-list-tile-title class="needSpace">
                 {{
@@ -89,6 +91,7 @@
         fab
         bottom
         flat
+        small
         class="error goup"
         @click.native="goup"
       >
@@ -99,30 +102,6 @@
 </template>
 
 <script>
-import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History,
-  CodeBlockHighlight,
-} from 'tiptap-extensions';
-
 export default {
   name: 'Blog',
   components: {},
@@ -229,7 +208,7 @@ export default {
     margin-top: 70px;
     margin-right: 15px;
     border-radius: 50%;
-    background-color: #7a22ff;
+    background-color: green;
     color: white;
   }
 
@@ -250,7 +229,7 @@ export default {
   }
 
   .transparent {
-    background-color: blue;
+    background-color: green;
     opacity: 0.4;
     border-color: transparent !important;
   }

@@ -69,7 +69,8 @@ export default {
   }
 
   .editor__content {
-    border: solid 2px black;
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
     padding: 8px;
     margin-top: 20px;
   }
