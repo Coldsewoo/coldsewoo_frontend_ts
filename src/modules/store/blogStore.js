@@ -223,14 +223,21 @@ const blogStore = {
     async deleteArticle(context, payload) {
       try {
         const articleId = payload.articleId;
-        const res = await axios({
+        const blogRes = await axios({
           url: `${API_URL}/blog/articles/${articleId}`,
           method: 'DELETE',
           headers: {
             'x-access-token': context.rootState.token.token,
           },
         });
-        if (res.data.success) {
+        const imgRes = await axios({
+          url: `${API_URL}/images/blog/${articleId}`,
+          method: 'DELETE',
+          headers: {
+            'x-access-token': context.rootState.token.token,
+          },
+        })
+        if (blogRes.data.success && imgRes.data.success) {
           router.push(`/blog/category/${payload.categories.path}`);
         }
       } catch (err) {

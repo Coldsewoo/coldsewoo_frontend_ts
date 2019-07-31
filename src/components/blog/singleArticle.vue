@@ -104,10 +104,6 @@ export default {
         .dispatch('blogStore/getSingleArticle', this.articleId)
     },
     async deleteArticle() {
-      const imageDeleteArr = this.article.images.map(e =>
-        this.$store.dispatch('blogStore/deleteImage', e.pId),
-      );
-      if (imageDeleteArr.length > 0) await Promise.all(imageDeleteArr);
       this.$store.dispatch('blogStore/deleteArticle', this.article);
     },
     editArticle() {
