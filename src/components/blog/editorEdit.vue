@@ -274,7 +274,51 @@
               <pre class="result">{{ value }}</pre>
             </v-flex>
           </v-layout>
+          <editor-menu-bubble
+            class="menububble"
+            :editor="editor"
+            @hide="hideLinkMenu"
+            v-slot="{ commands, isActive, getMarkAttrs, menu }"
+          >
+            <div
+              class="menububble"
+              :class="{ 'is-active': menu.isActive }"
+              :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+            >
+              <form
+                class="menububble__form"
+                v-if="linkMenuIsActive"
+                @submit.prevent="setLinkUrl(commands.link, linkUrl)"
+              >
+                <input
+                  class="menububble__input"
+                  type="text"
+                  v-model="linkUrl"
+                  placeholder="https://"
+                  ref="linkInput"
+                  @keydown.esc="hideLinkMenu"
+                />
+                <button
+                  class="menububble__button"
+                  @click="setLinkUrl(commands.link, null)"
+                  type="button"
+                >
+                  <icon name="remove" />
+                </button>
+              </form>
 
+              <template v-else>
+                <button
+                  class="menububble__button"
+                  @click="showLinkMenu(getMarkAttrs('link'))"
+                  :class="{ 'is-active': isActive.link() }"
+                >
+                  <span>{{ isActive.link() ? 'Update Link' : 'Add Link'}}</span>
+                  <icon name="link" />
+                </button>
+              </template>
+            </div>
+          </editor-menu-bubble>
           <EditorContent :editor="editor" class="editor__content" />
         </div>
       </v-flex>
@@ -283,10 +327,11 @@
 </template>
 
 <script>
+
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import '@/assets/editorStyle.scss';
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
+import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import { Sketch } from 'vue-color';
 // import the component
 import Treeselect from '@riophae/vue-treeselect';
@@ -329,6 +374,7 @@ export default {
     EditorMenuBar,
     chromePicker: Sketch,
     Treeselect,
+    EditorMenuBubble,
   },
   props: {
     status: {
@@ -394,6 +440,8 @@ export default {
       previewImage: null,
       imagesToUpload: [],
       uploadStatus: false,
+      linkUrl: null,
+      linkMenuIsActive: false,
     };
   },
   computed: {
@@ -438,6 +486,7 @@ export default {
         title: this.title,
         categories: this.value,
         images: this.imagesToUpload,
+        status: this.status,
       };
       payload.articleId = this.status === 'edit' ? this.article.articleId : undefined
       setTimeout(() => {
@@ -473,6 +522,22 @@ export default {
         };
       } else this.$store.commit('addError', 'Invalid Image')
     },
+    showLinkMenu(attrs) {
+      this.linkUrl = attrs.href
+      this.linkMenuIsActive = true
+      this.$nextTick(() => {
+        this.$refs.linkInput.focus()
+      })
+    },
+    hideLinkMenu() {
+      this.linkUrl = null
+      this.linkMenuIsActive = false
+    },
+    setLinkUrl(command, url) {
+      command({ href: url })
+      this.hideLinkMenu()
+      this.editor.focus()
+    },
   },
 };
 </script>
@@ -501,7 +566,7 @@ export default {
 
   .editor {
     width: 100%;
-    background-color:#FCFCFC;
+    background-color: #fcfcfc;
   }
 
   .editor__content {
@@ -523,13 +588,13 @@ export default {
   .v-btn {
     opacity: 1 !important;
 
-    :hover:before, :focus:before {
-    background-color: white;
+    :hover:before,
+    :focus:before {
+      background-color: white;
     }
   }
 
   .v-btn--active:before,
-
   .line_break {
     flex-basis: 100%;
     width: 0px;
@@ -570,4 +635,61 @@ export default {
       color: black;
     }
   }
+
+.menububble {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 20;
+  background: #000;
+  border-radius: 5px;
+  padding: 0.3rem;
+  margin-bottom: 0.5rem;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s, visibility 0.2s;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.menububble.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.menububble__button {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  margin-right: 0.2rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.menububble__button:last-child {
+  margin-right: 0;
+}
+.menububble__button:hover {
+  background-color: hsla(0, 0%, 100%, 0.1);
+}
+.menububble__button.is-active {
+  background-color: hsla(0, 0%, 100%, 0.2);
+}
+.menububble__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.menububble__input {
+  font: inherit;
+  border: none;
+  background: transparent;
+  color: #fff;
+}
 </style>

@@ -147,9 +147,29 @@ const blogStore = {
             'x-access-token': context.rootState.token.token,
           },
         });
-        return new Promise((resolve, reject) => {
-          resolve(result);
-        });
+        if (result.data.success) {
+          const cloudinaryRenameRes = await axios({
+            url: `${API_URL}/images/blog/${result.data.data.articleId}`,
+            method: 'PUT',
+            data: payload.images,
+            headers: {
+              'Content-type': 'application/json',
+              'x-access-token': context.rootState.token.token,
+            },
+          })
+          const blogContentImageRenameRes = await axios({
+            url: `${API_URL}/blog/rename/${result.data.data.articleId}`,
+            method: 'PUT',
+            headers: {
+              'x-access-token': context.rootState.token.token,
+            },
+          })
+          if (cloudinaryRenameRes.data.success && blogContentImageRenameRes.data.success) {
+            return new Promise((resolve, reject) => {
+              resolve(result)
+            });
+          }
+        }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
