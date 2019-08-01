@@ -20,6 +20,7 @@ export default new Vuex.Store({
     isLoggedIn: !!localStorage.getItem('token'),
     user: {},
     errorsList: [],
+    role: 0,
   },
   getters: {},
   mutations: {
@@ -39,6 +40,8 @@ export default new Vuex.Store({
     },
     getUser(state, payload) {
       state.user = payload.data;
+      const roleArr = ['User', 'Admin', 'Owner'];
+      state.role = roleArr.indexOf(payload.data.role)
     },
     tooManyRequests(state, payload) {
       state.tooManyRequests = payload;

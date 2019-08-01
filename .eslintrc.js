@@ -56,5 +56,7 @@ module.exports = {
     "no-plusplus": 0,
     "prefer-default-export": 0,
     "class-methods-use-this": 0,
+    "vue/no-use-v-if-with-v-for": 0,
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }

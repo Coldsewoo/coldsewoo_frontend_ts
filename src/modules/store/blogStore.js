@@ -24,6 +24,7 @@ const blogStore = {
           name: key,
         };
         for (const keya in item[key]) {
+          if (keya === 'order') continue;
           const children2 = [];
           const innerObj2 = {
             id: `${key}/${keya}`,
@@ -58,6 +59,7 @@ const blogStore = {
           name: key,
         };
         for (const keya in item[key]) {
+          if (keya === 'order') continue;
           const children2 = [];
           const innerObj2 = {
             id: `${key}/${keya}`,
@@ -95,6 +97,7 @@ const blogStore = {
         // item : coldsewooweb
         duplicate[item] = {};
         for (const item2 in categories[item]) {
+          if (item2 === 'order') continue;
           duplicate[item][item2] = categories[item][item2];
         }
       }

@@ -3,19 +3,18 @@
     <v-layout row wrap pt-1 pb-1 ma-1>
       <v-layout>
         <v-flex xs12>
-          <v-tabs grow height="30" slider-color="green">
+          <v-tabs height="30" slider-color="green">
             <v-tab
               v-for="(tab, i) in ordered"
               :key="i"
               :class="{ 'tab-selected': currentTab === i }"
               class="tab_header"
-
               @click="selectTab(i)"
             >{{ i }}</v-tab>
             <v-tab-item v-for="(tab, i) in ordered" :key="i">
               <v-card>
                 <v-layout fill-height>
-                  <v-flex v-if="currentTab" xs5 md2>
+                  <v-flex v-if="currentTab" xs3 md2>
                     <p
                       v-for="(menu, n) in ordered[currentTab]"
                       :key="n"
@@ -24,7 +23,7 @@
                       @click="selectMenu(n)"
                     >{{ n }}</p>
                   </v-flex>
-                  <v-flex v-if="currentMenu" xs5 md2>
+                  <v-flex v-if="currentMenu" xs4 md2>
                     <p
                       v-for="(submenu, j) in ordered[currentTab][currentMenu]"
                       :key="j"
@@ -32,6 +31,7 @@
                         'submenu-selected': currentSubmenu === submenu
                       }"
                       class="menuItem"
+                      v-show="submenu !== '_'"
                       @click="selectSubmenu(submenu)"
                     >{{ submenu }}</p>
                   </v-flex>
@@ -68,6 +68,7 @@
               v-for="(menu, index) in menuList"
               :key="index"
               :to="menu.path"
+              v-if="role >= menu.priv"
               active-class="none"
               class="menu-list"
             >
@@ -115,16 +116,19 @@ export default {
           name: 'Home',
           path: '/blog/home',
           icon: 'home',
+          priv: 0,
         },
         {
           name: 'New Article',
           path: '/blog/newarticle',
           icon: 'library_add',
+          priv: 2,
         },
         {
           name: 'Manage Category',
           path: '/blog/editcategory',
           icon: 'format_list_bulleted',
+          priv: 2,
         },
       ],
     };
@@ -139,6 +143,9 @@ export default {
     current() {
       return this.$store.getters['blogStore/selectedCategoryObj'];
     },
+    role() {
+      return this.$store.state.role
+    },
   },
   mounted() {
     this.getCategories();
@@ -146,6 +153,7 @@ export default {
     this.currentTab = query.tab || '';
     this.currentMenu = query.menu || '';
     this.currentSubmenu = query.submenu || '';
+    console.log()
   },
 
   methods: {
