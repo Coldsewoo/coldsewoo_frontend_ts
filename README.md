@@ -13,5 +13,6 @@
 - webpack
 - scss-loader
 - babel
+- tiptap (prosemirror)
 
 

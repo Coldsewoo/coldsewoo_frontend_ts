@@ -87,8 +87,8 @@
         <div>
           <img
             src="https://res.cloudinary.com/coldsewoo/image/upload/v1559570449/Assets/GitHubMark_l5zaau.png"
+            style="padding-top:5px;"
           />
-
           <a
             target="_blank"
             href="https://github.com/Coldsewoo/currency_exchanger"
@@ -207,8 +207,8 @@ export default {
 <style scoped>
   .container {
     margin-top: 150px;
-    border: solid 1px purple;
-    background-color: rgb(230, 230, 230);
+    border: solid 1px black;
+    background-color: rgb(213, 213, 213);
   }
 
   .tit {
@@ -216,11 +216,11 @@ export default {
   }
   .inner {
     background-color: white;
-    border: solid 1px rgba(101, 0, 101, 0.454);
+    border: solid 1px rgba(0, 233, 0, 0.283);
   }
 
   .amount >>> .v-text-field__slot input {
-    color: purple;
+    color: rgb(34, 130, 34);
     font-size: 30px;
     margin-top: 10px;
     margin-bottom: 5px;
@@ -232,7 +232,7 @@ export default {
 
   a {
     text-decoration: none;
-    color: purple;
-    font-size: 15px;
+    color: rgb(34, 130, 34);
+    font-size: 22px;
   }
 </style>
