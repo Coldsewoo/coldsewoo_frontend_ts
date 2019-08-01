@@ -121,13 +121,15 @@ export default {
 
 <style lang="scss" scoped>
   .article {
-    padding: 8px;
-    margin-top: 15px;
     margin-bottom: 10px;
     width: 100%;
     .editor__content {
       border-top: solid 1px black;
       border-bottom: solid 1px black;
+    }
+
+    .container {
+      padding: 1px 10px 1px 10px !important;
     }
   }
 

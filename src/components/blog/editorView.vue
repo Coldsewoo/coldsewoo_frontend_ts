@@ -144,7 +144,6 @@ export default {
     border-top: solid 2px rgb(213, 213, 213);
     border-bottom: solid 1px rgb(213, 213, 213);
     padding: 15px;
-    margin-top: 20px;
   }
 
 </style>
