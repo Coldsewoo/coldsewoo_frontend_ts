@@ -217,6 +217,7 @@ export default {
 </script>
 
 <style scoped>
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
   * {
     box-sizing: border-box;
   }
@@ -231,7 +232,7 @@ export default {
   }
 
   #app {
-    font-family: "AppleGothic", "Nanum Gothic", "Avenue";
+    font-family: "Noto Sans KR", "AppleGothic", "Avenue";
     width: 100%;
     background: #fff;
     margin: auto;
