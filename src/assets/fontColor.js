@@ -17,7 +17,7 @@ export default class textColor extends Mark {
         {
           tag: 'span.font-color',
           getAttrs(dom) {
-            return { color: dom.classList[1] };
+            return { color: dom.classList[0] };
           },
         },
       ],

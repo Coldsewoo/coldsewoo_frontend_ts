@@ -17,7 +17,7 @@ export default class textSize extends Mark {
         {
           tag: 'span.font-size',
           getAttrs(dom) {
-            return { 'font-size': dom.classList[1] };
+            return { 'font-size': dom.classList[0] };
           },
         },
       ],
