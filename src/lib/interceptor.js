@@ -35,7 +35,8 @@ export default function setup() {
         localStorage.setItem('token', refreshData.data.data.token)
         store.commit('saveToken', refreshData.data)
         res.config.headers['x-access-token'] = refreshData.data.data.token
-        await axios.request(res.config)
+        const result = await axios.request(res.config)
+        return result;
       } else if (res.data.message === 'refreshTokenExpired') {
         store.dispatch('userStore/logout')
       } else if (res.data.message === 'TooManyRequests') {

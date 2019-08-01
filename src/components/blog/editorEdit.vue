@@ -513,6 +513,7 @@ export default {
             'blogStore/onImageSelected',
             this.previewImage,
           );
+          console.log(result)
           const src = result.image;
           command({ src });
           this.imagesToUpload.push(result);
