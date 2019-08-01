@@ -113,13 +113,13 @@
           <v-list class="footer-v-list">
             <v-list-tile
               class="list-tile footer-tile"
-              href="https://github.com/Coldsewoo/vueworld-frontend"
+              href="https://github.com/Coldsewoo/coldsewoo_frontend"
             >
               <v-list-tile-title color="primary">Frontend</v-list-tile-title>
             </v-list-tile>
             <v-list-tile
               class="list-tile footer-tile"
-              href="https://github.com/Coldsewoo/vueworld-backend"
+              href="https://github.com/Coldsewoo/coldsewoo_backend"
             >
               <v-list-tile-title color="primary">Backend</v-list-tile-title>
             </v-list-tile>
