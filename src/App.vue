@@ -8,7 +8,7 @@
               <v-icon class="pa-1">close</v-icon>
             </v-list-tile-action>
           </v-list-tile>
-          <v-list-tile class="list-tile" to="/">
+          <!-- <v-list-tile class="list-tile" to="/">
             <v-list-tile-action>
               <v-icon color="primary">dashboard</v-icon>
             </v-list-tile-action>
@@ -16,7 +16,7 @@
               <v-list-tile-title>Home</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider />
+          <v-divider /> -->
           <v-list-tile class="list-tile" to="/blog/home">
             <v-list-tile-action>
               <v-icon>ballot</v-icon>

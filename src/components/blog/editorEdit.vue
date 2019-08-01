@@ -303,7 +303,8 @@
                   @click="setLinkUrl(commands.link, null)"
                   type="button"
                 >
-                  <icon name="remove" />
+                  <v-icon color=
+                  "white" style="padding-left:5px">remove</v-icon>
                 </button>
               </form>
 
@@ -313,8 +314,9 @@
                   @click="showLinkMenu(getMarkAttrs('link'))"
                   :class="{ 'is-active': isActive.link() }"
                 >
-                  <span>{{ isActive.link() ? 'Update Link' : 'Add Link'}}</span>
-                  <icon name="link" />
+                  <span>{{ isActive.link() ? 'Update Link ' : 'Add Link '}}</span>
+                  <v-icon color=
+                  "white" style="padding-left:5px">link</v-icon>
                 </button>
               </template>
             </div>
