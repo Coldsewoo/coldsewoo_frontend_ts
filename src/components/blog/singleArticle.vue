@@ -1,13 +1,13 @@
 <template>
   <v-flex xs12>
     <v-layout row wrap class="header">
-      <v-flex xs2 md1>
+      <v-flex lg1>
         <img :src="article.headImageURL" alt />
       </v-flex>
-      <v-flex xs10 offset-xs-1 md8>
+      <v-flex lg8>
         <span class="title">{{ article.title }}</span>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex xs12 lg3>
         <span class="date">{{ article.nickname }}</span>
         <span class="date">{{ createdDay }}</span>
       </v-flex>

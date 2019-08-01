@@ -424,7 +424,7 @@ export default {
       content: {},
       font: {
         color: '',
-        size: 1,
+        size: 20,
       },
       show: {
         colorPicker: false,
