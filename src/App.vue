@@ -168,7 +168,7 @@ export default {
   },
   watch: {
     token() {
-      if (this.token.token) this.$store.dispatch('getUser');
+      if (this.token.token && this.token.token !== 'null') this.$store.dispatch('getUser');
     },
     $route(to, from) {
       this.$store.commit('resetErrors')
@@ -176,6 +176,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit('getToken')
     if (this.isLoggedIn) {
       this.$store.dispatch('getUser');
     }

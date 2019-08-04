@@ -2,16 +2,14 @@
   <v-layout wrap class="comments">
     <v-flex class="comment-inputbox" xs12>
       <div class="comment-input">
-        <v-text-field
+        <v-textarea
           v-model.lazy="commentInput"
           class="write-box mt-0 pt-0"
           label="Add comment"
-          single-line
           append-outer-icon="send"
           clearable
-          @keydown.enter="addCommentKeyboard"
           @click:append-outer="addComment"
-        ></v-text-field>
+        ></v-textarea>
       </div>
     </v-flex>
     <v-flex class="comments" xs12>
@@ -27,30 +25,46 @@
               <div class="comments-content-nickname">
                 <router-link :to="`/users/profile/${comment.username}`">{{ comment.userNickname }}</router-link>
                 <span class="date">{{comment.created}}</span>
+
                 <button class="reply-comment" @click.prevent="toggleReplyInput(comment._id)">
-                  <v-icon>edit</v-icon>댓글달기
+                  <v-icon small>subdirectory_arrow_right</v-icon>댓글달기
+                </button>
+                <button
+                  class="edit-comment"
+                  v-if="isAdminOrUser(comment)"
+                  @click.prevent="toggleEdit(comment)"
+                >
+                  <v-icon color="primary" small>edit</v-icon>
                 </button>
                 <button
                   class="delete-comment"
                   v-if="isAdminOrUser(comment)"
-                  @click.prevent="deleteComment(comment)"
+                  @click.prevent="deleteComment(comment._id)"
                 >x</button>
               </div>
               <v-divider class="comment-divider"></v-divider>
 
               <span class="comments-content-message">{{ comment.message }}</span>
             </div>
-            <div class="comment-input" v-if="replyToggled[comment._id]">
-              <v-text-field
-                v-model.lazy="replyInput[comment._id]"
-                class="write-box mt-0 pt-0"
-                label="Add comment"
-                single-line
+            <div class="comment-sub-input" v-if="editToggle[comment._id]">
+              <v-textarea
+                v-model.lazy="editInput[comment._id]"
+                class="write-box"
+                label="Edit Comment"
                 append-outer-icon="send"
                 clearable
-                @keydown.enter="addReplyKeyboard(comment._id)"
-                @click:append-outer="addReply(comment._id)"
-              ></v-text-field>
+                @click:append-outer="editComment(comment)"
+              ></v-textarea>
+            </div>
+            <div class="comment-sub-input" v-if="replyToggled[comment._id]">
+              <v-textarea
+                v-model.lazy="replyInput[comment._id]"
+                class="write-box ma-1 pa-1"
+                label="Add Reply Message"
+                append-outer-icon="send"
+                clearable
+                @click:append-outer="addReply(comment)"
+              ></v-textarea>
             </div>
           </v-flex>
         </div>
@@ -64,11 +78,12 @@
               <div class="comments-content-nickname">
                 <router-link :to="`/users/profile/${reply.username}`">{{ reply.userNickname }}</router-link>
                 <span class="date">{{reply.created}}</span>
+
                 <button
                   v-if="isAdminOrUser(reply)"
                   class="delete-comment"
-                  @click.prevent="deleteComment(reply)"
-                ></button>
+                  @click.prevent="deleteReply(reply)"
+                >x</button>
               </div>
               <v-divider class="comment-divider"></v-divider>
 
@@ -88,33 +103,107 @@
 
 <script>
 export default {
+  props: {
+    comments: {
+      type: Object,
+      default: [],
+    },
+  },
   data() {
     return {
       commentInput: '',
       replyInput: {},
-      comments: [],
       replyToggle: {},
+      editToggle: {},
+      editInput: {},
     }
   },
   computed: {
     replyToggled() {
       return this.replyToggle;
     },
+    article() {
+      return this.$store.state.blogStore.currentArticle
+    },
   },
   watch: {
+    comments(val) {
+      this.comments = val;
+    },
   },
   methods: {
-    addCommentKeyboard() { },
-    addComment() { },
-    deleteComment() { },
+    addComment() {
+      const payload = {
+        articleId: this.article.articleId,
+        message: this.commentInput,
+      };
+      this.$store.dispatch('blogStore/addComment', payload)
+        .then(() => {
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.commentInput = ''
+        })
+    },
+    editComment(comment) {
+      const payload = {
+        articleId: this.article.articleId,
+        commentId: comment._id,
+        message: this.editInput[comment._id],
+      }
+      this.$store.dispatch('blogStore/editComment', payload)
+        .then(() => {
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.editToggle = {}
+          this.editInput = {}
+          this.replyToggle = {}
+          this.replyInput = {}
+        })
+    },
+    deleteComment(_id) {
+      const payload = {
+        articleId: this.article.articleId,
+        commentId: _id,
+      }
+      this.$store.dispatch('blogStore/deleteComment', payload)
+        .then(() => {
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+        })
+    },
+    addReply(comment) {
+      const payload = {
+        articleId: this.article.articleId,
+        commentId: comment._id,
+        message: this.replyInput[comment._id],
+      }
+      this.$store.dispatch('blogStore/addReply', payload)
+        .then(() => {
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.editToggle = {}
+          this.editInput = {}
+          this.replyToggle = {}
+          this.replyInput = {}
+        })
+    },
+    deleteReply(reply) {
+      const payload = {
+        articleId: this.article.articleId,
+        commentId: reply.commentId,
+        replyId: reply._id,
+      }
+      this.$store.dispatch('blogStore/deleteReply', payload)
+        .then(() => {
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+        })
+    },
     isAdminOrUser(param) { return true },
-    replyComment() { },
     toggleReplyInput(_id) {
       this.$set(this.replyToggle, _id, true);
       this.$set(this.replyInput, _id, '')
     },
-    addReplyKeyboard() { },
-    addReply() { },
+    toggleEdit(comment) {
+      this.$set(this.editToggle, comment._id, true);
+      this.$set(this.editInput, comment._id, comment.message)
+    },
+
   },
 }
 </script>
@@ -144,20 +233,6 @@ export default {
     margin-bottom: 5px;
   }
 
-  .comment-input {
-    display: flex;
-    width: 90%;
-    height: 25px;
-    margin: 10px auto;
-    padding: 3px;
-  }
-  .v-input__slot {
-    height: 35px;
-    padding: 0 5px;
-  }
-  .v-input__control {
-    height: 48px;
-  }
 
   .comment-input button {
     margin-left: 10px;
@@ -169,17 +244,9 @@ export default {
   .comment-input input {
     border: 1px solid black;
     width: 100%;
-    height: 25px;
     padding: 5px;
-    display: flex;
     outline: none;
-    border-radius: 50%;
   }
-  .comment-input {
-    font-size: 28px;
-    margin-top: 2px;
-  }
-
   .comments {
     margin-top: 20px;
     padding: 5px;
@@ -215,9 +282,11 @@ export default {
   }
 
   .comments-content-message {
+    display: block;
     word-wrap: break-word;
     font-size: 16px;
     margin-left: 7px;
+    white-space: pre-line;
   }
 
   .comment-divider {
@@ -240,17 +309,19 @@ export default {
 
     .delete-comment {
       position: absolute;
-      right: 5px;
-      color: $comment-background;
+      right: 10px;
+      color: red;
     }
 
-    .delete-comment:hover {
-      color: red;
+    .edit-comment {
+      position: absolute;
+      right: 20px;
+      color: blue;
     }
 
     .reply-comment {
       position: absolute;
-      right: 20px;
+      right: 45px;
       color: black;
     }
   }

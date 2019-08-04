@@ -74,12 +74,11 @@ export default {
   },
   watch: {
     token() {
-      if (this.token) this.$router.go(-1);
+      if (this.token && this.token !== 'null') this.$router.go(-1);
     },
-
   },
   mounted() {
-    if (this.$store.state.token.token) return this.$router.push('/');
+    if (this.$store.state.token.token && this.$store.state.token.token !== 'null') return this.$router.push('/');
   },
   methods: {
     login() {

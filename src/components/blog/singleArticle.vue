@@ -48,7 +48,7 @@
     </section>
     <v-divider></v-divider>
     <section class="comments">
-      <comments />
+      <comments :comments="comments" />
     </section>
   </v-flex>
 </template>
@@ -75,6 +75,11 @@ export default {
       deleteDialog: false,
     };
   },
+  watch: {
+    comments(val) {
+      this.comments = val;
+    },
+  },
   computed: {
     createdDay() {
       if (this.article.created) {
@@ -97,9 +102,13 @@ export default {
 
       return isLoggedIn && (username === this.article.username || adminIndex.includes(role))
     },
+    comments() {
+      return this.$store.state.blogStore.comments
+    },
   },
   mounted() {
     this.getSingleArticle()
+    this.getComments()
   },
   beforeDestroy() {
     this.$store.commit('blogStore/setCurrentArticle', 'reset')
@@ -108,6 +117,9 @@ export default {
     getSingleArticle() {
       this.$store
         .dispatch('blogStore/getSingleArticle', this.articleId)
+    },
+    getComments() {
+      this.$store.dispatch('blogStore/getComments', this.articleId)
     },
     async deleteArticle() {
       this.$store.dispatch('blogStore/deleteArticle', this.article);
