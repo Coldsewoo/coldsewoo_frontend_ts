@@ -1,13 +1,13 @@
 <template>
-<v-container>
-  <v-layout>
-    <v-flex>
-      <section class="editor">
-        <EditorContent :editor="editor" class="editor__content" />
-      </section>
-    </v-flex>
-  </v-layout>
-</v-container>
+  <v-container>
+    <v-layout wrap>
+      <v-flex xs12>
+        <section class="editor">
+          <EditorContent :editor="editor" class="editor__content" />
+        </section>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -134,10 +134,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   .editor {
     width: 100%;
-    background-color:#FCFCFC;
+    background-color: #fcfcfc;
   }
 
   .editor__content {
@@ -145,5 +144,4 @@ export default {
     border-bottom: solid 1px rgb(213, 213, 213);
     padding: 15px;
   }
-
 </style>

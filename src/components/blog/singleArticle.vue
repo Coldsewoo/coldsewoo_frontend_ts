@@ -39,7 +39,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
       <v-btn class="primary" v-if="editPriv" fab flat small @click="editArticle">
         <v-icon>edit</v-icon>
       </v-btn>
@@ -47,15 +46,22 @@
         <v-icon>list</v-icon>
       </v-btn>
     </section>
+    <v-divider></v-divider>
+    <section class="comments">
+      <comments />
+    </section>
   </v-flex>
 </template>
 
 <script>
 import editorItem from '@/components/blog/editorView.vue'
+import comments from '@/components/blog/comments.vue'
+
 
 export default {
   components: {
     editorItem,
+    comments,
   },
   props: {
     articleId: {
@@ -174,5 +180,9 @@ export default {
     :focus {
       outline: none;
     }
+  }
+
+  .comments {
+    width: 100%;
   }
 </style>
