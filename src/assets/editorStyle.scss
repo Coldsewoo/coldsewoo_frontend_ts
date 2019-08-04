@@ -84,6 +84,9 @@ $color-grey: #dddddd;
   }
 
   pre {
+    #text {
+      display:block;
+    }
     padding-left: 3.5em;
     padding-right: 3.5em;
     &::before {

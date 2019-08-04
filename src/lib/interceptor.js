@@ -5,11 +5,10 @@ import store from '../store.js'
 export default function setup() {
   axios.interceptors.request.use(
     (config) => {
-      config.headers['Access-Control-Allow-Origin'] = '*'
-      const token = store.state.token.token
+      const tokenHeaders = config.headers['x-access-token']
       if (!store.state.tooManyRequests) {
-        if (token) {
-          config.headers['x-access-token'] = token
+        if (tokenHeaders === 'null') {
+          store.dispatch('userStore/plsLogin')
         }
         return config
       }

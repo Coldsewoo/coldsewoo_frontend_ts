@@ -1,6 +1,9 @@
 import axios from 'axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Vue from 'Vue'
 import router from '@/router.js';
 import { API_URL } from '@/lib/globalVar';
+
 
 const blogStore = {
   namespaced: true,
@@ -11,6 +14,7 @@ const blogStore = {
     selectedCategory: 'Main',
     latestImageURL: {},
     currentArticle: {},
+    comments: [],
   },
   getters: {
     categoriesList(state) {
@@ -125,6 +129,9 @@ const blogStore = {
         state.currentArticle = payload;
         state.currentArticle.images = payload.images ? payload.images : [];
       }
+    },
+    setComments(state, payload) {
+      Vue.set(state, 'comments', payload)
     },
   },
   actions: {
@@ -305,6 +312,121 @@ const blogStore = {
         return new Promise((resolve, reject) => {
           resolve();
         });
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async getComments(context, payload) {
+      try {
+        const articleId = payload
+        const commentsRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}`,
+          method: 'GET',
+        })
+        if (commentsRes.data.success) {
+          context.commit('setComments', commentsRes.data.data)
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async addComment(context, payload) {
+      try {
+        const articleId = payload.articleId
+        const addCommentRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}`,
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': context.rootState.token.token,
+          },
+          data: payload,
+        })
+        if (addCommentRes.data.success) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async deleteComment(context, payload) {
+      try {
+        const { articleId, commentId } = payload
+        const deleteCommentRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+          method: 'DELETE',
+          headers: {
+            'x-access-token': context.rootState.token.token,
+          },
+        })
+        if (deleteCommentRes.data.success) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async editComment(context, payload) {
+      try {
+        const { articleId, commentId, message } = payload;
+        const editCommentRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': context.rootState.token.token,
+          },
+          data: { message },
+        })
+        if (editCommentRes.data.success) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async addReply(context, payload) {
+      try {
+        const { articleId, commentId, message } = payload;
+        const addReplyRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': context.rootState.token.token,
+          },
+          data: { message },
+        })
+        if (addReplyRes.data.success) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
+      } catch (err) {
+        context.commit('addError', err.message, { root: true })
+      }
+    },
+    async deleteReply(context, payload) {
+      const { articleId, commentId, replyId } = payload
+      try {
+        const deleteReplyRes = await axios({
+          url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
+          method: 'DELETE',
+          headers: {
+            'x-access-token': context.rootState.token.token,
+          },
+        })
+        if (deleteReplyRes.data.success) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }

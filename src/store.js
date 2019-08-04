@@ -11,11 +11,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: {
-      token: localStorage.getItem('token'),
-      username: localStorage.getItem('username'),
-      refreshToken: localStorage.getItem('refreshToken'),
-      expiresIn: localStorage.getItem('expiresIn'),
-      role: localStorage.getItem('role'),
+      token: '',
+      username: '',
+      refreshToken: '',
+      expiresIn: '',
+      role: '',
     },
     isLoggedIn: !!localStorage.getItem('token'),
     user: {},
@@ -27,6 +27,16 @@ export default new Vuex.Store({
     saveToken(state, payload) {
       state.token = payload.data;
       state.isLoggedIn = true;
+    },
+    getToken(state) {
+      state.token = {
+        token: localStorage.getItem('token'),
+        username: localStorage.getItem('username'),
+        refreshToken: localStorage.getItem('refreshToken'),
+        expiresIn: localStorage.getItem('expiresIn'),
+        role: localStorage.getItem('role'),
+      }
+      if (!localStorage.getItem('token')) state.token.token = 'null'
     },
     logout(state) {
       state.token = {

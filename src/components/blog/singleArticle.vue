@@ -39,7 +39,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
       <v-btn class="primary" v-if="editPriv" fab flat small @click="editArticle">
         <v-icon>edit</v-icon>
       </v-btn>
@@ -47,15 +46,22 @@
         <v-icon>list</v-icon>
       </v-btn>
     </section>
+    <v-divider></v-divider>
+    <section class="comments">
+      <comments :comments="comments" />
+    </section>
   </v-flex>
 </template>
 
 <script>
 import editorItem from '@/components/blog/editorView.vue'
+import comments from '@/components/blog/comments.vue'
+
 
 export default {
   components: {
     editorItem,
+    comments,
   },
   props: {
     articleId: {
@@ -68,6 +74,11 @@ export default {
       monthEng: this.$store.state.postStore.monthEng,
       deleteDialog: false,
     };
+  },
+  watch: {
+    comments(val) {
+      this.comments = val;
+    },
   },
   computed: {
     createdDay() {
@@ -91,9 +102,13 @@ export default {
 
       return isLoggedIn && (username === this.article.username || adminIndex.includes(role))
     },
+    comments() {
+      return this.$store.state.blogStore.comments
+    },
   },
   mounted() {
     this.getSingleArticle()
+    this.getComments()
   },
   beforeDestroy() {
     this.$store.commit('blogStore/setCurrentArticle', 'reset')
@@ -102,6 +117,9 @@ export default {
     getSingleArticle() {
       this.$store
         .dispatch('blogStore/getSingleArticle', this.articleId)
+    },
+    getComments() {
+      this.$store.dispatch('blogStore/getComments', this.articleId)
     },
     async deleteArticle() {
       this.$store.dispatch('blogStore/deleteArticle', this.article);
@@ -174,5 +192,9 @@ export default {
     :focus {
       outline: none;
     }
+  }
+
+  .comments {
+    width: 100%;
   }
 </style>

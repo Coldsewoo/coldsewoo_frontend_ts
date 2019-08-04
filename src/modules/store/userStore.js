@@ -54,7 +54,6 @@ const userStore = {
           }
         }
       } catch (err) {
-        console.log(err)
         context.commit('addError', err.message, { root: true })
       }
     },
@@ -191,6 +190,9 @@ const userStore = {
       } catch (err) {
         context.commit('addError', err.message, { root: true });
       }
+    },
+    plsLogin(context) {
+      router.push('/users/login')
     },
   },
 };
