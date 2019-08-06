@@ -87,8 +87,8 @@ $color-grey: #dddddd;
     #text {
       display:block;
     }
-    padding-left: 3.5em;
-    padding-right: 3.5em;
+    padding-left: 10vw;
+    padding-right: 10vw;
     &::before {
       content: attr(data-language);
       text-transform: uppercase;
