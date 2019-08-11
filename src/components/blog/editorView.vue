@@ -91,7 +91,7 @@ export default {
           new TableRow(),
         ],
         content: '',
-        editable: true,
+        editable: false,
       }),
       font: {
         color: '',
