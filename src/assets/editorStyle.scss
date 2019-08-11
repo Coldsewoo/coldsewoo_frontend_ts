@@ -3,6 +3,16 @@ $color-white: #ffffff;
 $color-grey: #dddddd;
 
 .ProseMirror {
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+  /* Non standard for webkit */
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
     'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;
@@ -25,7 +35,7 @@ $color-grey: #dddddd;
   }
 
   code {
-    padding : 3px;
+    padding: 3px;
     margin: 12px 5px 12px 5px;
     border-radius: 6px;
   }
@@ -85,7 +95,7 @@ $color-grey: #dddddd;
 
   pre {
     #text {
-      display:block;
+      display: block;
     }
     padding-left: 3vw;
     padding-right: 3vw;
