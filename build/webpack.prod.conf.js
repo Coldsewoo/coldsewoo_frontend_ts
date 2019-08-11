@@ -93,6 +93,14 @@ const webpackConfig = merge(baseWebpackConfig, {
       {
         from: path.resolve(__dirname,'../_redirects'),
         to: config.build.assetsRoot
+      },
+            {
+        from: path.resolve(__dirname,'../*.png'),
+        to: config.build.assetsRoot
+      },
+            {
+        from: path.resolve(__dirname,'../site.webmanifest'),
+        to: config.build.assetsRoot
       }
     ]),
   ],
