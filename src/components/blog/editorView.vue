@@ -51,6 +51,7 @@ import _ from 'lodash';
 export default {
   components: {
     EditorContent,
+    Editor,
   },
   data() {
     return {
@@ -90,7 +91,7 @@ export default {
           new TableRow(),
         ],
         content: '',
-        editable: false,
+        editable: true,
       }),
       font: {
         color: '',
@@ -113,8 +114,8 @@ export default {
     };
   },
   watch: {
-    article(art) {
-      if (!(_.isEmpty(art))) this.editor.setContent(art.content);
+    article(article, old) {
+      if (!(_.isEmpty(article))) this.editor.setContent(article.content);
     },
   },
   beforeDestroy() {

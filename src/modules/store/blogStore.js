@@ -124,9 +124,9 @@ const blogStore = {
       state.latestImageURL = payload;
     },
     setCurrentArticle(state, payload) {
-      if (payload === 'reset') state.currentArticle = {};
+      if (payload === 'reset') Vue.set(state, 'currentArticle', {})
       else {
-        state.currentArticle = payload;
+        Vue.set(state, 'currentArticle', payload)
         state.currentArticle.images = payload.images ? payload.images : [];
       }
     },
