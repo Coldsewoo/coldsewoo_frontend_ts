@@ -89,7 +89,7 @@ export default new Vuex.Store({
           return user.data.data;
         }
       } catch (err) {
-        console.log(err);
+        context.dispatch('userStore/logout')
       }
     },
     tooManyRequestsAlert(context, payload) {

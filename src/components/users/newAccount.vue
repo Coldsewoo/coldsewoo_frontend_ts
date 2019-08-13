@@ -164,7 +164,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$store.state.token.token) this.$router.push('/');
+    if (this.$store.state.token.token && this.$store.state.token.token !== 'null') this.$router.push('/');
   },
   methods: {
     makeAccount() {
