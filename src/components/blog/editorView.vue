@@ -43,6 +43,7 @@ import {
   TableRow,
   CodeBlockHighlight,
 } from 'tiptap-extensions';
+
 import TextSize from '@/assets/textSize.js';
 import TextColor from '@/assets/fontColor.js';
 import _ from 'lodash';

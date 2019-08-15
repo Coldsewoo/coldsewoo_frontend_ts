@@ -366,6 +366,7 @@ import {
   TableRow,
   CodeBlockHighlight,
 } from 'tiptap-extensions';
+
 import TextColor from '@/assets/fontColor.js';
 import TextSize from '@/assets/textSize.js';
 import { setTimeout } from 'timers';
