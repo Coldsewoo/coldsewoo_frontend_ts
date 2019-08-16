@@ -96,7 +96,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsRoot
       },
       {
-        from: path.resolve(__dirname,'../*.png'),
+        from: path.resolve(__dirname,'../favicon.ico'),
         to: config.build.assetsRoot
       },
       {
