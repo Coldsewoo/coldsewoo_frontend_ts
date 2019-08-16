@@ -164,7 +164,6 @@
 import Treeselect from '@riophae/vue-treeselect';
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
-import _ from 'lodash';
 
 export default {
   components: {

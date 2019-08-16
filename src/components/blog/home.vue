@@ -69,7 +69,7 @@ export default {
     posts(val, oldVal) { },
     $route(to, from) {
       this.path = to.path;
-      this.getItems();
+      // this.getItems();
     },
   },
   mounted() {
