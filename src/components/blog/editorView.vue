@@ -116,7 +116,9 @@ export default {
   },
   watch: {
     article(article, old) {
-      if (!(isEmpty(article))) this.editor.setContent(article.content);
+      if (!(isEmpty(article))) {
+        this.editor.setContent(article.content);
+      }
     },
   },
   beforeDestroy() {

@@ -57,6 +57,8 @@
 import editorItem from '@/components/blog/editorView.vue'
 import comments from '@/components/blog/comments.vue'
 import { monthEng } from '@/lib/globalVar'
+import isEmpty from 'lodash.isempty'
+
 
 export default {
   components: {
@@ -79,6 +81,19 @@ export default {
     comments(val) {
       this.comments = val;
     },
+    article(article, old) {
+      // if (!(isEmpty(article))) {
+      //   this.metaInfo.title = article.title
+      // }
+    },
+  },
+  metaInfo() {
+    return {
+      title: this.article.title,
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: this.article.nickname,
+      description: 'Blog content',
+    }
   },
   computed: {
     createdDay() {

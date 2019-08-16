@@ -102,7 +102,7 @@ $color-backgrund : #fafafa;
       text-transform: uppercase;
       display: block;
       text-align: right;
-      font-weight: bold;
+      font-weight: 400;
       font-size: 0.6rem;
     }
     code {
@@ -115,7 +115,7 @@ $color-backgrund : #fafafa;
       color: #abb2bf;
       font-family: 'Inconsolata' !important;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 400;
 
       .hljs > *::selection {
         background-color: #3e4451;
