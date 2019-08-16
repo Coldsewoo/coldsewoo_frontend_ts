@@ -1,33 +1,33 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// Libraries
+import interceptor from './lib/interceptor.js';
+
 // Views
-import Home from './views/Home.vue';
-import Vuestagram from './views/Vuestagram.vue';
-import Users from './views/Users.vue';
-import Blog from './views/Blog.vue';
-import Currency from './views/Currency.vue';
-import About from './views/About.vue';
+const Home = () => import('./views/Home.vue')
+const Vuestagram = () => import('./views/Vuestagram.vue')
+const Users = () => import('./views/Users.vue')
+const Blog = () => import('./views/Blog.vue')
+const Currency = () => import('./views/Currency.vue')
+const About = () => import('./views/About.vue')
 
 // Components
 // users Components
-import Login from './components/users/login.vue';
-import newAccount from './components/users/newAccount.vue';
-import userProfile from './components/users/profile.vue';
-import userProfileEdit from './components/users/edit.vue';
-import userDelete from './components/users/delete.vue';
-import findIdPassword from './components/users/findidpassword.vue';
+const Login = () => import('./components/users/login.vue')
+const newAccount = () => import('./components/users/newAccount.vue')
+const userProfile = () => import('./components/users/profile.vue')
+const userProfileEdit = () => import('./components/users/edit.vue')
+const userDelete = () => import('./components/users/delete.vue')
+const findIdPassword = () => import('./components/users/findidpassword.vue')
 // blog Components
-import newArticle from './components/blog/newArticle.vue';
-import singleArticle from './components/blog/singleArticle.vue';
-import categoryView from './components/blog/categoryView.vue';
-import editArticle from './components/blog/editArticle.vue';
-import editCategory from './components/blog/editCategory.vue';
-import notFound from './components/notFound.vue';
-import home from './components/blog/home.vue';
-
-// Libraries
-import interceptor from './lib/interceptor.js';
+const newArticle = () => import('./components/blog/newArticle.vue')
+const singleArticle = () => import('./components/blog/singleArticle.vue')
+const categoryView = () => import('./components/blog/categoryView.vue')
+const editArticle = () => import('./components/blog/editArticle.vue')
+const editCategory = () => import('./components/blog/editCategory.vue')
+const notFound = () => import('./components/notFound.vue')
+const home = () => import('./components/blog/home.vue')
 
 interceptor();
 Vue.use(Router);

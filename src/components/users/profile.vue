@@ -98,6 +98,8 @@
 </template>
 
 <script>
+
+import postStore from '@/modules/store/postStore'
 import EventBus from '@/EventBus.js';
 import { createNamespacedHelpers } from 'vuex';
 import Post from '../posts/Post.vue';
@@ -150,6 +152,9 @@ export default {
     postText() {
       return this.showProfile ? 'Hide Profile' : 'Show Profile';
     },
+  },
+  created() {
+    this.$store.registerModule('postStore', postStore)
   },
   watch: {
     $route() {

@@ -8,12 +8,6 @@
             <v-toolbar-title>Edit Profile</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-alert
-            v-for="(message, i) in newAccountStatus.message"
-            :key="i"
-            :value="!newAccountStatus.success"
-            type="error"
-          >{{ message }}</v-alert>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -158,9 +152,6 @@ export default {
     };
   },
   computed: {
-    newAccountStatus() {
-      return this.$store.state.userStore.newAccountStatus;
-    },
     tokenName() {
       return this.$store.state.token.username;
     },

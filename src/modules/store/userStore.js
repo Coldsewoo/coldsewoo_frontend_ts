@@ -48,7 +48,6 @@ const userStore = {
           context.dispatch('logout');
           router.push('/users/login');
         } else {
-          console.log(res.data.errors)
           for (const item in res.data.errors) {
             context.commit('addError', res.data.errors[item].message, { root: true });
           }
@@ -99,7 +98,12 @@ const userStore = {
           url: `${API_URL}/users/${payload.username}`,
           method: 'PUT',
           data: payload,
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': context.rootState.token.token,
+          },
         });
+        console.log(res.data)
         if (res.data.success) {
           context.dispatch('logout');
           router.replace('/users/login');
