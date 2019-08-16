@@ -218,7 +218,6 @@ export default {
 </script>
 
 <style scoped>
-@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
   * {
     box-sizing: border-box;
   }

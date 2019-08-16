@@ -2,9 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import { API_URL } from '@/lib/globalVar';
-import postStore from './modules/store/postStore';
 import userStore from './modules/store/userStore';
-import blogStore from './modules/store/blogStore';
+// import blogStore from './modules/store/blogStore';
+// import postStore from './modules/store/postStore';
+
 
 Vue.use(Vuex);
 
@@ -97,8 +98,6 @@ export default new Vuex.Store({
     },
   },
   modules: {
-    postStore,
     userStore,
-    blogStore,
   },
 });

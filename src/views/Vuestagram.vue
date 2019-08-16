@@ -42,7 +42,7 @@
 </template>
 
 <script>
-
+import postStore from '@/modules/store/postStore'
 import { createNamespacedHelpers } from 'vuex';
 import EventBus from '../EventBus';
 import Body from '../components/posts/Body.vue';
@@ -82,6 +82,9 @@ export default {
         : this.reversedPosts.length;
       return this.maxPost >= postLen;
     },
+  },
+  created() {
+    this.$store.registerModule('postStore', postStore)
   },
   watch: {},
   methods: {

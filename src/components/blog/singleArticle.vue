@@ -56,7 +56,7 @@
 <script>
 import editorItem from '@/components/blog/editorView.vue'
 import comments from '@/components/blog/comments.vue'
-
+import { monthEng } from '@/lib/globalVar'
 
 export default {
   components: {
@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      monthEng: this.$store.state.postStore.monthEng,
+      monthEng,
       deleteDialog: false,
     };
   },

@@ -103,6 +103,8 @@
 </template>
 
 <script>
+import blogStore from '@/modules/store/blogStore'
+
 export default {
   name: 'Blog',
   components: {},
@@ -146,6 +148,9 @@ export default {
     role() {
       return this.$store.state.role
     },
+  },
+  created() {
+    this.$store.registerModule('blogStore', blogStore)
   },
   mounted() {
     this.getCategories();

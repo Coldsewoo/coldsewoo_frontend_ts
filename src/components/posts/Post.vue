@@ -131,6 +131,7 @@
 
 <script>
 import EventBus from '@/EventBus.js';
+import { monthEng } from '@/lib/globalVar'
 
 export default {
   name: 'Post',
@@ -146,12 +147,10 @@ export default {
       commentStatus: 'None',
       maximumComments: 5,
       deleteCommentStatus: 'None',
+      monthEng,
     };
   },
   computed: {
-    monthEng() {
-      return this.$store.state.postStore.monthEng;
-    },
     createdDay() {
       const date = this.post.created.toString();
       const year = parseInt(date.substring(0, 4));

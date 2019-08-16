@@ -4,20 +4,6 @@ import { API_URL } from '@/lib/globalVar';
 const postStore = {
   namespaced: true,
   state: {
-    monthEng: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
     filters: [
       'normal',
       'clarendon',
