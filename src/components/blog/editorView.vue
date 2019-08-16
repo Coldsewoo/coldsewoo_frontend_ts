@@ -46,7 +46,7 @@ import {
 
 import TextSize from '@/assets/textSize.js';
 import TextColor from '@/assets/fontColor.js';
-import _ from 'lodash';
+import isEmpty from 'lodash.isempty'
 
 
 export default {
@@ -116,7 +116,7 @@ export default {
   },
   watch: {
     article(article, old) {
-      if (!(_.isEmpty(article))) this.editor.setContent(article.content);
+      if (!(isEmpty(article))) this.editor.setContent(article.content);
     },
   },
   beforeDestroy() {

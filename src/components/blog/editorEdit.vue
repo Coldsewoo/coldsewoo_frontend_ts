@@ -339,7 +339,7 @@ import { Sketch } from 'vue-color';
 import Treeselect from '@riophae/vue-treeselect';
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
-import _ from 'lodash'
+import isEmpty from 'lodash.isempty'
 
 import {
   Blockquote,
@@ -474,7 +474,7 @@ export default {
   },
   watch: {
     article(art) {
-      if (!(_.isEmpty(art))) {
+      if (!(isEmpty(art))) {
         this.title = art.title;
         this.value = art.categories.path
         this.editor.setContent(art.content);
