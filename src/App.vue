@@ -232,7 +232,7 @@ export default {
   }
 
   #app {
-    font-family: "Noto Sans KR", "AppleGothic", "Avenue";
+    font-family: "AppleGothic", "Avenue";
     width: 100%;
     background: #fff;
     margin: auto;
