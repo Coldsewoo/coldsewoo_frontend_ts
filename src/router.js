@@ -5,12 +5,12 @@ import Router from 'vue-router';
 import interceptor from './lib/interceptor.js';
 
 // Views
-const Home = () => import('./views/Home.vue')
-const Vuestagram = () => import('./views/Vuestagram.vue')
-const Users = () => import('./views/Users.vue')
-const Blog = () => import('./views/Blog.vue')
-const Currency = () => import('./views/Currency.vue')
-const About = () => import('./views/About.vue')
+
+import Vuestagram from './views/Vuestagram.vue'
+import Users from './views/Users.vue'
+import Blog from './views/Blog.vue'
+import Currency from './views/Currency.vue'
+import About from './views/About.vue'
 
 // Components
 // users Components
