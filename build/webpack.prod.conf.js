@@ -11,6 +11,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const env = require('../config/prod.env')
 
@@ -107,6 +108,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsRoot,
       },
     ]),
+    new BundleAnalyzerPlugin({analyzerPort: 4200})
   ],
 })
 
@@ -123,10 +125,4 @@ if (config.build.productionGzip) {
     }),
   )
 }
-
-if (config.build.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-}
-
 module.exports = webpackConfig
