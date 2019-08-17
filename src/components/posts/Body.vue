@@ -27,6 +27,7 @@
             max-height="500"
             :class="filterSelected"
             :src="localImageURL"
+            alt="mainImage"
           />
         </v-flex>
 
@@ -40,6 +41,7 @@
                 :src="localImageURL"
                 height="200"
                 width="200"
+                alt="filteredImage"
                 @click="selectFilter(filter, i)"
               />
               <v-btn small icon class="pos-absolute remove-media" color="basetext">

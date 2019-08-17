@@ -36,7 +36,7 @@
           <hr />
           <div class="profile">
             <div class="profile-row">
-              <v-img :src="user.avatar" class="profile-img"></v-img>
+              <v-img :src="user.avatar" class="profile-img" alt="avatar"></v-img>
             </div>
             <div class="profile-user">
               <h3 class="profile-name">{{ user.nickname }}</h3>

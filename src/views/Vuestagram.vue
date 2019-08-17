@@ -14,7 +14,7 @@
         </ul>
         <v-spacer />
         <v-toolbar-title>
-          <img src="@/assets/image.png" class="logo" width @click="goVuestagramHome" />
+          <img src="@/assets/image.png" class="logo" width @click="goVuestagramHome" alt="vuestagram logo" />
         </v-toolbar-title>
         <v-spacer />
         <ul class="header-button-right">

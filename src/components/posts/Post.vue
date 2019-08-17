@@ -9,7 +9,7 @@
           <hr />
           <div class="profile">
             <div class="profile-row">
-              <v-img :src="post.userAvatar" class="profile-img"></v-img>
+              <v-img :src="post.userAvatar" class="profile-img" alt="Avatar"></v-img>
             </div>
             <div class="profile-user">
               <h3 class="profile-name">{{ post.userNickname }}</h3>
@@ -52,6 +52,7 @@
               class="post-image"
               :class="post.filter"
               @click="openImage"
+              alt="thumbnail"
             ></v-img>
           </v-flex>
           <hr />
@@ -100,7 +101,7 @@
             >
               <v-flex xs2>
                 <div class="comments-nickname">
-                  <v-img :src="comment.userAvatar" class="comments-nickname-image"></v-img>
+                  <v-img :src="comment.userAvatar" class="comments-nickname-image" alt="avatar"></v-img>
                 </div>
               </v-flex>
               <v-flex xs9>

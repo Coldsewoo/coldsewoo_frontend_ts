@@ -88,6 +88,7 @@
           <img
             src="https://res.cloudinary.com/coldsewoo/image/upload/v1559570449/Assets/GitHubMark_l5zaau.png"
             style="padding-top:5px;"
+            alt="github mark"
           />
           <a
             target="_blank"

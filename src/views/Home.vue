@@ -20,7 +20,7 @@
         <v-window v-model="window" class="elevation-1 text-xs-center" vertical>
           <v-window-item v-for="(item, index) in items" :key="index">
             <v-card class="pa-2">
-              <v-img :src="item.img" aspect-ratio="2.5" max-width="400" />
+              <v-img :src="item.img" aspect-ratio="2.5" max-width="400" :alt="item.alt"/>
               <v-divider />
               <v-card-title primary-title>
                 <h2 class="text-xs-center headline mb-4">{{ item.title }}</h2>
@@ -168,6 +168,7 @@ export default {
           img:
             'https://res.cloudinary.com/coldsewoo/image/upload/v1559532126/Assets/image_dlca9b.png',
           src: '/vuestagram',
+          alt: 'vuestagram logo image',
         },
         {
           title: 'Blog',
@@ -175,6 +176,7 @@ export default {
           img:
             'https://res.cloudinary.com/coldsewoo/image/upload/v1559616359/Assets/nick-morrison-325805-unsplash_nh1g6h.jpg',
           src: '/blog/home',
+          alt: 'blog logo image',
         },
         {
           title: 'Currency Exchanger',
@@ -183,6 +185,7 @@ export default {
             'https://res.cloudinary.com/coldsewoo/image/upload/c_scale,w_857/v1559616649/Assets/markus-spiske-1615805-unsplash_jikekj.jpg',
           src: '/currency',
           repo: 'https://github.com/Coldsewoo/currency_exchanger',
+          alt: 'currency logo image',
         },
       ],
     };

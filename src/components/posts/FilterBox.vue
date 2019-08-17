@@ -6,6 +6,7 @@
       :class="filter.name"
       :style="{ backgroundImage: 'url(' + image + ')' }"
       @click="selectFilter"
+      alt="image filter"
     ></div>
   </div>
 </template>

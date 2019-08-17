@@ -200,7 +200,7 @@
                   })
                 "
               >
-                <img class="svgIcon" src="@/assets/images/icons/table.svg" />
+                <img class="svgIcon" src="@/assets/images/icons/table.svg" alt="tableIcon"/>
               </v-btn>
               <v-tooltip bottom nudge-top="5">
                 <template v-slot:activator="{ on }">
@@ -230,28 +230,28 @@
               </v-tooltip>
               <span v-if="isActive.table()">
                 <v-btn class="menubar__button" @click="commands.deleteTable">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_table.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/delete_table.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addColumnBefore">
-                  <img class="svgIcon" src="@/assets/images/icons/add_col_before.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/add_col_before.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addColumnAfter">
-                  <img class="svgIcon" src="@/assets/images/icons/add_col_after.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/add_col_after.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteColumn">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_col.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/delete_col.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowBefore">
-                  <img class="svgIcon" src="@/assets/images/icons/add_row_before.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/add_row_before.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowAfter">
-                  <img class="svgIcon" src="@/assets/images/icons/add_row_after.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/add_row_after.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteRow">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_row.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/delete_row.svg" alt="tableIcon"/>
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.toggleCellMerge">
-                  <img class="svgIcon" src="@/assets/images/icons/combine_cells.svg" />
+                  <img class="svgIcon" src="@/assets/images/icons/combine_cells.svg" alt="tableIcon"/>
                 </v-btn>
               </span>
             </section>
@@ -516,8 +516,10 @@ export default {
             'blogStore/onImageSelected',
             this.previewImage,
           );
+          const alt = result.thumbnail
           const src = result.image;
-          command({ src });
+          const title = result.pId
+          command({ src, alt, title });
           this.imagesToUpload.push(result);
           this.$nextTick(() => {
             this.previewImage = null;

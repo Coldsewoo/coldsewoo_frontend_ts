@@ -2,7 +2,7 @@
   <v-flex xs12>
     <v-layout row wrap class="header">
       <v-flex lg1>
-        <img :src="article.headImageURL" alt />
+        <img :src="article.headImageURL" alt="Avatar" />
       </v-flex>
       <v-flex lg8>
         <span class="title">{{ article.title }}</span>

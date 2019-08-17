@@ -17,7 +17,7 @@
         <div class="comments-wrapper">
           <v-flex xs2 md1>
             <div class="comments-nickname">
-              <v-img :src="comment.userAvatar" class="comments-nickname-image"></v-img>
+              <v-img :src="comment.userAvatar" class="comments-nickname-image" alt="Avatar"></v-img>
             </div>
           </v-flex>
           <v-flex xs9 md10>
@@ -92,7 +92,7 @@
           </v-flex>
           <v-flex xs2 md1>
             <div class="comments-nickname">
-              <v-img :src="reply.userAvatar" class="comments-nickname-image reply-image"></v-img>
+              <v-img :src="reply.userAvatar" class="comments-nickname-image reply-image" alt="Avatar"></v-img>
             </div>
           </v-flex>
         </div>
@@ -102,6 +102,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     comments: {

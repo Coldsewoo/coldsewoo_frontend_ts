@@ -12,7 +12,7 @@
     </div>
 
     <v-flex class="upload-image">
-      <img width="449" max-width="449" max-height="500" :class="edit.filter" :src="edit.imageURL" />
+      <img width="449" max-width="449" max-height="500" :class="edit.filter" :src="edit.imageURL" alt="image to be uploaded" />
     </v-flex>
 
     <v-layout row align-content-center class="horiz-scroll">
@@ -26,6 +26,7 @@
             height="200"
             width="200"
             @click="selectFilter(filter, i)"
+            alt="image filtered to be uploaded"
           />
           <v-btn small icon class="pos-absolute remove-media" color="basetext">
             <v-icon color="white">close</v-icon>

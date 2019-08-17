@@ -66,7 +66,7 @@
           <template v-slot:activator="{ on }">
             <v-btn color="black" dark icon v-on="on">
               <v-icon v-if="!isLoggedIn" large>account_circle</v-icon>
-              <img v-if="isLoggedIn" :src="user.avatar" class="avatar" />
+              <img v-if="isLoggedIn" :src="user.avatar" class="avatar" alt="avatar"/>
             </v-btn>
           </template>
           <v-list>
@@ -108,7 +108,7 @@
         </div>
         <v-menu open-on-hover top offset-y>
           <template v-slot:activator="{ on }">
-            <img src="@/assets/GitHubMark.png" width="25" height="25" v-on="on" />
+            <img src="@/assets/GitHubMark.png" width="25" height="25" v-on="on" alt="github mark"/>
           </template>
           <v-list class="footer-v-list">
             <v-list-tile
