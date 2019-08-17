@@ -12,7 +12,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-
 const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
@@ -92,17 +91,21 @@ const webpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*'],
       },
       {
-        from: path.resolve(__dirname,'../_redirects'),
-        to: config.build.assetsRoot
+        from: path.resolve(__dirname, '../_redirects'),
+        to: config.build.assetsRoot,
       },
       {
-        from: path.resolve(__dirname,'../favicon.ico'),
-        to: config.build.assetsRoot
+        from: path.resolve(__dirname, '../favicon.ico'),
+        to: config.build.assetsRoot,
       },
       {
-        from: path.resolve(__dirname,'../site.webmanifest'),
-        to: config.build.assetsRoot
-      }
+        from: path.resolve(__dirname, '../site.webmanifest'),
+        to: config.build.assetsRoot,
+      },
+      {
+        from: path.resolve(__dirname, '../robot.txt'),
+        to: config.build.assetsRoot,
+      },
     ]),
   ],
 })
