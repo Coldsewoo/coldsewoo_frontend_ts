@@ -33,6 +33,14 @@ const webpackConfig = merge(baseWebpackConfig, {
     splitChunks: {
       minSize: 10000,
       maxSize: 250000,
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          enforce: true,
+        },
+      },
     },
   },
   plugins: [
@@ -108,7 +116,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsRoot,
       },
     ]),
-    new BundleAnalyzerPlugin({analyzerPort: 4200})
+    new BundleAnalyzerPlugin({ analyzerPort: 4200, analyzerMode: 'static', openAnalyzer: false }),
   ],
 })
 
