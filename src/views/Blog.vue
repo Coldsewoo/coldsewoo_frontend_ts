@@ -20,7 +20,7 @@
                       :key="n"
                       :class="{ 'submenu-selected': currentMenu === n }"
                       class="menuItem"
-                      v-show="menu !== '_'"
+                      v-if="menu !== '_' && n !== '_'"
                       @click="selectMenu(n)"
                     >{{ n }}</p>
                   </v-flex>
