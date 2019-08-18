@@ -117,6 +117,35 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
     ]),
     new BundleAnalyzerPlugin({ analyzerPort: 4200, analyzerMode: 'static', openAnalyzer: false }),
+<<<<<<< HEAD
+=======
+    new PrerenderSPAPlugin({
+      // Required - The path to the webpack-outputted app to prerender.
+      staticDir: path.join(__dirname, '../web'),
+      // Required - Routes to render.
+      routes: ['/', '/blog', '/vuestagram', '/currency'],
+      postProcess(context) {
+          context.path = context.originalPath;
+          const titles = {
+            '/': 'Coldsewoo',
+            '/blog': 'Coldsewoo - a blog',
+            '/vuestagram': 'Coldsewoo - Vuestagram',
+            '/currency': 'Coldsewoo - currency exchange',
+          };
+          const desc = {
+            '/': 'Home page',
+            '/blog': 'blog',
+            '/vuestagram': 'Instagram clone',
+            '/currency': 'Currency exchange information',
+          };
+          context.html = context.html.replace(
+            /<title>[^<]*<\/title>/i,
+            `<meta name="description" content="${desc[context.route]}"><meta property="og:title" content="${titles[context.route]}"><meta property="og:type" content="website"><meta property="og:url" content="https://coldsewoo.com"><meta property="og:site_name" content="${titles[context.route]}"><meta property="og:description" content="${desc[context.route]}"><meta property="fb:admins" content="coldsewoo"><meta name="twitter:card" content="app"><meta name="twitter:site" content="@corysmc"><meta name="twitter:title" content="${titles[context.route]}"><meta name="twitter:description" content="${desc[context.route]}"><title>${titles[context.route]}</title>`
+          )
+          return context;
+       },
+    }),
+>>>>>>> 3eadb6e... prerendering + meta setting for each route
   ],
 })
 
