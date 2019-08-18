@@ -1,7 +1,7 @@
 
 ### Frontend for Coldsewoo's web project
 
-##### Deployed to Netlify (https://coldsewoo.netlify.com/)
+##### Deployed to Netlify (https://coldsewoo.com/)
 
 
 
