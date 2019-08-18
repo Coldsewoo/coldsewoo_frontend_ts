@@ -52,6 +52,14 @@ export default {
       error: false,
     };
   },
+  metaInfo() {
+    return {
+      title: `${this.payload.tab}`,
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog - articles list in a category',
+    }
+  },
   computed: {
     categoryLevel() {
       if (this.submenu) return 3;

@@ -153,6 +153,13 @@ export default {
       return Number.prototype.getComma.call(this.targetValue);
     },
   },
+  metaInfo() {
+    return {
+      title: 'Coldsewoo - currency',
+      author: 'coldsewoo',
+      description: 'Currency - currency exchange information',
+    }
+  },
   mounted() {
     this.getRate();
   },

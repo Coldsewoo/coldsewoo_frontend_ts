@@ -169,6 +169,14 @@ export default {
   components: {
     Treeselect,
   },
+  metaInfo() {
+    return {
+      title: 'Edit Category',
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog - Edit Category list',
+    }
+  },
   data() {
     return {
       categories: [],

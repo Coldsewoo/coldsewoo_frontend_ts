@@ -65,6 +65,14 @@ export default {
       return selected.toUpperCase().split('/')[2];
     },
   },
+  metaInfo() {
+    return {
+      title: 'All Articles',
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog - all articles list',
+    }
+  },
   watch: {
     posts(val, oldVal) { },
     $route(to, from) {

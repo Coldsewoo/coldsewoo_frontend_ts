@@ -11,6 +11,14 @@ export default {
   components: {
     editorEdit,
   },
+  metaInfo() {
+    return {
+      title: 'New Article',
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog new Article page',
+    }
+  },
   beforeDestroy() {
     this.$store.commit('blogStore/setCurrentArticle', 'reset')
   },

@@ -385,6 +385,14 @@ export default {
       default: '',
     },
   },
+  metaInfo() {
+    return {
+      title: `${this.status === 'edit' ? 'Edit' : 'New'} Article`,
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: `Blog ${this.status === 'edit' ? 'Edit' : 'New'} page`,
+    }
+  },
   data() {
     return {
       editor: new Editor({

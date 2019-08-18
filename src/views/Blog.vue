@@ -20,6 +20,7 @@
                       :key="n"
                       :class="{ 'submenu-selected': currentMenu === n }"
                       class="menuItem"
+                      v-show="menu !== '_'"
                       @click="selectMenu(n)"
                     >{{ n }}</p>
                   </v-flex>
@@ -127,7 +128,7 @@ export default {
           priv: 2,
         },
         {
-          name: 'Manage Category',
+          name: 'Edit Category',
           path: '/blog/editcategory',
           icon: 'format_list_bulleted',
           priv: 2,

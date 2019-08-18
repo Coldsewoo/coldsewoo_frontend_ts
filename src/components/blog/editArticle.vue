@@ -28,6 +28,14 @@ export default {
       return this.$store.getters['blogStore/categoriesList'];
     },
   },
+  metaInfo() {
+    return {
+      title: 'New Article',
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog content',
+    }
+  },
   mounted() {
     this.getSingleArticle();
   },

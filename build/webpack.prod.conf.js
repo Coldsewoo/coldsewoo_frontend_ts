@@ -129,8 +129,8 @@ const webpackConfig = merge(baseWebpackConfig, {
           const titles = {
             '/': 'Coldsewoo',
             '/blog': 'Coldsewoo - a blog',
-            '/vuestagram': 'Coldsewoo - Vuestagram',
-            '/currency': 'Coldsewoo - currency exchange',
+            '/vuestagram': 'Coldsewoo - vuestagram',
+            '/currency': 'Coldsewoo - currency',
           };
           const desc = {
             '/': 'Home page',

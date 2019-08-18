@@ -87,6 +87,13 @@ export default {
     this.$store.registerModule('postStore', postStore)
   },
   watch: {},
+  metaInfo() {
+    return {
+      title: 'Coldsewoo - vuestagram',
+      author: 'coldsewoo',
+      description: 'Instagram clone',
+    }
+  },
   methods: {
     onSelected(e) {
       this.$store.dispatch('postStore/onImageSelected', {
