@@ -106,12 +106,6 @@ export default new Router({
           component: newArticle,
         },
         {
-          path: 'category/Main/:articleId',
-          name: 'mainArticle',
-          component: singleArticle,
-          props: true,
-        },
-        {
           path: 'category/:tab/:menu/:submenu/:articleId',
           name: 'article',
           component: singleArticle,

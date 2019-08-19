@@ -99,3 +99,25 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+<<<<<<< HEAD
+=======
+
+exports.blogRoutes = () => {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: 'https://coldsewoo-backend.cf/blog',
+      method: 'GET',
+    }).then((result) => {
+      const routes = result.data.data.map(e => `/blog/category/${e.categories.path}/${e.articleId}`)
+      resolve(
+        routes.map(e =>
+          e
+            .split('/')
+            .map(e => qs.escape(e))
+            .join('/'),
+        ),
+      )
+    })
+  })
+}
+>>>>>>> e7152cd... async import paths to routes in prerender plugin
