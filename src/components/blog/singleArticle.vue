@@ -179,11 +179,11 @@ export default {
     img {
       width: 45px;
       height: 45px;
-      border-radius: 50%;
-      border: solid 1px purple;
+      border-radius: 25%;
+      border: solid 1px rgba(0, 0, 0, 0.5);
     }
     .title {
-      font-size: 28px !important;
+      font-size: 24px !important;
       color: rgb(65, 65, 65);
       margin-left: 5px;
       padding-top: 7px;
@@ -191,8 +191,8 @@ export default {
     }
 
     .date {
-      font-size: 15px !important;
-      color: rgb(103, 103, 103);
+      font-size: 13px !important;
+      color: rgb(95, 95, 95);
       margin: auto;
       margin-right: 10px;
       margin-top: 5px;
@@ -210,6 +210,7 @@ export default {
   }
 
   .comments {
-    width: 100%;
+    width: 90%;
+    margin: 0px auto;
   }
 </style>

@@ -11,6 +11,7 @@
           :class="{ odd: index % 2 === 1 }"
           ripple
           class="listItem"
+          height="36"
           @click="viewArticle(post)"
         >
           <v-list-tile-content>
@@ -138,24 +139,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
   .category {
     padding: 5px;
     margin-top: 20px;
   }
 
   .v-list {
-    border: solid 1px rgba(0, 0, 0, 0.12);
+    border: solid 1px rgba(0, 10, 0, 0.3) !important;
     padding: 1px !important;
 
     .odd {
-      background: rgba(0, 0, 0, 0.12);
+      background: rgba(235, 235, 235, 1) !important;
     }
     .v-list__tile__title {
-      font-size: 18px !important;
+      font-size: 17px !important;
+      font-weight: 400;
     }
 
     .v-list__tile__action-text {
-      font-size: 13px !important;
+      font-size: 12px !important;
+    }
+    .v-list--dense {
+      height: 36px !important;
     }
   }
 </style>

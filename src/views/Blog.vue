@@ -209,7 +209,8 @@ export default {
 
   .menuItem:hover {
     cursor: pointer;
-    color: blue;
+    color: rgba(0, 80, 0, 1);
+    font-weight: bold;
   }
 
   .goup {
