@@ -1,3 +1,5 @@
 https://coldsewoo.netlify.com/* https://coldsewoo.com/:splat 301!
+/sitemap.xml /sitemap.xml 200
+/robot.txt /robot.txt 200
 /* /index.html 200
 

@@ -12,6 +12,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const SitemapPlugin = require("sitemap-webpack-plugin").default
+
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 const env = require('../config/prod.env')
 
@@ -197,6 +201,9 @@ module.exports = () => {
           },
         }),
       )
+      webpackConfig.plugins.push(new SitemapPlugin("https://coldsewoo.com", ['/', '/blog', '/vuestagram', '/currency', ...paths],{
+              skipGzip: true
+      }))
     })
     setTimeout(() => {
       resolve(webpackConfig)

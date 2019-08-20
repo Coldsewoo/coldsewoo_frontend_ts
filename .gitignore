@@ -26,6 +26,8 @@ yarn-error.log*
 .editorconfig
 .eslintignore
 
+README.md
+
 # test files
 
 src/views/test.js
