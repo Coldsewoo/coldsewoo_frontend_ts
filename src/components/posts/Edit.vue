@@ -12,7 +12,14 @@
     </div>
 
     <v-flex class="upload-image">
-      <img width="449" max-width="449" max-height="500" :class="edit.filter" :src="edit.imageURL" alt="image to be uploaded" />
+      <img
+        width="449"
+        max-width="449"
+        max-height="500"
+        :class="edit.filter"
+        :src="edit.imageURL"
+        alt="image to be uploaded"
+      />
     </v-flex>
 
     <v-layout row align-content-center class="horiz-scroll">
@@ -155,11 +162,13 @@ export default {
   },
   methods: {
     editHashtagSubmit(e) {
-      if (e.keyCode !== 13) return;
+      if (e && e.keyCode !== 13) return;
       if (
         this.edit.hashtags.items.indexOf(this.edit.hashtags.text) === -1 &&
         this.edit.hashtags.text.length > 0
-      ) { this.edit.hashtags.items.push(this.edit.hashtags.text); }
+      ) {
+        this.edit.hashtags.items.push(this.edit.hashtags.text);
+      }
 
       this.edit.hashtags.text = '';
       this.edit.hashtags.status = false;
@@ -189,107 +198,107 @@ export default {
 </script>
 
 <style scoped>
-  .footer {
-    background-color: #fafafa !important;
-  }
+.footer {
+  background-color: #fafafa !important;
+}
 
-  .upload-image img {
-    width: 100%;
-    padding: 3px;
-    border: solid 1px #00000033;
-  }
+.upload-image img {
+  width: 100%;
+  padding: 3px;
+  border: solid 1px #00000033;
+}
 
-  .edit {
-    margin: 5px auto;
-    padding: 2px;
-    text-align: center;
-  }
+.edit {
+  margin: 5px auto;
+  padding: 2px;
+  text-align: center;
+}
 
-  .write-box {
-    border: none;
-    width: 90%;
-    height: 100px;
-    padding: 15px;
-    margin: auto;
-    display: block;
-    outline: none;
-  }
+.write-box {
+  border: none;
+  width: 90%;
+  height: 100px;
+  padding: 15px;
+  margin: auto;
+  display: block;
+  outline: none;
+}
 
-  .hashtags span {
-    cursor: pointer;
-  }
+.hashtags span {
+  cursor: pointer;
+}
 
-  .hashtags span:hover {
-    color: red;
-  }
+.hashtags span:hover {
+  color: red;
+}
 
-  .pos-relative {
-    height: 240px;
-    text-align: center;
-    padding: 1px;
-  }
+.pos-relative {
+  height: 240px;
+  text-align: center;
+  padding: 1px;
+}
 
-  .pos-relative p {
-    font-size: 15px;
-    color: black;
-    margin: 1px auto;
-  }
-  .pos-relative img {
-    padding: 1px;
-    background-color: snow;
-    border: solid 1px #00000044;
-  }
+.pos-relative p {
+  font-size: 15px;
+  color: black;
+  margin: 1px auto;
+}
+.pos-relative img {
+  padding: 1px;
+  background-color: snow;
+  border: solid 1px #00000044;
+}
 
-  .active {
-    border: solid 2px purple;
-  }
+.active {
+  border: solid 2px purple;
+}
 
-  .overflow-hidden {
-    overflow: hidden;
-  }
-  .horiz-scroll {
-    background-color: white;
-    overflow-y: hidden;
-    overflow-x: auto;
-    border: solid 1px #d3d5dc5d;
-  }
+.overflow-hidden {
+  overflow: hidden;
+}
+.horiz-scroll {
+  background-color: white;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: solid 1px #d3d5dc5d;
+}
 
-  .hashtags {
-    margin-top: 15px;
-  }
+.hashtags {
+  margin-top: 15px;
+}
 
-  .hashtags span {
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .hashtags span:hover {
-    color: #ee0000cc;
-  }
+.hashtags span {
+  font-size: 18px;
+  cursor: pointer;
+}
+.hashtags span:hover {
+  color: #ee0000cc;
+}
 
-  .hashtags input {
-    height: 25px;
-    width: 100px;
-    background-color: #fefefe;
-    border: solid 1px #00000033;
-    border-radius: 10%;
-    font-size: 18px;
-  }
+.hashtags input {
+  height: 25px;
+  width: 100px;
+  background-color: #fefefe;
+  border: solid 1px #00000033;
+  border-radius: 10%;
+  font-size: 18px;
+}
 
-  .inputfile {
-    display: none;
-  }
-  .input-plus {
-    cursor: pointer;
-    color: #7b22ee;
-    font-size: 25px;
-  }
+.inputfile {
+  display: none;
+}
+.input-plus {
+  cursor: pointer;
+  color: #7b22ee;
+  font-size: 25px;
+}
 
-  .v-btn--floating {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 10px;
-  }
-  .v-btn--floating i {
-    font-size: 20px;
-  }
+.v-btn--floating {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+.v-btn--floating i {
+  font-size: 20px;
+}
 </style>

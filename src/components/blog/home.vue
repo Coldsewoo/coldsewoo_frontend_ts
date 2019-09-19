@@ -71,10 +71,10 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: 'coldsewoo',
       description: 'Blog - all articles list',
-    }
+    };
   },
   watch: {
-    posts(val, oldVal) { },
+    posts(val, oldVal) {},
     $route(to, from) {
       this.path = to.path;
       // this.getItems();
@@ -101,9 +101,9 @@ export default {
         url: `${API_URL}/blog`,
         method: 'GET',
       });
-      if (res.data.success) {
+      if (res.status === 200) {
         this.error = false;
-        this.posts = res.data.data;
+        this.posts = res.data;
       } else {
         this.error = true;
       }
@@ -113,33 +113,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .category {
-    padding: 5px;
-    margin-top: 20px;
+.category {
+  padding: 5px;
+  margin-top: 20px;
+}
+
+.v-list {
+  border: solid 1px rgba(0, 0, 0, 0.12);
+  padding: 1px !important;
+
+  .odd {
+    background: rgba(0, 0, 0, 0.12);
+  }
+  .v-list__tile__title {
+    font-size: 18px !important;
   }
 
-  .v-list {
-    border: solid 1px rgba(0, 0, 0, 0.12);
-    padding: 1px !important;
-
-    .odd {
-      background: rgba(0, 0, 0, 0.12);
-    }
-    .v-list__tile__title {
-      font-size: 18px !important;
-    }
-
-    .v-list__tile__action-text {
-      font-size: 13px !important;
-    }
+  .v-list__tile__action-text {
+    font-size: 13px !important;
   }
+}
 
-  .topSpacer {
-    margin-top: 20px;
+.topSpacer {
+  margin-top: 20px;
 
-    p {
-      font-size: 20px;
-      font-style: bold;
-    }
+  p {
+    font-size: 20px;
+    font-style: bold;
   }
+}
 </style>

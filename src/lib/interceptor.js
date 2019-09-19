@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from '@/lib/globalVar.js';
+import { API_URL } from '@/lib/globalVar.js'
 import store from '../store.js'
 
 export default function setup() {
@@ -20,9 +20,10 @@ export default function setup() {
   )
 
   axios.interceptors.response.use(
-    async (res) => {
-      if (res.data.success) return res
-      else if (res.data.errors && res.data.errors.TokenExpiredError) {
+    res => res,
+    async (error) => {
+      const type = error.response.data.type
+      if (type === 'AccessTokenExpiredError') {
         const refreshData = await axios({
           url: `${API_URL}/auth/refresh`,
           method: 'POST',
@@ -31,19 +32,35 @@ export default function setup() {
           },
           data: store.state.token,
         })
-        localStorage.setItem('token', refreshData.data.data.token)
+        localStorage.setItem('token', refreshData.data.token)
+        localStorage.setItem('expiresIn', refreshData.data.expiresIn)
         store.commit('saveToken', refreshData.data)
-        res.config.headers['x-access-token'] = refreshData.data.data.token
-        const result = await axios.request(res.config)
-        return result;
-      } else if (res.data.message === 'refreshTokenExpired') {
-        store.dispatch('userStore/logout')
-      } else if (res.data.message === 'TooManyRequests') {
-        store.dispatch('tooManyRequestsAlert', true)
-      } else return res;
-    },
-    (error) => {
-      return error;
+        return new Promise((resolve, reject) => {
+          error.config.headers['x-access-token'] = refreshData.data.token
+          axios
+            .request(error.config)
+            .then((response) => {
+              resolve(response)
+            })
+            .catch((error) => {
+              reject(error.response.data)
+            })
+        })
+      }
+      switch (type) {
+        case 'InvalidTokenError':
+          store.dispatch('userStore/logout')
+          break
+        case 'RefreshTokenExpiredError':
+          store.dispatch('userStore/logout')
+          break
+        case 'ValidationError':
+          return Promise.reject(error.response.data)
+        case 'ExceptionLogger':
+          return Promise.reject(error.response.data)
+        default:
+          return Promise.reject(error.response.data)
+      }
     },
   )
 }

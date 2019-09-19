@@ -1,35 +1,26 @@
 <template>
   <v-layout class="layout" sm6 xs12 align-center justify-center>
-    <div class="text-xs-center ">
+    <div class="text-xs-center">
       <v-dialog v-model="dialog" width="500">
         <v-card>
-          <v-card-title class="headline red lighten-2" primary-title>
-            Delete Account
-          </v-card-title>
+          <v-card-title class="headline red lighten-2" primary-title>Delete Account</v-card-title>
 
           <v-card-text class="subheading">
             Are you sure to delete your account : {{ user.username }} ?
-            <br />
-            All your posts also will be deleted!
+            <br />All your posts also will be deleted!
           </v-card-text>
 
           <v-divider></v-divider>
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="dialog = false">
-              Cancel
-            </v-btn>
-            <v-btn color="error" flat @click="deleteAccount">
-              Delete
-            </v-btn>
+            <v-btn color="primary" flat @click="dialog = false">Cancel</v-btn>
+            <v-btn color="error" flat @click="deleteAccount">Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
-    <span class="post2" @click="showProfile = !showProfile">
-      {{ postText }}
-    </span>
+    <span class="post2" @click="showProfile = !showProfile">{{ postText }}</span>
     <v-card class="post">
       <div v-show="showProfile" class="show">
         <v-card-title primary-title>
@@ -58,9 +49,7 @@
                   v-show="myUser.username && myUser.username === user.username"
                   :to="'/users/edit/' + myUser.username"
                 >
-                  <v-list-tile-title>
-                    Edit Profile
-                  </v-list-tile-title>
+                  <v-list-tile-title>Edit Profile</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
                   v-show="
@@ -70,18 +59,14 @@
                   "
                   @click="dialog = true"
                 >
-                  <v-list-tile-title>
-                    Delete Account
-                  </v-list-tile-title>
+                  <v-list-tile-title>Delete Account</v-list-tile-title>
                 </v-list-tile>
               </v-list>
             </v-menu>
           </div>
 
           <hr />
-          <p class="post-content light">
-            {{ user.status }}
-          </p>
+          <p class="post-content light">{{ user.status }}</p>
           <hr />
         </v-card-title>
       </div>
@@ -89,7 +74,7 @@
         <v-card-actions>
           <v-btn flat color="orange">Share</v-btn>
           <v-btn flat color="orange">Explore</v-btn>
-        </v-card-actions> -->
+      </v-card-actions>-->
     </v-card>
     <div class="wrapper">
       <Post v-for="(post, i) in filteredPosts" :key="i" :post="post" />
@@ -98,8 +83,7 @@
 </template>
 
 <script>
-
-import postStore from '@/modules/store/postStore'
+import postStore from '@/modules/store/postStore';
 import EventBus from '@/EventBus.js';
 import { createNamespacedHelpers } from 'vuex';
 import Post from '../posts/Post.vue';
@@ -125,6 +109,7 @@ export default {
       dialog: false,
     };
   },
+
   computed: {
     ...mapState([
       'posts',
@@ -138,10 +123,9 @@ export default {
       'updateStatus',
     ]),
     filteredPosts() {
-      return this.$store.getters['postStore/filteredPosts'].slice(
-        0,
-        this.maxPost,
-      );
+      return this.$store.getters['postStore/filteredPosts']
+        .filter(e => e.username === this.user.username)
+        .slice(0, this.maxPost);
     },
     myUser() {
       return {
@@ -152,9 +136,6 @@ export default {
     postText() {
       return this.showProfile ? 'Hide Profile' : 'Show Profile';
     },
-  },
-  created() {
-    this.$store.registerModule('postStore', postStore)
   },
   watch: {
     $route() {

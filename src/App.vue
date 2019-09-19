@@ -16,7 +16,7 @@
               <v-list-tile-title>Home</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider /> -->
+          <v-divider />-->
           <v-list-tile class="list-tile" to="/blog/home">
             <v-list-tile-action>
               <v-icon>ballot</v-icon>
@@ -66,7 +66,7 @@
           <template v-slot:activator="{ on }">
             <v-btn color="black" dark icon v-on="on">
               <v-icon v-if="!isLoggedIn" large>account_circle</v-icon>
-              <img v-if="isLoggedIn" :src="user.avatar" class="avatar" alt="avatar"/>
+              <img v-if="isLoggedIn" :src="user.avatar" class="avatar" alt="avatar" />
             </v-btn>
           </template>
           <v-list>
@@ -90,8 +90,12 @@
           :value="true"
           class="errorAlert"
           type="error"
-          color="error"
+          color="rgb(256,30,30)"
           transition="scale-transition"
+          border="right"
+          colored-border
+          elevation="2"
+          outline
           @click="errorChecked(i)"
         >{{err.message}}</v-alert>
       </div>
@@ -108,7 +112,7 @@
         </div>
         <v-menu open-on-hover top offset-y>
           <template v-slot:activator="{ on }">
-            <img src="@/assets/GitHubMark.png" width="25" height="25" v-on="on" alt="github mark"/>
+            <img src="@/assets/GitHubMark.png" width="25" height="25" v-on="on" alt="github mark" />
           </template>
           <v-list class="footer-v-list">
             <v-list-tile
@@ -168,15 +172,17 @@ export default {
   },
   watch: {
     token() {
-      if (this.token.token && this.token.token !== 'null') this.$store.dispatch('getUser');
+      if (this.token.token && this.token.token !== 'null') {
+        this.$store.dispatch('getUser');
+      }
     },
     $route(to, from) {
-      this.$store.commit('resetErrors')
+      this.$store.commit('resetErrors');
       this.drawer.open = false;
     },
   },
   mounted() {
-    this.$store.commit('getToken')
+    this.$store.commit('getToken');
     if (this.isLoggedIn) {
       this.$store.dispatch('getUser');
     }
@@ -211,141 +217,142 @@ export default {
       }
     },
     errorChecked(i) {
-      this.errorsList.splice(i, 1)
+      this.errorsList.splice(i, 1);
     },
   },
 };
 </script>
 
 <style scoped>
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  a {
-    text-decoration: none;
-    color: #7e29ff;
-  }
+a {
+  text-decoration: none;
+  color: #7e29ff;
+}
 
-  #inspire {
-    background-color: white;
-  }
+#inspire {
+  background-color: white;
+}
 
-  #app {
-    font-family: "AppleGothic", "Avenue";
-    width: 100%;
-    background: #fff;
-    margin: auto;
-    position: relative;
-    border-right: 1px solid #eee;
-    border-left: 1px solid #eee;
-  }
-  .testBtn {
-    top : 50px;
-  }
-  .text-black {
-    color: rgb(74, 74, 74) !important;
-    float: left;
-    font-weight: 600;
-  }
+#app {
+  font-family: "AppleGothic", "Avenue";
+  width: 100%;
+  background: #fff;
+  margin: auto;
+  position: relative;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+}
+.testBtn {
+  top: 50px;
+}
+.text-black {
+  color: rgb(74, 74, 74) !important;
+  float: left;
+  font-weight: 600;
+}
 
-  .text-purple {
-    color: green !important;
-    font-weight: 600;
-  }
+.text-purple {
+  color: green !important;
+  font-weight: 600;
+}
 
-  .v-toolbar--fixed {
-    background-color: white !important;
-  }
+.v-toolbar--fixed {
+  background-color: white !important;
+}
 
-  .v-toolbar__title {
-    color: #6600ff;
-  }
+.v-toolbar__title {
+  color: #6600ff;
+}
 
-  .toolbar-expand-button:hover {
-    background-color: #964fff22;
-  }
+.toolbar-expand-button:hover {
+  background-color: #964fff22;
+}
 
-  .toolbar-expand-button:active {
-    background-color: #964fffee;
-  }
+.toolbar-expand-button:active {
+  background-color: #964fffee;
+}
 
-  .list-tile:hover {
-    background: #964fff22;
-  }
+.list-tile:hover {
+  background: #964fff22;
+}
 
-  .list-tile:active {
-    background: #964fffee;
-  }
+.list-tile:active {
+  background: #964fffee;
+}
 
-  .list-title-icon-close i:hover {
-    cursor: pointer;
-    border-radius: 50%;
-    background-color: #954fff3c;
-  }
+.list-title-icon-close i:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #954fff3c;
+}
 
-  .v-toolbar__title {
-    color: greenyellow;
-  }
+.v-toolbar__title {
+  color: greenyellow;
+}
 
-  .v-toolbar__side-icon {
-    color: green !important;
-    padding-top: 2px;
-  }
-  .v-btn--icon {
-    width: 40px !important;
-    height: 40px !important;
-  }
+.v-toolbar__side-icon {
+  color: green !important;
+  padding-top: 2px;
+}
+.v-btn--icon {
+  width: 40px !important;
+  height: 40px !important;
+}
 
-  .avatar {
-    border-radius: 50%;
-    border: solid 1px #954fff3c;
-    background: white;
-    width: 40px !important;
-    height: 40px !important;
-  }
+.avatar {
+  border-radius: 50%;
+  border: solid 1px #954fff3c;
+  background: white;
+  width: 40px !important;
+  height: 40px !important;
+}
 
-  .footer-v-list {
-    margin: 0;
-  }
+.footer-v-list {
+  margin: 0;
+}
 
-  .footer-tile {
-    color: #7e29ff;
-  }
+.footer-tile {
+  color: #7e29ff;
+}
 
-  .footer {
-    margin-right: 5px;
-  }
+.footer {
+  margin-right: 5px;
+}
 
-  .errorAlert {
-    z-index: 5;
-    width: 460px;
-  }
+.errorAlert {
+  z-index: 5;
+  width: 460px;
+  margin-top: 30px;
+}
 
-  .footer-plus {
-    width: 100%;
-    position: fixed;
-    top: 62px;
-    float: top;
-    background: none;
-    z-index: 4;
-    padding-right: 4px;
-  }
+.footer-plus {
+  width: 100%;
+  position: fixed;
+  top: 62px;
+  float: top;
+  background: none;
+  z-index: 4;
+  padding-right: 4px;
+}
 
-  .footer-button-plus {
-    width: 80px;
-    margin: 0 auto;
-    text-align: center;
-    cursor: pointer;
-    font-size: 30px;
-    color: skyblue;
-  }
+.footer-button-plus {
+  width: 80px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  font-size: 30px;
+  color: skyblue;
+}
 
-  .inputfile {
-    display: none;
-  }
+.inputfile {
+  display: none;
+}
 
-  .navbar-btn {
-    border-radius: 15px;
-  }
+.navbar-btn {
+  border-radius: 15px;
+}
 </style>

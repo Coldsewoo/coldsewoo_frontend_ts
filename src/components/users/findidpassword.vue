@@ -117,30 +117,25 @@ export default {
       },
       step: 1,
       email: '',
+      stepOneSubmitStatus: false,
+      stepTwoSubmitStatus: false,
+      stepThreeSubmitStatus: false,
     };
-  },
-  computed: {
-    token() {
-      return this.$store.state.token;
-    },
-  },
-  watch: {
-    token() {
-      if (this.token.length) this.$router.go(-1);
-    },
-  },
-  mounted() {
-    if (this.$store.state.token.token) return this.$router.push('/');
   },
   methods: {
     submit() {
+      if (this.stepOneSubmitStatus) return;
+      this.stepOneSubmitStatus = true;
       this.$store
         .dispatch('userStore/resetPasswordSubmit', this.submitForm.username)
         .then((email) => {
-          if (!email) this.step = 1;
-          else {
+          if (!email) {
+            this.step = 1;
+            this.stepOneSubmitStatus = false;
+          } else {
             this.email = email;
             this.step = 2;
+            this.stepOneSubmitStatus = false;
           }
         });
     },
@@ -151,15 +146,23 @@ export default {
       this.$router.replace('/users/login');
     },
     submitCode() {
+      if (this.stepTwoSubmitStatus) return;
+      this.stepTwoSubmitStatus = true;
       this.$store
         .dispatch('userStore/resetPasswordCodeSubmit', this.submitForm.code)
         .then((res) => {
           if (res) {
             this.step = 3;
-          } else this.step = 2;
+            this.stepTwoSubmitStatus = false;
+          } else {
+            this.stepTwoSubmitStatus = false;
+            this.step = 2;
+          }
         });
     },
     saveNewPassword() {
+      if (this.stepThreeSubmitStatus) return;
+      this.stepThreeSubmitStatus = true;
       this.$store
         .dispatch('userStore/saveNewPassword', {
           code: this.submitForm.code,
@@ -167,7 +170,13 @@ export default {
           passwordConfirmation: this.submitForm.newPasswordConfirmation,
         })
         .then((res) => {
-          if (res) { this.$router.push('/users/login'); } else this.step = 3;
+          if (res) {
+            this.stepThreeSubmitStatus = false;
+            this.$router.push('/users/login');
+          } else {
+            this.step = 3;
+            this.stepThreeSubmitStatus = false;
+          }
         });
     },
   },
@@ -175,7 +184,7 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    height: 60vh;
-  }
+.container {
+  height: 60vh;
+}
 </style>

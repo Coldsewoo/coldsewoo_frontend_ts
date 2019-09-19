@@ -14,7 +14,13 @@
         </ul>
         <v-spacer />
         <v-toolbar-title>
-          <img src="@/assets/image.png" class="logo" width @click="goVuestagramHome" alt="vuestagram logo" />
+          <img
+            src="@/assets/image.png"
+            class="logo"
+            width
+            @click="goVuestagramHome"
+            alt="vuestagram logo"
+          />
         </v-toolbar-title>
         <v-spacer />
         <ul class="header-button-right">
@@ -42,7 +48,7 @@
 </template>
 
 <script>
-import postStore from '@/modules/store/postStore'
+import postStore from '@/modules/store/postStore';
 import { createNamespacedHelpers } from 'vuex';
 import EventBus from '../EventBus';
 import Body from '../components/posts/Body.vue';
@@ -83,16 +89,13 @@ export default {
       return this.maxPost >= postLen;
     },
   },
-  created() {
-    this.$store.registerModule('postStore', postStore)
-  },
   watch: {},
   metaInfo() {
     return {
       title: 'Coldsewoo - vuestagram',
       author: 'coldsewoo',
       description: 'Instagram clone',
-    }
+    };
   },
   methods: {
     onSelected(e) {
@@ -128,144 +131,144 @@ export default {
 </script>
 
 <style scoped>
-  body {
-    margin: 0;
-  }
-  ul {
-    padding: 5px;
-    list-style-type: none;
-  }
-  .vuestagram {
-    max-width: 455px;
-    margin: auto;
-    padding: 0;
-  }
-  .logo {
-    width: 65%;
-    height: 65%;
-    margin: auto;
-    display: flex;
-    cursor: pointer;
-  }
-  .header {
-    overflow: hidden;
-    width: 455px;
-    position: fixed;
-    top: 64px;
-    z-index: 1;
-    border: 1px solid #7b22ee11;
-    background-color: #ffffffee;
-    border-radius: 2%;
-  }
-  .header-button-left {
-    color: #7b22ee99;
-    float: left;
-    width: 50px;
-    padding-left: 25px;
-    font-size: 15px;
-  }
-  .header-button-left li {
-    cursor: pointer;
-  }
+body {
+  margin: 0;
+}
+ul {
+  padding: 5px;
+  list-style-type: none;
+}
+.vuestagram {
+  max-width: 455px;
+  margin: auto;
+  padding: 0;
+}
+.logo {
+  width: 65%;
+  height: 65%;
+  margin: auto;
+  display: flex;
+  cursor: pointer;
+}
+.header {
+  overflow: hidden;
+  width: 455px;
+  position: fixed;
+  top: 64px;
+  z-index: 1;
+  border: 1px solid #7b22ee11;
+  background-color: #ffffffee;
+  border-radius: 2%;
+}
+.header-button-left {
+  color: #7b22ee99;
+  float: left;
+  width: 50px;
+  padding-left: 25px;
+  font-size: 15px;
+}
+.header-button-left li {
+  cursor: pointer;
+}
 
-  .header-button-right {
-    color: #7b22ee99;
-    float: right;
-    width: 50px;
-    cursor: pointer;
-    padding-right: 25px;
-    font-size: 15px;
-  }
+.header-button-right {
+  color: #7b22ee99;
+  float: right;
+  width: 50px;
+  cursor: pointer;
+  padding-right: 25px;
+  font-size: 15px;
+}
 
-  .header-button-right li {
-    cursor: pointer;
-  }
+.header-button-right li {
+  cursor: pointer;
+}
 
-  .body {
-    position: sticky;
-    width: 450px;
-    margin-top: 31px;
-    clear: bottom;
-  }
+.body {
+  position: sticky;
+  width: 450px;
+  margin-top: 31px;
+  clear: bottom;
+}
 
-  .footer {
-    width: 450px;
-    position: fixed;
-    bottom: 0;
-    padding-bottom: 23px;
-    background: none;
-    z-index: 1;
-  }
+.footer {
+  width: 450px;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 23px;
+  background: none;
+  z-index: 1;
+}
 
-  .toolbar {
-    width: 100%;
-    position: sticky;
-  }
+.toolbar {
+  width: 100%;
+  position: sticky;
+}
 
-  .footer-button-plus {
-    width: 80px;
-    margin: 0 auto;
-    text-align: center;
-    cursor: pointer;
-    font-size: 30px;
-    color: skyblue;
-  }
-  .sample-box {
-    width: 100%;
-    height: 600px;
-    background-color: bisque;
-  }
-  .inputfile {
-    display: none;
-  }
-  .input-plus {
-    cursor: pointer;
-    color: #7b22ee;
-  }
+.footer-button-plus {
+  width: 80px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  font-size: 30px;
+  color: skyblue;
+}
+.sample-box {
+  width: 100%;
+  height: 600px;
+  background-color: bisque;
+}
+.inputfile {
+  display: none;
+}
+.input-plus {
+  cursor: pointer;
+  color: #7b22ee;
+}
 
-  .more {
-    float: center;
-  }
+.more {
+  float: center;
+}
 
-  .more button {
-    background: white;
-    border: none;
-    color: skyblue;
-    float: center;
-    width: 100px;
-    cursor: pointer;
-    margin: 10px auto;
-    padding: 10px;
-    display: block;
-    size: 15px;
-  }
+.more button {
+  background: white;
+  border: none;
+  color: skyblue;
+  float: center;
+  width: 100px;
+  cursor: pointer;
+  margin: 10px auto;
+  padding: 10px;
+  display: block;
+  size: 15px;
+}
 
-  .pending {
-    display: block;
-    position: absolute;
-    z-index: 3;
-    margin: 40px auto;
-    left: 38%;
-    top: 200px;
-  }
+.pending {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  margin: 40px auto;
+  left: 38%;
+  top: 200px;
+}
 
-  .pending2 {
-    display: block;
-    position: absolute;
-    z-index: 3;
-    margin: 40px auto;
-    left: 38%;
-    bottom: 200px;
-  }
-  .blur {
-    z-index: 3;
-    display: block;
-    position: fixed;
-    width: 465px;
-    height: 100%;
-    margin: auto;
-    overflow: hidden;
-    background: #ffffffbb;
-    filter: blur(3px);
-  }
+.pending2 {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  margin: 40px auto;
+  left: 38%;
+  bottom: 200px;
+}
+.blur {
+  z-index: 3;
+  display: block;
+  position: fixed;
+  width: 465px;
+  height: 100%;
+  margin: auto;
+  overflow: hidden;
+  background: #ffffffbb;
+  filter: blur(3px);
+}
 </style>

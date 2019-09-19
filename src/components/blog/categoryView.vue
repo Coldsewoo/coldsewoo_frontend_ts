@@ -59,7 +59,7 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: 'coldsewoo',
       description: 'Blog - articles list in a category',
-    }
+    };
   },
   computed: {
     categoryLevel() {
@@ -127,9 +127,9 @@ export default {
         method: 'POST',
         data: this.payload,
       });
-      if (res.data.success) {
+      if (res.status === 200) {
         this.error = false;
-        this.posts = res.data.data;
+        this.posts = res.data;
       } else {
         this.error = true;
       }
@@ -139,29 +139,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.category {
+  padding: 5px;
+  margin-top: 20px;
+}
 
-  .category {
-    padding: 5px;
-    margin-top: 20px;
+.v-list {
+  border: solid 1px rgba(0, 10, 0, 0.3) !important;
+  padding: 1px !important;
+
+  .odd {
+    background: rgba(235, 235, 235, 1) !important;
+  }
+  .v-list__tile__title {
+    font-size: 17px !important;
+    font-weight: 400;
   }
 
-  .v-list {
-    border: solid 1px rgba(0, 10, 0, 0.3) !important;
-    padding: 1px !important;
-
-    .odd {
-      background: rgba(235, 235, 235, 1) !important;
-    }
-    .v-list__tile__title {
-      font-size: 17px !important;
-      font-weight: 400;
-    }
-
-    .v-list__tile__action-text {
-      font-size: 12px !important;
-    }
-    .v-list--dense {
-      height: 36px !important;
-    }
+  .v-list__tile__action-text {
+    font-size: 12px !important;
   }
+  .v-list--dense {
+    height: 36px !important;
+  }
+}
 </style>

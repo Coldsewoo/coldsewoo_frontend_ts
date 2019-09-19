@@ -1,6 +1,6 @@
-import axios from 'axios';
-import router from '@/router.js';
-import { API_URL } from '@/lib/globalVar';
+import axios from 'axios'
+import router from '@/router.js'
+import { API_URL } from '@/lib/globalVar'
 
 const userStore = {
   namespaced: true,
@@ -22,35 +22,31 @@ const userStore = {
   },
   mutations: {
     loginFailed(state, payload) {
-      state.loginStatus = payload;
+      state.loginStatus = payload
     },
     newAccountFailed(state, payload) {
-      state.newAccountStatus.success = false;
-      state.newAccountStatus.message = payload;
+      state.newAccountStatus.success = false
+      state.newAccountStatus.message = payload
     },
     deleteAccountFailed(state, payload) {
-      state.deleteAccountStatus.status = payload;
+      state.deleteAccountStatus.status = payload
     },
     resetPasswordSubmit(state, payload) {
-      state.resetPasswordStauts.status = payload.status;
-      state.resetPasswordStauts.message = payload.message;
+      state.resetPasswordStauts.status = payload.status
+      state.resetPasswordStauts.message = payload.message
     },
   },
   actions: {
     async newAccountSubmit(context, payload) {
       try {
         const res = await axios({
-          url: `${API_URL}/users`,
+          url: `${API_URL}/auth/register`,
           method: 'POST',
           data: payload,
-        });
-        if (res.data.success) {
-          context.dispatch('logout');
-          router.push('/users/login');
-        } else {
-          for (const item in res.data.errors) {
-            context.commit('addError', res.data.errors[item].message, { root: true });
-          }
+        })
+        if (res.status === 200) {
+          context.dispatch('logout')
+          router.push('/users/login')
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -65,32 +61,30 @@ const userStore = {
             username: payload.username,
             password: payload.password,
           },
-        });
-        if (res.data.success) {
-          localStorage.setItem('token', res.data.data.token);
-          localStorage.setItem('username', res.data.data.username);
-          localStorage.setItem('refreshToken', res.data.data.refreshToken);
-          localStorage.setItem('expiresIn', res.data.data.expiresIn);
-          localStorage.setItem('role', res.data.data.role);
+        })
+        if (res.status === 200) {
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('username', res.data.username)
+          localStorage.setItem('refreshToken', res.data.refreshToken)
+          localStorage.setItem('expiresIn', res.data.expiresIn)
+          localStorage.setItem('role', res.data.role)
 
-          context.commit('saveToken', res.data, { root: true });
-          context.commit('postStore/goHome', null, { root: true });
-          return new Promise((resolve, reject) => resolve(true));
+          context.commit('saveToken', res.data, { root: true })
+          context.commit('postStore/goHome', null, { root: true })
+          return new Promise((resolve, reject) => resolve(true))
         }
-        context.commit('addError', res.data.message, { root: true });
-        return new Promise((resolve, reject) => resolve(false))
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
     },
     logout(context) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('username');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('expiresIn');
-      localStorage.removeItem('role');
-      context.commit('logout', null, { root: true });
-      router.replace('/users/login');
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      localStorage.removeItem('refreshToken')
+      localStorage.removeItem('expiresIn')
+      localStorage.removeItem('role')
+      context.commit('logout', null, { root: true })
+      router.replace('/users/login').catch((err) => {})
     },
     async editAccount(context, payload) {
       try {
@@ -102,14 +96,13 @@ const userStore = {
             'Content-type': 'application/json',
             'x-access-token': context.rootState.token.token,
           },
-        });
-        console.log(res.data)
-        if (res.data.success) {
-          context.dispatch('logout');
-          router.replace('/users/login');
+        })
+        if (res.status === 200) {
+          context.dispatch('logout')
+          router.replace('/users/login')
         } else {
           for (const item in res.data.errors) {
-            context.commit('addError', res.data.errors[item].message, { root: true });
+            context.commit('addError', res.data.errors[item].message, { root: true })
           }
         }
       } catch (err) {
@@ -125,15 +118,15 @@ const userStore = {
             'Content-Type': 'application/json',
             'x-access-token': context.rootState.token.token,
           },
-        });
-        if (deleteRes.data.success) {
-          context.dispatch('logout');
-          router.push('/');
+        })
+        if (deleteRes.status === 200) {
+          context.dispatch('logout')
+          router.push('/')
         } else {
-          context.commit('addError', deleteRes.data.message, { root: true });
+          context.commit('addError', deleteRes.data.message, { root: true })
         }
       } catch (err) {
-        context.commit('addError', err.message, { root: true });
+        context.commit('addError', err.message, { root: true })
       }
     },
     async resetPasswordSubmit(context, payload) {
@@ -145,11 +138,11 @@ const userStore = {
           headers: {
             'Content-Type': 'application/json',
           },
-        });
-        if (usernameRes.data.success) {
+        })
+        if (usernameRes.status === 200) {
           return new Promise((resolve, reject) => {
-            resolve(usernameRes.data.data.email);
-          });
+            resolve(usernameRes.data.email)
+          })
         }
         context.commit('addError', usernameRes.data.message, { root: true })
         return new Promise((resolve, reject) => resolve(false))
@@ -166,9 +159,9 @@ const userStore = {
           headers: {
             'Content-Type': 'application/json',
           },
-        });
-        if (codeRes.data.success) {
-          return new Promise((resolve, reject) => resolve(true));
+        })
+        if (codeRes.status === 200) {
+          return new Promise((resolve, reject) => resolve(true))
         }
         context.commit('addError', codeRes.data.message, { root: true })
         return new Promise((resolve, reject) => resolve(false))
@@ -185,20 +178,20 @@ const userStore = {
           headers: {
             'Content-Type': 'application/json',
           },
-        });
-        if (saveRes.data.success) {
-          return new Promise((resolve, reject) => resolve(true));
+        })
+        if (saveRes.status === 200) {
+          return new Promise((resolve, reject) => resolve(true))
         }
-        context.commit('addError', saveRes.data.message, { root: true });
-        return new Promise((resolve, reject) => resolve(false));
+        context.commit('addError', saveRes.data.message, { root: true })
+        return new Promise((resolve, reject) => resolve(false))
       } catch (err) {
-        context.commit('addError', err.message, { root: true });
+        context.commit('addError', err.message, { root: true })
       }
     },
     plsLogin(context) {
       router.push('/users/login')
     },
   },
-};
+}
 
-export default userStore;
+export default userStore

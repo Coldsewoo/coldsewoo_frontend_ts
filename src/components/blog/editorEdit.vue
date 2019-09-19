@@ -200,7 +200,7 @@
                   })
                 "
               >
-                <img class="svgIcon" src="@/assets/images/icons/table.svg" alt="tableIcon"/>
+                <img class="svgIcon" src="@/assets/images/icons/table.svg" alt="tableIcon" />
               </v-btn>
               <v-tooltip bottom nudge-top="5">
                 <template v-slot:activator="{ on }">
@@ -230,28 +230,48 @@
               </v-tooltip>
               <span v-if="isActive.table()">
                 <v-btn class="menubar__button" @click="commands.deleteTable">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_table.svg" alt="tableIcon"/>
+                  <img class="svgIcon" src="@/assets/images/icons/delete_table.svg" alt="tableIcon" />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addColumnBefore">
-                  <img class="svgIcon" src="@/assets/images/icons/add_col_before.svg" alt="tableIcon"/>
+                  <img
+                    class="svgIcon"
+                    src="@/assets/images/icons/add_col_before.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addColumnAfter">
-                  <img class="svgIcon" src="@/assets/images/icons/add_col_after.svg" alt="tableIcon"/>
+                  <img
+                    class="svgIcon"
+                    src="@/assets/images/icons/add_col_after.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteColumn">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_col.svg" alt="tableIcon"/>
+                  <img class="svgIcon" src="@/assets/images/icons/delete_col.svg" alt="tableIcon" />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowBefore">
-                  <img class="svgIcon" src="@/assets/images/icons/add_row_before.svg" alt="tableIcon"/>
+                  <img
+                    class="svgIcon"
+                    src="@/assets/images/icons/add_row_before.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowAfter">
-                  <img class="svgIcon" src="@/assets/images/icons/add_row_after.svg" alt="tableIcon"/>
+                  <img
+                    class="svgIcon"
+                    src="@/assets/images/icons/add_row_after.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteRow">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_row.svg" alt="tableIcon"/>
+                  <img class="svgIcon" src="@/assets/images/icons/delete_row.svg" alt="tableIcon" />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.toggleCellMerge">
-                  <img class="svgIcon" src="@/assets/images/icons/combine_cells.svg" alt="tableIcon"/>
+                  <img
+                    class="svgIcon"
+                    src="@/assets/images/icons/combine_cells.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
               </span>
             </section>
@@ -303,8 +323,7 @@
                   @click="setLinkUrl(commands.link, null)"
                   type="button"
                 >
-                  <v-icon color=
-                  "white" style="padding-left:5px">remove</v-icon>
+                  <v-icon color="white" style="padding-left:5px">remove</v-icon>
                 </button>
               </form>
 
@@ -315,8 +334,7 @@
                   :class="{ 'is-active': isActive.link() }"
                 >
                   <span>{{ isActive.link() ? 'Update Link ' : 'Add Link '}}</span>
-                  <v-icon color=
-                  "white" style="padding-left:5px">link</v-icon>
+                  <v-icon color="white" style="padding-left:5px">link</v-icon>
                 </button>
               </template>
             </div>
@@ -329,7 +347,6 @@
 </template>
 
 <script>
-
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import '@/assets/editorStyle.scss';
@@ -339,7 +356,7 @@ import { Sketch } from 'vue-color';
 import Treeselect from '@riophae/vue-treeselect';
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
-import isEmpty from 'lodash.isempty'
+import isEmpty from 'lodash.isempty';
 
 import {
   Blockquote,
@@ -391,7 +408,7 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: 'coldsewoo',
       description: `Blog ${this.status === 'edit' ? 'Edit' : 'New'} page`,
-    }
+    };
   },
   data() {
     return {
@@ -467,12 +484,15 @@ export default {
     },
     article() {
       if (this.status === 'edit') {
-        return this.$store.state.blogStore.currentArticle
-      } return {}
+        return this.$store.state.blogStore.currentArticle;
+      }
+      return {};
     },
   },
   beforeDestroy() {
-    if (this.uploadStatus || this.imagesToUpload.length === 0) { return this.editor.destroy(); }
+    if (this.uploadStatus || this.imagesToUpload.length === 0) {
+      return this.editor.destroy();
+    }
     const pidArr = this.imagesToUpload.map(e =>
       this.$store.dispatch('blogStore/deleteImage', e.pId),
     );
@@ -482,9 +502,9 @@ export default {
   },
   watch: {
     article(art) {
-      if (!(isEmpty(art))) {
+      if (!isEmpty(art)) {
         this.title = art.title;
-        this.value = art.categories.path
+        this.value = art.categories.path;
         this.editor.setContent(art.content);
       }
     },
@@ -499,13 +519,14 @@ export default {
         images: this.imagesToUpload,
         status: this.status,
       };
-      payload.articleId = this.status === 'edit' ? this.article.articleId : undefined
+      payload.articleId =
+        this.status === 'edit' ? this.article.articleId : undefined;
       setTimeout(() => {
         this.$store.dispatch('blogStore/saveArticle', payload).then((result) => {
-          if (result.data.success) {
+          if (result.status === 200) {
             this.uploadStatus = true;
             this.$router.push(
-              `/blog/category/${result.data.data.path}/${result.data.data.articleId}`,
+              `/blog/category/${result.data.path}/${result.data.articleId}`,
             );
           } else {
             this.uploadStatus = false;
@@ -524,130 +545,130 @@ export default {
             'blogStore/onImageSelected',
             this.previewImage,
           );
-          const alt = result.thumbnail
+          const alt = result.thumbnail;
           const src = result.image;
-          const title = result.pId
+          const title = result.pId;
           command({ src, alt, title });
           this.imagesToUpload.push(result);
           this.$nextTick(() => {
             this.previewImage = null;
           });
         };
-      } else this.$store.commit('addError', 'Invalid Image')
+      } else this.$store.commit('addError', 'Invalid Image');
     },
     showLinkMenu(attrs) {
-      this.linkUrl = attrs.href
-      this.linkMenuIsActive = true
+      this.linkUrl = attrs.href;
+      this.linkMenuIsActive = true;
       this.$nextTick(() => {
-        this.$refs.linkInput.focus()
-      })
+        this.$refs.linkInput.focus();
+      });
     },
     hideLinkMenu() {
-      this.linkUrl = null
-      this.linkMenuIsActive = false
+      this.linkUrl = null;
+      this.linkMenuIsActive = false;
     },
     setLinkUrl(command, url) {
-      command({ href: url })
-      this.hideLinkMenu()
-      this.editor.focus()
+      command({ href: url });
+      this.hideLinkMenu();
+      this.editor.focus();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  .menubar {
-    justify-content: center;
-    display: flex;
-    flex-flow: row wrap;
-    position: sticky;
-    top: 65px;
-    border: solid 1px rgb(254, 246, 255);
-    z-index: 1;
-  }
-  .menubar__button {
-    border: solid 1px gray !important;
-    background-color: white !important;
-    margin: 2px;
-    padding: 1px;
-    color: black !important;
-    min-width: 45px !important;
-    min-height: 45px !important;
-    width: 45px !important;
-    height: 45px !important;
-  }
+.menubar {
+  justify-content: center;
+  display: flex;
+  flex-flow: row wrap;
+  position: sticky;
+  top: 65px;
+  border: solid 1px rgb(254, 246, 255);
+  z-index: 1;
+}
+.menubar__button {
+  border: solid 1px gray !important;
+  background-color: white !important;
+  margin: 2px;
+  padding: 1px;
+  color: black !important;
+  min-width: 45px !important;
+  min-height: 45px !important;
+  width: 45px !important;
+  height: 45px !important;
+}
 
-  .editor {
+.editor {
+  width: 100%;
+  background-color: #fcfcfc;
+}
+
+.editor__content {
+  border-top: solid 2px rgb(213, 213, 213);
+  border-bottom: solid 1px rgb(213, 213, 213);
+  padding: 15px;
+  margin-top: 20px;
+}
+
+* {
+  .is-active {
+    background-color: rgb(255, 224, 254);
+  }
+  :focus {
+    outline: none;
+  }
+}
+
+.v-btn {
+  opacity: 1 !important;
+
+  :hover:before,
+  :focus:before {
+    background-color: white;
+  }
+}
+
+.v-btn--active:before,
+.line_break {
+  flex-basis: 100%;
+  width: 0px;
+  height: 30px;
+  overflow: hidden;
+}
+.vc-chrome {
+  align-items: center;
+}
+
+.categories {
+  background-color: #fafafa;
+  z-index: 3;
+  padding: 8px;
+  width: 100%;
+  margin-left: 5px;
+  div {
+    border: solid 1px black;
     width: 100%;
-    background-color: #fcfcfc;
   }
+  pre {
+    font-size: 13px;
+    color: blue;
+    padding-left: 1px;
+  }
+}
 
-  .editor__content {
-    border-top: solid 2px rgb(213, 213, 213);
-    border-bottom: solid 1px rgb(213, 213, 213);
-    padding: 15px;
-    margin-top: 20px;
-  }
+.input-photo {
+  display: none;
+}
+.input-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
-  * {
-    .is-active {
-      background-color: rgb(255, 224, 254);
-    }
-    :focus {
-      outline: none;
-    }
+  i {
+    color: black;
   }
-
-  .v-btn {
-    opacity: 1 !important;
-
-    :hover:before,
-    :focus:before {
-      background-color: white;
-    }
-  }
-
-  .v-btn--active:before,
-  .line_break {
-    flex-basis: 100%;
-    width: 0px;
-    height: 30px;
-    overflow: hidden;
-  }
-  .vc-chrome {
-    align-items: center;
-  }
-
-  .categories {
-    background-color: #fafafa;
-    z-index: 3;
-    padding: 8px;
-    width: 100%;
-    margin-left: 5px;
-    div {
-      border: solid 1px black;
-      width: 100%;
-    }
-    pre {
-      font-size: 13px;
-      color: blue;
-      padding-left: 1px;
-    }
-  }
-
-  .input-photo {
-    display: none;
-  }
-  .input-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
-
-    i {
-      color: black;
-    }
-  }
+}
 
 .menububble {
   position: absolute;

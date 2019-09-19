@@ -54,11 +54,10 @@
 </template>
 
 <script>
-import editorItem from '@/components/blog/editorView.vue'
-import comments from '@/components/blog/comments.vue'
-import { monthEng } from '@/lib/globalVar'
-import isEmpty from 'lodash.isempty'
-
+import editorItem from '@/components/blog/editorView.vue';
+import comments from '@/components/blog/comments.vue';
+import { monthEng } from '@/lib/globalVar';
+import isEmpty from 'lodash.isempty';
 
 export default {
   components: {
@@ -75,6 +74,7 @@ export default {
     return {
       monthEng,
       deleteDialog: false,
+      deleteSent: false,
     };
   },
   watch: {
@@ -93,7 +93,7 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: this.article.nickname,
       description: 'Blog content',
-    }
+    };
   },
   computed: {
     createdDay() {
@@ -104,40 +104,46 @@ export default {
         const day = date.substring(6, 8);
         const result = `${this.monthEng[month - 1]} ${day} ${year}`;
         return result;
-      } return '';
+      }
+      return '';
     },
     article() {
-      return this.$store.state.blogStore.currentArticle
+      return this.$store.state.blogStore.currentArticle;
     },
     editPriv() {
       const isLoggedIn = this.$store.state.isLoggedIn;
       const role = this.$store.state.token.role;
       const username = this.$store.state.token.username;
-      const adminIndex = ['Admin', 'Owner']
+      const adminIndex = ['Admin', 'Owner'];
 
-      return isLoggedIn && (username === this.article.username || adminIndex.includes(role))
+      return (
+        isLoggedIn &&
+        (username === this.article.username || adminIndex.includes(role))
+      );
     },
     comments() {
-      return this.$store.state.blogStore.comments
+      return this.$store.state.blogStore.comments;
     },
   },
   mounted() {
-    this.getSingleArticle()
-    this.getComments()
+    this.getSingleArticle();
+    this.getComments();
   },
   beforeDestroy() {
-    this.$store.commit('blogStore/setCurrentArticle', 'reset')
+    this.$store.commit('blogStore/setCurrentArticle', 'reset');
   },
   methods: {
     getSingleArticle() {
-      this.$store
-        .dispatch('blogStore/getSingleArticle', this.articleId)
+      this.$store.dispatch('blogStore/getSingleArticle', this.articleId);
     },
     getComments() {
-      this.$store.dispatch('blogStore/getComments', this.articleId)
+      this.$store.dispatch('blogStore/getComments', this.articleId);
     },
-    async deleteArticle() {
-      this.$store.dispatch('blogStore/deleteArticle', this.article);
+    deleteArticle() {
+      if (!this.deleteSent) {
+        this.deleteSent = true;
+        this.$store.dispatch('blogStore/deleteArticle', this.article);
+      }
     },
     editArticle() {
       this.$router.push(`/blog/edit/${this.articleId}`);
@@ -153,64 +159,64 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .article {
-    margin-bottom: 10px;
-    width: 100%;
-    .editor__content {
-      border-top: solid 1px black;
-      border-bottom: solid 1px black;
-    }
-
-    .container {
-      padding: 1px 10px 1px 10px !important;
-    }
-  }
-
-  .header {
+.article {
+  margin-bottom: 10px;
+  width: 100%;
+  .editor__content {
+    border-top: solid 1px black;
     border-bottom: solid 1px black;
-    padding-left: 15px;
-    margin-top: 30px;
-    padding-bottom: 3px;
-
-    div:last-child {
-      text-align: right !important;
-    }
-
-    img {
-      width: 45px;
-      height: 45px;
-      border-radius: 25%;
-      border: solid 1px rgba(0, 0, 0, 0.5);
-    }
-    .title {
-      font-size: 24px !important;
-      color: rgb(65, 65, 65);
-      margin-left: 5px;
-      padding-top: 7px;
-      display: block;
-    }
-
-    .date {
-      font-size: 13px !important;
-      color: rgb(95, 95, 95);
-      margin: auto;
-      margin-right: 10px;
-      margin-top: 5px;
-      display: block;
-    }
   }
 
-  * {
-    .is-active {
-      background-color: rgb(255, 224, 254);
-    }
-    :focus {
-      outline: none;
-    }
+  .container {
+    padding: 1px 10px 1px 10px !important;
+  }
+}
+
+.header {
+  border-bottom: solid 1px black;
+  padding-left: 15px;
+  margin-top: 30px;
+  padding-bottom: 3px;
+
+  div:last-child {
+    text-align: right !important;
   }
 
-  .comments {
-    width: 90%;
-    margin: 0px auto;
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 25%;
+    border: solid 1px rgba(0, 0, 0, 0.5);
   }
+  .title {
+    font-size: 24px !important;
+    color: rgb(65, 65, 65);
+    margin-left: 5px;
+    padding-top: 7px;
+    display: block;
+  }
+
+  .date {
+    font-size: 13px !important;
+    color: rgb(95, 95, 95);
+    margin: auto;
+    margin-right: 10px;
+    margin-top: 5px;
+    display: block;
+  }
+}
+
+* {
+  .is-active {
+    background-color: rgb(255, 224, 254);
+  }
+  :focus {
+    outline: none;
+  }
+}
+
+.comments {
+  width: 90%;
+  margin: 0px auto;
+}
 </style>

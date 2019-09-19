@@ -1,9 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue'
-import router from '@/router.js';
-import { API_URL } from '@/lib/globalVar';
-
+import router from '@/router.js'
+import { API_URL } from '@/lib/globalVar'
 
 const blogStore = {
   namespaced: true,
@@ -18,116 +17,108 @@ const blogStore = {
   },
   getters: {
     categoriesList(state) {
-      const item = state.categories;
-      const returnArr = [];
+      const item = state.categories
+      const returnArr = []
       for (const key in item) {
-        const children = [];
+        const children = []
         const innerObj = {
           id: key,
           label: key,
           name: key,
-        };
+        }
         for (const keya in item[key]) {
-          if (keya === 'order') continue;
-          const children2 = [];
+          if (keya === 'order') continue
+          const children2 = []
           const innerObj2 = {
             id: `${key}/${keya}`,
             label: keya,
             name: keya,
-          };
+          }
           for (const keyb of item[key][keya]) {
             const innerObj3 = {
               id: `${key}/${keya}/${keyb}`,
               label: keyb,
               name: keyb,
               isDisabled: true,
-            };
-            children2.push(innerObj3);
+            }
+            children2.push(innerObj3)
           }
-          innerObj2.children = children2;
-          children.push(innerObj2);
+          innerObj2.children = children2
+          children.push(innerObj2)
         }
-        innerObj.children = children;
-        returnArr.push(innerObj);
+        innerObj.children = children
+        returnArr.push(innerObj)
       }
-      return returnArr;
+      return returnArr
     },
     categoryListForArticle(state) {
-      const item = state.categories;
-      const returnArr = [];
+      const item = state.categories
+      const returnArr = []
       for (const key in item) {
-        const children = [];
+        const children = []
         const innerObj = {
           id: key,
           label: key,
           name: key,
-        };
+        }
         for (const keya in item[key]) {
-          if (keya === 'order') continue;
-          const children2 = [];
+          if (keya === 'order') continue
+          const children2 = []
           const innerObj2 = {
             id: `${key}/${keya}`,
             label: keya,
             name: keya,
-          };
+          }
           for (const keyb of item[key][keya]) {
             const innerObj3 = {
               id: `${key}/${keya}/${keyb}`,
               label: keyb,
               name: keyb,
-            };
-            children2.push(innerObj3);
+            }
+            children2.push(innerObj3)
           }
-          innerObj2.children = children2;
-          children.push(innerObj2);
+          innerObj2.children = children2
+          children.push(innerObj2)
         }
-        innerObj.children = children;
-        returnArr.push(innerObj);
+        innerObj.children = children
+        returnArr.push(innerObj)
       }
-      let main = returnArr.filter(e => e.name === 'Main')[0];
-      const index = returnArr.indexOf(main);
-      main = {
-        id: 'Main',
-        label: 'Main',
-        name: 'Main',
-      };
-      returnArr.splice(index, 1, main);
-      return returnArr;
+      return returnArr
     },
     orderedCategories(state) {
-      const categories = state.categories;
-      const duplicate = {};
+      const categories = state.categories
+      const duplicate = {}
       for (const item in categories) {
         // item : coldsewooweb
-        duplicate[item] = {};
+        duplicate[item] = {}
         for (const item2 in categories[item]) {
-          if (item2 === 'order') continue;
-          duplicate[item][item2] = categories[item][item2];
+          if (item2 === 'order') continue
+          duplicate[item][item2] = categories[item][item2]
         }
       }
-      return duplicate;
+      return duplicate
     },
   },
   mutations: {
     getPosts(state, payload) {
-      state.posts = payload.data;
+      state.posts = payload.data
     },
     saveCategories(state, payload) {
-      state.categories = payload;
+      state.categories = payload
     },
     selectMenuItem(state, payload) {
-      state.selectedPosts = payload.data;
-      state.selectedCategory = payload.selected;
-      router.push('/blog/categoryview');
+      state.selectedPosts = payload.data
+      state.selectedCategory = payload.selected
+      router.push('/blog/categoryview')
     },
     onImageSelected(state, payload) {
-      state.latestImageURL = payload;
+      state.latestImageURL = payload
     },
     setCurrentArticle(state, payload) {
       if (payload === 'reset') Vue.set(state, 'currentArticle', {})
       else {
         Vue.set(state, 'currentArticle', payload)
-        state.currentArticle.images = payload.images ? payload.images : [];
+        state.currentArticle.images = payload.images ? payload.images : []
       }
     },
     setComments(state, payload) {
@@ -140,8 +131,8 @@ const blogStore = {
         const result = await axios({
           url: `${API_URL}/blog`,
           method: 'GET',
-        });
-        context.commit('getPosts', result);
+        })
+        context.commit('getPosts', result)
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
@@ -156,10 +147,10 @@ const blogStore = {
             'Content-type': 'application/json',
             'x-access-token': context.rootState.token.token,
           },
-        });
-        if (result.data.success) {
+        })
+        if (result.status === 200) {
           const cloudinaryRenameRes = await axios({
-            url: `${API_URL}/images/blog/${result.data.data.articleId}`,
+            url: `${API_URL}/images/blog/${result.data.articleId}`,
             method: 'PUT',
             data: payload.images,
             headers: {
@@ -168,16 +159,16 @@ const blogStore = {
             },
           })
           const blogContentImageRenameRes = await axios({
-            url: `${API_URL}/blog/rename/${result.data.data.articleId}`,
+            url: `${API_URL}/blog/rename/${result.data.articleId}`,
             method: 'PUT',
             headers: {
               'x-access-token': context.rootState.token.token,
             },
           })
-          if (cloudinaryRenameRes.data.success && blogContentImageRenameRes.data.success) {
+          if (cloudinaryRenameRes.status === 200 && blogContentImageRenameRes.status === 200) {
             return new Promise((resolve, reject) => {
               resolve(result)
-            });
+            })
           }
         }
       } catch (err) {
@@ -185,13 +176,13 @@ const blogStore = {
       }
     },
     async getSingleArticle(context, payload) {
-      const articleId = payload;
+      const articleId = payload
       try {
         const res = await axios({
           url: `${API_URL}/blog/articles/${articleId}`,
           method: 'GET',
-        });
-        context.commit('setCurrentArticle', res.data.data)
+        })
+        context.commit('setCurrentArticle', res.data)
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
@@ -201,11 +192,9 @@ const blogStore = {
         const res = await axios({
           url: `${API_URL}/blog/categories`,
           method: 'GET',
-        });
-        if (res.data.success) {
-          context.commit('saveCategories', res.data.data);
-        } else {
-          context.commit('addError', res.data.message, { root: true })
+        })
+        if (res.status === 200) {
+          context.commit('saveCategories', res.data)
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -217,14 +206,12 @@ const blogStore = {
           url: `${API_URL}/blog/categories`,
           method: 'POST',
           data: { path: payload },
-        });
-        if (res.data.success) {
+        })
+        if (res.status === 200) {
           context.commit('selectMenuItem', {
-            data: res.data.data,
+            data: res.data,
             selected: payload,
-          });
-        } else {
-          context.commit('addError', res.data.message, { root: true })
+          })
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -232,14 +219,14 @@ const blogStore = {
     },
     async deleteArticle(context, payload) {
       try {
-        const articleId = payload.articleId;
+        const articleId = payload.articleId
         const blogRes = await axios({
           url: `${API_URL}/blog/articles/${articleId}`,
           method: 'DELETE',
           headers: {
             'x-access-token': context.rootState.token.token,
           },
-        });
+        })
         const imgRes = await axios({
           url: `${API_URL}/images/blog/${articleId}`,
           method: 'DELETE',
@@ -247,8 +234,8 @@ const blogStore = {
             'x-access-token': context.rootState.token.token,
           },
         })
-        if (blogRes.data.success && imgRes.data.success) {
-          router.push(`/blog/category/${payload.categories.path}`);
+        if (blogRes.status === 200 && imgRes.status === 200) {
+          router.push(`/blog/category/${payload.categories.path}`)
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -264,19 +251,19 @@ const blogStore = {
             'Content-type': 'application/json',
           },
           data: payload,
-        });
-        if (res.data.success) {
+        })
+        if (res.status === 200) {
           context.dispatch('getCategories').then(() => {
-            router.push('/blog/home');
-          });
+            router.push('/blog/home')
+          })
         }
       } catch (err) {
         // do nothing
       }
     },
     async onImageSelected(context, payload) {
-      const formData = new FormData();
-      formData.append('image', payload);
+      const formData = new FormData()
+      formData.append('image', payload)
       try {
         const imgRes = await axios({
           url: `${API_URL}/images/blog`,
@@ -286,14 +273,14 @@ const blogStore = {
             'x-access-token': context.rootState.token.token,
           },
           data: formData,
-        });
-        if (imgRes.data.success) {
+        })
+        if (imgRes.status === 200) {
           return new Promise((resolve, reject) => {
-            context.commit('onImageSelected', imgRes.data.data);
+            context.commit('onImageSelected', imgRes.data)
             setTimeout(() => {
-              resolve(imgRes.data.data);
-            }, 0);
-          });
+              resolve(imgRes.data)
+            }, 0)
+          })
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -308,10 +295,12 @@ const blogStore = {
           headers: {
             'x-access-token': context.rootState.token.token,
           },
-        });
-        return new Promise((resolve, reject) => {
-          resolve();
-        });
+        })
+        if (imgRes.status === 200) {
+          return new Promise((resolve, reject) => {
+            resolve()
+          })
+        }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
@@ -323,8 +312,8 @@ const blogStore = {
           url: `${API_URL}/blog/comments/${articleId}`,
           method: 'GET',
         })
-        if (commentsRes.data.success) {
-          context.commit('setComments', commentsRes.data.data)
+        if (commentsRes.status === 200) {
+          context.commit('setComments', commentsRes.data)
         }
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -342,7 +331,7 @@ const blogStore = {
           },
           data: payload,
         })
-        if (addCommentRes.data.success) {
+        if (addCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
@@ -361,7 +350,7 @@ const blogStore = {
             'x-access-token': context.rootState.token.token,
           },
         })
-        if (deleteCommentRes.data.success) {
+        if (deleteCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
@@ -372,7 +361,7 @@ const blogStore = {
     },
     async editComment(context, payload) {
       try {
-        const { articleId, commentId, message } = payload;
+        const { articleId, commentId, message } = payload
         const editCommentRes = await axios({
           url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
           method: 'PUT',
@@ -382,7 +371,7 @@ const blogStore = {
           },
           data: { message },
         })
-        if (editCommentRes.data.success) {
+        if (editCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
@@ -393,7 +382,7 @@ const blogStore = {
     },
     async addReply(context, payload) {
       try {
-        const { articleId, commentId, message } = payload;
+        const { articleId, commentId, message } = payload
         const addReplyRes = await axios({
           url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
           method: 'POST',
@@ -403,7 +392,7 @@ const blogStore = {
           },
           data: { message },
         })
-        if (addReplyRes.data.success) {
+        if (addReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
@@ -422,7 +411,7 @@ const blogStore = {
             'x-access-token': context.rootState.token.token,
           },
         })
-        if (deleteReplyRes.data.success) {
+        if (deleteReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
@@ -432,6 +421,6 @@ const blogStore = {
       }
     },
   },
-};
+}
 
-export default blogStore;
+export default blogStore

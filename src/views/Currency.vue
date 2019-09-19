@@ -106,7 +106,6 @@
 import axios from 'axios';
 import { API_URL, currencyCode } from '@/lib/globalVar';
 
-
 Number.prototype.getComma = function () {
   let number = this.valueOf().toString();
   if (
@@ -117,9 +116,12 @@ Number.prototype.getComma = function () {
     number !== null
   ) {
     if (number.includes('.')) number = number.split('.');
-    if (typeof number === 'string') { return number.replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    if (typeof number === 'string') {
+      return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
     return `${number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${number[1]}`;
-  } return number;
+  }
+  return number;
 };
 
 String.prototype.getValue = function () {
@@ -158,7 +160,7 @@ export default {
       title: 'Coldsewoo - currency',
       author: 'coldsewoo',
       description: 'Currency - currency exchange information',
-    }
+    };
   },
   mounted() {
     this.getRate();
@@ -176,12 +178,16 @@ export default {
     },
     async getRate() {
       let originCode;
-      let targetCode
+      let targetCode;
       for (const index in this.currencyCode) {
         if (Object.prototype.hasOwnProperty.call(this.currencyCode, index)) {
           if (!this.currencyCode[index].name) continue;
-          if (this.currencyCode[index].name === this.originName) { originCode = this.currencyCode[index].code; }
-          if (this.currencyCode[index].name === this.targetName) { targetCode = this.currencyCode[index].code; }
+          if (this.currencyCode[index].name === this.originName) {
+            originCode = this.currencyCode[index].code;
+          }
+          if (this.currencyCode[index].name === this.targetName) {
+            targetCode = this.currencyCode[index].code;
+          }
         }
       }
       try {
@@ -189,14 +195,14 @@ export default {
           url: `${API_URL}/currency/${originCode}`,
           method: 'GET',
         });
-        const rates = res.data.data.rates;
+        const rates = res.data.rates;
         const result =
           rates[targetCode] *
           Number(this.currencyInput.toString().replace(/,/g, ''));
         this.targetValue = result.toFixed(2);
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error(err);
+        this.$store.commit('addError', err.mesage);
       }
     },
     onBlurNumberInput(e) {
@@ -213,34 +219,34 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    margin-top: 150px;
-    border: solid 1px black;
-    background-color: rgb(213, 213, 213);
-  }
+.container {
+  margin-top: 150px;
+  border: solid 1px black;
+  background-color: rgb(213, 213, 213);
+}
 
-  .tit {
-    margin-top: 30px;
-  }
-  .inner {
-    background-color: white;
-    border: solid 1px rgba(0, 233, 0, 0.283);
-  }
+.tit {
+  margin-top: 30px;
+}
+.inner {
+  background-color: white;
+  border: solid 1px rgba(0, 233, 0, 0.283);
+}
 
-  .amount >>> .v-text-field__slot input {
-    color: rgb(34, 130, 34);
-    font-size: 30px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    text-align: right;
-    margin-right: 30px;
-    z-index: 2;
-    padding: 0;
-  }
+.amount >>> .v-text-field__slot input {
+  color: rgb(34, 130, 34);
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  text-align: right;
+  margin-right: 30px;
+  z-index: 2;
+  padding: 0;
+}
 
-  a {
-    text-decoration: none;
-    color: rgb(34, 130, 34);
-    font-size: 22px;
-  }
+a {
+  text-decoration: none;
+  color: rgb(34, 130, 34);
+  font-size: 22px;
+}
 </style>

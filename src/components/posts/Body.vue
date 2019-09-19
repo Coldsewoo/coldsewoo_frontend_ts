@@ -55,6 +55,7 @@
             <span
               v-for="(hashtag, i) in hashtags.items"
               :key="i"
+              class="hashtag"
               @click="deletetagInput(i)"
             >#{{ hashtag }}</span>
             <input
@@ -96,7 +97,6 @@ import EventBus from '@/EventBus.js';
 import { createNamespacedHelpers } from 'vuex';
 import Post from './Post.vue';
 import Edit from './Edit.vue';
-
 
 const {
   mapGetters,
@@ -168,18 +168,17 @@ export default {
       }
     },
     Edit: {
-      handler() { },
+      handler() {},
       deep: true,
     },
     posts: {
-      handler() { },
+      handler() {},
       deep: true,
     },
   },
   mounted() {
     this.getPosts();
-    this.scroll();
-
+    window.addEventListener('scroll', this.scroll);
     EventBus.$on('publish', () => {
       const payload = {
         message: this.message,
@@ -196,18 +195,24 @@ export default {
     });
   },
   beforeDestroy() {
+    this.$store.commit('postStore/resetMaxPost');
+  },
+  destroyed() {
     EventBus.$off('publish');
     EventBus.$off('filter-selected');
     EventBus.$off('commentUpdated');
+    window.removeEventListener('scroll', this.scroll);
   },
   methods: {
     ...mapActions(['getPosts', 'onImageSelected']),
     hashtagSubmit(e) {
-      if (e.keyCode !== 13) return;
+      if (e && e.keyCode !== 13) return;
       if (
         this.hashtags.items.indexOf(this.hashtags.text) === -1 &&
         this.hashtags.text.length > 0
-      ) { this.hashtags.items.push(this.hashtags.text); }
+      ) {
+        this.hashtags.items.push(this.hashtags.text);
+      }
       this.hashtags.text = '';
       this.hashtags.status = false;
     },
@@ -229,127 +234,126 @@ export default {
       return this.filterSelected === filterName;
     },
     scroll() {
-      window.onscroll = () => {
-        const bottomOfWindow =
-          Math.max(
-            window.pageYOffset,
-            document.documentElement.scrollTop,
-            document.body.scrollTop,
-          ) +
+      const bottomOfWindow =
+        Math.max(
+          window.pageYOffset,
+          document.documentElement.scrollTop,
+          document.body.scrollTop,
+        ) +
           window.innerHeight >=
-          document.documentElement.scrollHeight - 2;
-        if (bottomOfWindow) {
-          this.$store.commit('postStore/pending', 'bottom');
-          setTimeout(() => {
-            this.$store.commit('postStore/pending', 'false');
-            this.$store.commit('postStore/maxPost');
-          }, 1000);
-        }
-      };
+        document.documentElement.scrollHeight - 2;
+      if (bottomOfWindow) {
+        this.$store.commit('postStore/pending', 'bottom');
+        setTimeout(() => {
+          this.$store.commit('postStore/pending', 'false');
+          this.$store.commit('postStore/maxPost');
+        }, 1000);
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-  .container {
-    width: 455px;
-    padding: 0;
-    padding-top: 35px;
-    margin-bottom: 25px;
-  }
+.container {
+  width: 455px;
+  padding: 0;
+  padding-top: 35px;
+  margin-bottom: 25px;
+}
 
-  .wrapper > div {
-    margin-bottom: 15px;
-  }
-  .wrapper > div:last-child {
-    margin-bottom: 40px;
-  }
+.wrapper > div {
+  margin-bottom: 15px;
+}
+.wrapper > div:last-child {
+  margin-bottom: 40px;
+}
 
-  .upload-image-wrapper {
-    padding: 1px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-  .upload-image img {
-    width: 100%;
-    margin-bottom: 5px;
-    padding: 3px;
-    border: solid 1px #00000033;
-  }
+.upload-image-wrapper {
+  padding: 1px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.upload-image img {
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 3px;
+  border: solid 1px #00000033;
+}
 
-  .upload-image-step3 img {
-    border: solid 1px #00000033;
-  }
+.upload-image-step3 img {
+  border: solid 1px #00000033;
+}
 
-  .write-box {
-    border: none;
-    width: 90%;
-    height: 100px;
-    padding: 15px;
-    margin: auto;
-    display: block;
-    outline: none;
-  }
+.write-box {
+  border: none;
+  width: 90%;
+  height: 100px;
+  padding: 15px;
+  margin: auto;
+  display: block;
+  outline: none;
+}
 
-  .hashtags {
-    margin-top: 15px;
-  }
+.hashtags {
+  margin-top: 15px;
+}
 
-  .hashtags span {
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .hashtags span:hover {
-    color: #ee0000cc;
-  }
+.hashtags span {
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+.hashtags span:hover {
+  color: #ee0000cc;
+}
 
-  .hashtags input {
-    height: 25px;
-    width: 100px;
-    background-color: #fefefe;
-    border: solid 1px #00000033;
-    border-radius: 10%;
-    font-size: 18px;
-  }
+.hashtags input {
+  height: 25px;
+  width: 100px;
+  background-color: #fefefe;
+  border: solid 1px #00000033;
+  border-radius: 10%;
+  font-size: 18px;
+}
 
-  .v-btn--floating {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 10px;
-  }
-  .v-btn--floating i {
-    font-size: 20px;
-  }
-  .pos-relative {
-    height: 240px;
-    text-align: center;
-    padding: 1px;
-  }
+.v-btn--floating {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+.v-btn--floating i {
+  font-size: 20px;
+}
+.pos-relative {
+  height: 240px;
+  text-align: center;
+  padding: 1px;
+}
 
-  .pos-relative p {
-    font-size: 15px;
-    color: black;
-    margin: 1px auto;
-  }
-  .pos-relative img {
-    padding: 1px;
-    background-color: snow;
-    border: solid 1px #00000044;
-  }
+.pos-relative p {
+  font-size: 15px;
+  color: black;
+  margin: 1px auto;
+}
+.pos-relative img {
+  padding: 1px;
+  background-color: snow;
+  border: solid 1px #00000044;
+}
 
-  .overflow-hidden {
-    overflow: hidden;
-  }
-  .horiz-scroll {
-    background-color: white;
-    overflow-y: hidden;
-    overflow-x: auto;
-    border: solid 1px #d3d5dc5d;
-    margin-top: 10px;
-  }
+.overflow-hidden {
+  overflow: hidden;
+}
+.horiz-scroll {
+  background-color: white;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: solid 1px #d3d5dc5d;
+  margin-top: 10px;
+}
 
-  .active {
-    border: solid 2px purple;
-  }
+.active {
+  border: solid 2px purple;
+}
 </style>

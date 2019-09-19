@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import blogStore from '@/modules/store/blogStore'
+import blogStore from '@/modules/store/blogStore';
 
 export default {
   name: 'Blog',
@@ -147,11 +147,11 @@ export default {
       return this.$store.getters['blogStore/selectedCategoryObj'];
     },
     role() {
-      return this.$store.state.role
+      return this.$store.state.role;
     },
   },
   created() {
-    this.$store.registerModule('blogStore', blogStore)
+    this.$store.registerModule('blogStore', blogStore);
   },
   mounted() {
     this.getCategories();
@@ -159,9 +159,10 @@ export default {
     this.currentTab = query.tab || '';
     this.currentMenu = query.menu || '';
     this.currentSubmenu = query.submenu || '';
-    console.log()
   },
-
+  destroyed() {
+    this.$store.unregisterModule('blogStore');
+  },
   methods: {
     goup() {
       window.scrollTo(0, 0);
@@ -174,78 +175,78 @@ export default {
     },
     selectTab(i) {
       this.currentTab = i;
-      this.$router.push(`/blog/category/${this.currentTab}`);
+      this.$router.push(`/blog/category/${this.currentTab}`).catch((err) => {});
     },
     selectMenu(n) {
       this.currentMenu = n;
-      this.$router.push(
-        `/blog/category/${this.currentTab}/${this.currentMenu}/`,
-      );
+      this.$router
+        .push(`/blog/category/${this.currentTab}/${this.currentMenu}/`)
+        .catch((err) => {});
     },
     selectSubmenu(submenu) {
       this.currentSubmenu = submenu;
-      this.$router.push(
-        `/blog/category/${this.currentTab}/${this.currentMenu}/${
-          this.currentSubmenu
-        }/`,
-      );
+      this.$router
+        .push(
+          `/blog/category/${this.currentTab}/${this.currentMenu}/${this.currentSubmenu}/`,
+        )
+        .catch((err) => {});
     },
   },
 };
 </script>
 
 <style scoped>
-  .submenu-top {
-    height: 35px;
-    background-color: antiquewhite;
-  }
+.submenu-top {
+  height: 35px;
+  background-color: antiquewhite;
+}
 
-  .menuItem {
-    margin: 5px auto;
-    margin-left: 10px;
-    font-size: 16px;
-    border-bottom: solid 1px black;
-  }
+.menuItem {
+  margin: 5px auto;
+  margin-left: 10px;
+  font-size: 16px;
+  border-bottom: solid 1px black;
+}
 
-  .menuItem:hover {
-    cursor: pointer;
-    color: rgba(0, 80, 0, 1);
-    font-weight: bold;
-  }
+.menuItem:hover {
+  cursor: pointer;
+  color: rgba(0, 80, 0, 1);
+  font-weight: bold;
+}
 
-  .goup {
-    margin-bottom: 45px;
-    margin-right: 15px;
-    border-radius: 50%;
-  }
+.goup {
+  margin-bottom: 45px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
 
-  .new_article {
-    margin-top: 70px;
-    margin-right: 15px;
-    border-radius: 50%;
-    background-color: green;
-    color: white;
-  }
+.new_article {
+  margin-top: 70px;
+  margin-right: 15px;
+  border-radius: 50%;
+  background-color: green;
+  color: white;
+}
 
-  .tab_header {
-    border-bottom: solid 1px black;
-  }
+.tab_header {
+  border-bottom: solid 1px black;
+}
 
-  .submenu-selected {
-    font-weight: bold;
-  }
+.submenu-selected {
+  font-weight: bold;
+}
 
-  .tab-selected {
-    font-weight: bold;
-  }
+.tab-selected {
+  font-weight: bold;
+}
 
-  .needSpace {
-    margin-left: 20px;
-  }
+.needSpace {
+  margin-left: 20px;
+}
 
-  .transparent {
-    background-color: green;
-    opacity: 0.4;
-    border-color: transparent !important;
-  }
+.transparent {
+  background-color: green;
+  opacity: 0.4;
+  border-color: transparent !important;
+}
 </style>

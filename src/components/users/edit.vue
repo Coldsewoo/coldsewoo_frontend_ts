@@ -157,7 +157,7 @@ export default {
     },
   },
   watch: {
-    $router: (to, from) => this.$router.push(to),
+    $router: (to, from) => this.$router.push(to).catch((err) => {}),
   },
   async mounted() {
     this.user = await this.$store.dispatch('getUser', this.username);
@@ -179,7 +179,7 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    height: 75vh;
-  }
+.container {
+  height: 75vh;
+}
 </style>

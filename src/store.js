@@ -1,13 +1,12 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
-import { API_URL } from '@/lib/globalVar';
-import userStore from './modules/store/userStore';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import axios from 'axios'
+import { API_URL } from '@/lib/globalVar'
+import userStore from './modules/store/userStore'
 // import blogStore from './modules/store/blogStore';
-// import postStore from './modules/store/postStore';
+import postStore from './modules/store/postStore'
 
-
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -26,8 +25,8 @@ export default new Vuex.Store({
   getters: {},
   mutations: {
     saveToken(state, payload) {
-      state.token = payload.data;
-      state.isLoggedIn = true;
+      state.token = payload
+      state.isLoggedIn = true
     },
     getToken(state) {
       state.token = {
@@ -45,21 +44,18 @@ export default new Vuex.Store({
         token: '',
         refreshToken: '',
         expiresIn: '',
-      };
-      state.isLoggedIn = false;
-      state.user = {};
+      }
+      state.isLoggedIn = false
+      state.user = {}
     },
     getUser(state, payload) {
-      state.user = payload.data;
-      const roleArr = ['User', 'Admin', 'Owner'];
-      state.role = roleArr.indexOf(payload.data.role)
-    },
-    tooManyRequests(state, payload) {
-      state.tooManyRequests = payload;
+      state.user = payload
+      const roleArr = ['User', 'Admin', 'Owner']
+      state.role = roleArr.indexOf(payload.role)
     },
     errorChecked(state, payload) {
-      const index = payload;
-      state.errorsList.splice(index, 1);
+      const index = payload
+      state.errorsList.splice(index, 1)
     },
     addError(state, payload) {
       const error = {
@@ -69,35 +65,33 @@ export default new Vuex.Store({
       state.errorsList.push(error)
     },
     resetErrors(state, payload) {
-      state.errorsList = [];
+      state.errorsList = []
     },
   },
   actions: {
     async getUser(context, username) {
       try {
         if (!username) {
-          const username = context.state.token.username;
+          const username = context.state.token.username
           const user = await axios({
             url: `${API_URL}/users/${username}`,
             method: 'GET',
-          });
-          context.commit('getUser', user.data);
+          })
+          context.commit('getUser', user.data)
         } else {
           const user = await axios({
             url: `${API_URL}/users/${username}`,
             method: 'GET',
-          });
-          return user.data.data;
+          })
+          return user.data
         }
       } catch (err) {
         context.dispatch('userStore/logout')
       }
     },
-    tooManyRequestsAlert(context, payload) {
-      context.commit('tooManyRequests', payload);
-    },
   },
   modules: {
     userStore,
+    postStore,
   },
-});
+})
