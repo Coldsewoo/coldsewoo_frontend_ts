@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap pt-1 pb-1 ma-1>
       <v-layout>
-        <v-flex xs12>
+        <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
           <v-tabs height="30" slider-color="green">
             <v-tab
               v-for="(tab, i) in ordered"
@@ -42,7 +42,7 @@
           </v-tabs>
         </v-flex>
       </v-layout>
-      <v-flex xs12>
+      <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
         <router-view />
       </v-flex>
       <div class="text-xs-center new_article">

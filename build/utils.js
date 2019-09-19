@@ -4,8 +4,6 @@ const path = require('path')
 const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
-const axios = require('axios')
-const qs = require('querystring')
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory =

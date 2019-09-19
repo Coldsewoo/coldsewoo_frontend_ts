@@ -29,6 +29,7 @@ export default function setup() {
           method: 'POST',
           header: {
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
           },
           data: store.state.token,
         })
