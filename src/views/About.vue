@@ -8,18 +8,19 @@
           </p>
           <p>Email : coldsewoo@gmail.com</p>
           <p>Vue.js frontend & Node.js REST API</p>
+          <p>Backend migrated with typescript</p>
           <p>Github link to this webpage:</p>
           <p>
             Frontend :
             <a
-              href="https://github.com/Coldsewoo/coldsewoo_frontend"
-            >https://github.com/Coldsewoo/coldsewoo_frontend</a>
+              href="https://github.com/Coldsewoo/coldsewoo_frontend_ts"
+            >https://github.com/Coldsewoo/coldsewoo_frontend_ts</a>
           </p>
           <p>
             Backend :
             <a
-              href="https://github.com/Coldsewoo/coldsewoo_backend"
-            >https://github.com/Coldsewoo/coldsewoo_backend</a>
+              href="https://github.com/Coldsewoo/coldsewoo_backend_typescript"
+            >https://github.com/Coldsewoo/coldsewoo_backend_typescript</a>
           </p>
         </v-card>
       </v-flex>
