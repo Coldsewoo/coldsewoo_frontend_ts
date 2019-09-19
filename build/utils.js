@@ -107,7 +107,7 @@ exports.blogRoutes = () => {
       url: 'https://coldsewoo-backend.cf/blog',
       method: 'GET',
     }).then((result) => {
-      const routes = result.data.data.map((e) => {
+      const routes = result.data.map((e) => {
         return {
           path: `/blog/category/${e.categories.path}/${e.articleId}`,
           title: e.title,
