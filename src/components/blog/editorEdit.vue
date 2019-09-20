@@ -349,6 +349,8 @@
 <script>
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
+import typescript from 'highlight.js/lib/languages/typescript';
+
 import '@/assets/editorStyle.scss';
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import { Sketch } from 'vue-color';
@@ -436,6 +438,7 @@ export default {
             languages: {
               javascript,
               css,
+              typescript,
             },
           }),
           new TextColor(),

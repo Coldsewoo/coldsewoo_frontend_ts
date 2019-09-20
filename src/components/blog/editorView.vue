@@ -11,11 +11,12 @@
 </template>
 
 <script>
-
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import '@/assets/editorStyle.scss';
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
+import typescript from 'highlight.js/lib/languages/typescript';
+
 import { Sketch } from 'vue-color';
 
 import {
@@ -46,8 +47,7 @@ import {
 
 import TextSize from '@/assets/textSize.js';
 import TextColor from '@/assets/fontColor.js';
-import isEmpty from 'lodash.isempty'
-
+import isEmpty from 'lodash.isempty';
 
 export default {
   components: {
@@ -80,6 +80,7 @@ export default {
             languages: {
               javascript,
               css,
+              typescript,
             },
           }),
           new TextColor(),
@@ -116,7 +117,7 @@ export default {
   },
   watch: {
     article(article, old) {
-      if (!(isEmpty(article))) {
+      if (!isEmpty(article)) {
         this.editor.setContent(article.content);
       }
     },
@@ -126,7 +127,7 @@ export default {
   },
   computed: {
     article() {
-      return this.$store.state.blogStore.currentArticle
+      return this.$store.state.blogStore.currentArticle;
     },
   },
   methods: {
@@ -134,18 +135,18 @@ export default {
       this.editor.setContent(this.article.content);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .editor {
-    width: 100%;
-    background-color: #fcfcfc;
-  }
+.editor {
+  width: 100%;
+  background-color: #fcfcfc;
+}
 
-  .editor__content {
-    border-top: solid 2px rgb(213, 213, 213);
-    border-bottom: solid 1px rgb(213, 213, 213);
-    padding: 15px;
-  }
+.editor__content {
+  border-top: solid 2px rgb(213, 213, 213);
+  border-bottom: solid 1px rgb(213, 213, 213);
+  padding: 15px;
+}
 </style>
