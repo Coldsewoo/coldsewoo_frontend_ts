@@ -11,6 +11,7 @@ import Users from './views/Users.vue'
 import Blog from './views/Blog.vue'
 import Currency from './views/Currency.vue'
 import About from './views/About.vue'
+import Qrcode from './views/Qrcode.vue'
 
 // Components
 // users Components
@@ -142,11 +143,15 @@ export default new Router({
         },
       ],
     },
-
     {
       path: '/currency',
       name: 'Currency',
       component: Currency,
+    },
+    {
+      path: '/qrcode',
+      name: 'Qrcode',
+      component: Qrcode,
     },
     { path: '/404', component: notFound },
     { path: '*', redirect: '/404' },

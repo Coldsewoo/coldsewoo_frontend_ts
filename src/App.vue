@@ -33,7 +33,19 @@
               <v-list-tile-title>Currency Exchanger</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile class="list-tile" to="/vuestagram" @click="changeStep(1)">
+          <v-list-tile class="list-tile" to="/qrcode">
+            <v-list-tile-action>
+              <v-icon>view_quilt</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>QRCode Generator</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            class="list-tile"
+            to="/vuestagram"
+            @click="changeStep(1)"
+          >
             <v-list-tile-action>
               <v-icon>collections</v-icon>
             </v-list-tile-action>
@@ -54,7 +66,10 @@
       </v-navigation-drawer>
 
       <v-toolbar flat app permanent>
-        <v-toolbar-side-icon class="toolbar-expand-button" @click.stop="toggleDrawer" />
+        <v-toolbar-side-icon
+          class="toolbar-expand-button"
+          @click.stop="toggleDrawer"
+        />
         <v-toolbar-title class="toolbar-title">
           <router-link to="/" tag="a">
             <span class="text-black">Cold</span>
@@ -66,7 +81,12 @@
           <template v-slot:activator="{ on }">
             <v-btn color="black" dark icon v-on="on">
               <v-icon v-if="!isLoggedIn" large>account_circle</v-icon>
-              <img v-if="isLoggedIn" :src="user.avatar" class="avatar" alt="avatar" />
+              <img
+                v-if="isLoggedIn"
+                :src="user.avatar"
+                class="avatar"
+                alt="avatar"
+              />
             </v-btn>
           </template>
           <v-list>
@@ -97,7 +117,8 @@
           elevation="2"
           outline
           @click="errorChecked(i)"
-        >{{err.message}}</v-alert>
+          >{{ err.message }}</v-alert
+        >
       </div>
 
       <v-content>
@@ -112,7 +133,13 @@
         </div>
         <v-menu open-on-hover top offset-y>
           <template v-slot:activator="{ on }">
-            <img src="@/assets/GitHubMark.png" width="25" height="25" v-on="on" alt="github mark" />
+            <img
+              src="@/assets/GitHubMark.png"
+              width="25"
+              height="25"
+              v-on="on"
+              alt="github mark"
+            />
           </template>
           <v-list class="footer-v-list">
             <v-list-tile
@@ -135,22 +162,22 @@
 </template>
 
 <script>
-import { throws } from 'assert';
+import { throws } from "assert";
 
-window.onbeforeunload = function () {
+window.onbeforeunload = function() {
   window.scrollTo(0, 0);
 };
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       drawer: {
-        open: false,
+        open: false
       },
       toolbar: {
-        fixed: true,
-      },
+        fixed: true
+      }
     };
   },
   computed: {
@@ -168,31 +195,31 @@ export default {
     },
     errorsList() {
       return this.$store.state.errorsList;
-    },
+    }
   },
   watch: {
     token() {
-      if (this.token.token && this.token.token !== 'null') {
-        this.$store.dispatch('getUser');
+      if (this.token.token && this.token.token !== "null") {
+        this.$store.dispatch("getUser");
       }
     },
     $route(to, from) {
-      this.$store.commit('resetErrors');
+      this.$store.commit("resetErrors");
       this.drawer.open = false;
-    },
+    }
   },
   mounted() {
-    this.$store.commit('getToken');
+    this.$store.commit("getToken");
     if (this.isLoggedIn) {
-      this.$store.dispatch('getUser');
+      this.$store.dispatch("getUser");
     }
   },
   methods: {
     logout() {
-      this.$store.dispatch('userStore/logout');
+      this.$store.dispatch("userStore/logout");
     },
     changeStep(step) {
-      this.$store.commit('postStore/changeStep', step);
+      this.$store.commit("postStore/changeStep", step);
     },
     // changes the drawer to permanent
     makeDrawerPermanent() {
@@ -218,8 +245,8 @@ export default {
     },
     errorChecked(i) {
       this.errorsList.splice(i, 1);
-    },
-  },
+    }
+  }
 };
 </script>
 

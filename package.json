@@ -1,6 +1,6 @@
 {
   "name": "coldsewoo",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Coldsewoo's web project with Vue.js and REST API / Backend migrated with typescript",
   "author": "coldsewoo <coldsewoo@gmail.com>",
   "private": true,
@@ -20,6 +20,7 @@
     "mem": "^5.1.1",
     "node-sass": "^4.12.0",
     "ora": "^1.4.0",
+    "qrcode": "^1.4.4",
     "sass-loader": "^7.1.0",
     "shelljs": "^0.7.8",
     "tiptap": "^1.24.1",
