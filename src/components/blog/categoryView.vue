@@ -1,11 +1,26 @@
 <template>
   <v-flex xs12>
-    <p v-if="payload.level === 1" class="headline category">{{ payload.tab }}</p>
-    <p v-if="payload.level === 2" class="headline category">{{ payload.menu }}</p>
-    <p v-if="payload.level === 3" class="headline category">{{ payload.submenu }}</p>
+    <p v-if="payload.level === 1" class="headline category">
+      {{ payload.tab }}
+    </p>
+    <p v-if="payload.level === 2" class="headline category">
+      {{ payload.menu }}
+    </p>
+    <p
+      v-if="payload.level === 3 && payload.submenu === '_'"
+      class="headline category"
+    >
+      {{ payload.menu }}
+    </p>
+    <p
+      v-if="payload.level === 3 && payload.submenu !== '_'"
+      class="headline category"
+    >
+      {{ payload.submenu }}
+    </p>
 
     <v-list dense>
-      <template v-for="(post, index) in posts">
+      <template v-for="(post, index) in currentPosts">
         <v-list-tile
           :key="post.articleId"
           :class="{ odd: index % 2 === 1 }"
@@ -22,43 +37,51 @@
           </v-list-tile-content>
           <v-list-tile-action>
             <v-list-tile-action-text>
-              {{
-              created(post.created)
-              }}
+              {{ created(post.created) }}
             </v-list-tile-action-text>
           </v-list-tile-action>
         </v-list-tile>
         <v-divider v-if="index + 1 < posts.length" :key="index" />
       </template>
     </v-list>
+    <v-btn
+      v-if="currentPostsLength < postsLength"
+      block
+      flat
+      color="green darken-3"
+      @click="showMore"
+      >더보기</v-btn
+    >
   </v-flex>
 </template>
 
 <script>
-import axios from 'axios';
-import { API_URL } from '@/lib/globalVar';
+import axios from "axios";
+import { API_URL } from "@/lib/globalVar";
 
 export default {
-  name: 'Categoryview',
+  name: "Categoryview",
   props: {
     tab: String,
     menu: String,
-    submenu: String,
+    submenu: String
   },
   data() {
     return {
       payload: {},
-      path: '',
-      posts: {},
+      path: "",
+      posts: [],
       error: false,
+      postsLength: 0,
+      currentPostsLength: 0
     };
   },
   metaInfo() {
     return {
       title: `${this.payload.tab}`,
-      titleTemplate: '%s | Coldsewoo - a blog',
-      author: 'coldsewoo',
-      description: 'Blog - articles list in a category',
+      titleTemplate: "%s | Coldsewoo - a blog",
+      author: "coldsewoo",
+      description: "Blog - articles list in a category"
     };
   },
   computed: {
@@ -69,25 +92,32 @@ export default {
     },
     selectedCategory() {
       const selected = this.$store.state.blogStore.selectedCategory;
-      if (!selected.includes('/')) return selected;
-      return selected.toUpperCase().split('/')[2];
+      if (!selected.includes("/")) return selected;
+      return selected.toUpperCase().split("/")[2];
     },
+    currentPosts() {
+      return this.posts.slice(0, this.currentPostLength);
+    }
   },
   watch: {
     // posts(val, oldVal) {},
-    $route(to, from) {
-      this.posts = {};
+    async $route(to, from) {
+      this.posts = [];
       this.path = to.path;
-      this.getItems();
-    },
+      await this.getItems();
+      this.postsLength = this.posts.length;
+      this.currentPostsLength = this.postsLength >= 12 ? 12 : this.postsLength;
+    }
   },
-  mounted() {
-    this.getItems();
+  async mounted() {
+    await this.getItems();
+    this.postsLength = this.posts.length;
+    this.currentPostsLength = this.postsLength >= 12 ? 12 : this.postsLength;
   },
   methods: {
     viewArticle(post) {
       this.$router.push(
-        `/blog/category/${post.categories.path}/${post.articleId}`,
+        `/blog/category/${post.categories.path}/${post.articleId}`
       );
     },
     created(date) {
@@ -124,8 +154,8 @@ export default {
       this.payload = payload;
       const res = await axios({
         url: `${API_URL}/blog/categories`,
-        method: 'POST',
-        data: this.payload,
+        method: "POST",
+        data: this.payload
       });
       if (res.status === 200) {
         this.error = false;
@@ -134,7 +164,12 @@ export default {
         this.error = true;
       }
     },
-  },
+    showMore() {
+      this.currentPostsLength += 10;
+      if (this.currentPostsLength > this.postsLength)
+        this.currentPostsLength = this.postsLength;
+    }
+  }
 };
 </script>
 

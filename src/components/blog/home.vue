@@ -4,7 +4,7 @@
       <p class="headline category">All Articles</p>
     </div>
     <v-list dense>
-      <template v-for="(post, index) in posts">
+      <template v-for="(post, index) in currentPosts">
         <v-list-tile
           :key="post.articleId"
           :class="{ odd: index % 2 === 1 }"
@@ -29,6 +29,7 @@
         <v-divider v-if="index + 1 < posts.length" :key="index" />
       </template>
     </v-list>
+    <v-btn v-if="currentPostsLength < postsLength" block flat color="green darken-3" @click="showMore">더보기</v-btn>
   </v-flex>
 </template>
 
@@ -49,8 +50,10 @@ export default {
     return {
       payload: {},
       path: '',
-      posts: {},
+      posts: [],
       error: false,
+      postsLength: 0,
+      currentPostsLength: 0
     };
   },
   computed: {
@@ -64,6 +67,9 @@ export default {
       if (!selected.includes('/')) return selected;
       return selected.toUpperCase().split('/')[2];
     },
+    currentPosts() {
+      return this.posts.slice(0, this.currentPostsLength)
+    }
   },
   metaInfo() {
     return {
@@ -80,8 +86,10 @@ export default {
       // this.getItems();
     },
   },
-  mounted() {
-    this.getItems();
+  async mounted() {
+    await this.getItems()
+    this.postsLength = this.posts.length
+    this.currentPostsLength = this.postsLength >= 12 ? 12 : this.postsLength
   },
   methods: {
     viewArticle(post) {
@@ -108,6 +116,10 @@ export default {
         this.error = true;
       }
     },
+    showMore() {
+      this.currentPostsLength += 10
+      if(this.currentPostsLength > this.postsLength) this.currentPostsLength = this.postsLength
+    }
   },
 };
 </script>
