@@ -373,7 +373,6 @@ import {
   TodoList,
   Bold,
   Code,
-  Italic,
   Link,
   Image,
   Strike,
@@ -388,6 +387,7 @@ import {
 
 import TextColor from '@/assets/fontColor.js';
 import TextSize from '@/assets/textSize.js';
+import ItalicWithoutCMD from "@/assets/italicWithoutCMD.js"
 import { setTimeout } from 'timers';
 
 export default {
@@ -429,7 +429,7 @@ export default {
           new Link(),
           new Bold(),
           new Code(),
-          new Italic(),
+          new ItalicWithoutCMD(),
           new Strike(),
           new Image(),
           new Underline(),
