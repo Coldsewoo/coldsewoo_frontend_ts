@@ -1,6 +1,6 @@
 {
   "name": "coldsewoo",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Coldsewoo's web project with Vue.js and REST API / Backend migrated with typescript",
   "author": "coldsewoo <coldsewoo@gmail.com>",
   "private": true,
