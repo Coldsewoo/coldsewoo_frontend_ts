@@ -8,15 +8,6 @@
               <v-icon class="pa-1">close</v-icon>
             </v-list-tile-action>
           </v-list-tile>
-          <!-- <v-list-tile class="list-tile" to="/">
-            <v-list-tile-action>
-              <v-icon color="primary">dashboard</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>Home</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider />-->
           <v-list-tile class="list-tile" to="/blog/home">
             <v-list-tile-action>
               <v-icon>ballot</v-icon>
@@ -110,12 +101,11 @@
           :value="true"
           class="errorAlert"
           type="error"
-          color="rgb(256,30,30)"
+          color="orange"
           transition="scale-transition"
           border="right"
           colored-border
           elevation="2"
-          outline
           @click="errorChecked(i)"
           >{{ err.message }}</v-alert
         >
@@ -162,22 +152,22 @@
 </template>
 
 <script>
-import { throws } from "assert";
+import { throws } from 'assert';
 
-window.onbeforeunload = function() {
+window.onbeforeunload = function () {
   window.scrollTo(0, 0);
 };
 
 export default {
-  name: "App",
+  name: 'App',
   data() {
     return {
       drawer: {
-        open: false
+        open: false,
       },
       toolbar: {
-        fixed: true
-      }
+        fixed: true,
+      },
     };
   },
   computed: {
@@ -195,31 +185,31 @@ export default {
     },
     errorsList() {
       return this.$store.state.errorsList;
-    }
+    },
   },
   watch: {
     token() {
-      if (this.token.token && this.token.token !== "null") {
-        this.$store.dispatch("getUser");
+      if (this.token.token && this.token.token !== 'null') {
+        this.$store.dispatch('getUser');
       }
     },
     $route(to, from) {
-      this.$store.commit("resetErrors");
+      this.$store.commit('resetErrors');
       this.drawer.open = false;
-    }
+    },
   },
   mounted() {
-    this.$store.commit("getToken");
+    this.$store.commit('getToken');
     if (this.isLoggedIn) {
-      this.$store.dispatch("getUser");
+      this.$store.dispatch('getUser');
     }
   },
   methods: {
     logout() {
-      this.$store.dispatch("userStore/logout");
+      this.$store.dispatch('userStore/logout');
     },
     changeStep(step) {
-      this.$store.commit("postStore/changeStep", step);
+      this.$store.commit('postStore/changeStep', step);
     },
     // changes the drawer to permanent
     makeDrawerPermanent() {
@@ -245,8 +235,8 @@ export default {
     },
     errorChecked(i) {
       this.errorsList.splice(i, 1);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -216,7 +216,7 @@ export default {
 }
 
 .comments {
-  width: 90%;
-  margin: 0px auto;
+  width: 100%;
+  margin: 10px auto;
 }
 </style>

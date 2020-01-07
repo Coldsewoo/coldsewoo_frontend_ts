@@ -322,15 +322,27 @@ const blogStore = {
     async addComment(context, payload) {
       try {
         const articleId = payload.articleId
-        const addCommentRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}`,
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: payload,
-        })
+        let addCommentRes
+        if (payload.anonymous) {
+          addCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}`,
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+            },
+            data: payload,
+          })
+        } else {
+          addCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}`,
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+              'x-access-token': context.rootState.token.token,
+            },
+            data: payload,
+          })
+        }
         if (addCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
@@ -342,56 +354,101 @@ const blogStore = {
     },
     async deleteComment(context, payload) {
       try {
-        const { articleId, commentId } = payload
-        const deleteCommentRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-          method: 'DELETE',
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const { articleId, commentId, anonymous, hasPermission } = payload
+        let deleteCommentRes
+        if (!anonymous || hasPermission) {
+          deleteCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'DELETE',
+            headers: {
+              'x-access-token': context.rootState.token.token,
+            },
+          })
+        } else {
+          const { password } = payload
+          deleteCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'DELETE',
+            data: { password },
+          })
+        }
+
         if (deleteCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
         }
       } catch (err) {
-        context.commit('addError', err.message, { root: true })
+        return new Promise((resolve, reject) => {
+          if (err.type === 'NoAuthorizationError') {
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+          } else context.commit('addError', err.message, { root: true })
+          reject()
+        })
       }
     },
     async editComment(context, payload) {
       try {
-        const { articleId, commentId, message } = payload
-        const editCommentRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: { message },
-        })
-        if (editCommentRes.status === 200) {
-          return new Promise((resolve, reject) => {
-            resolve()
+        const { articleId, commentId, comment, anonymous } = payload
+        let editCommentRes
+        if (anonymous) {
+          const { password } = payload
+          editCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'PUT',
+            headers: {
+              'Content-type': 'application/json',
+            },
+            data: { comment, password },
+          })
+        } else {
+          editCommentRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'PUT',
+            headers: {
+              'Content-type': 'application/json',
+              'x-access-token': context.rootState.token.token,
+            },
+            data: { comment },
           })
         }
+        return new Promise((resolve, reject) => {
+          if (editCommentRes.status === 200) resolve()
+        })
       } catch (err) {
-        context.commit('addError', err.message, { root: true })
+        return new Promise((resolve, reject) => {
+          if (err.type === 'NoAuthorizationError') {
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+          } else context.commit('addError', err.message, { root: true })
+          reject()
+        })
       }
     },
     async addReply(context, payload) {
       try {
-        const { articleId, commentId, message } = payload
-        const addReplyRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: { message },
-        })
+        const { articleId, commentId } = payload
+        let addReplyRes;
+        if (payload.anonymous) {
+          addReplyRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+            },
+            data: payload,
+          })
+        } else {
+          addReplyRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+              'x-access-token': context.rootState.token.token,
+            },
+            data: payload,
+          })
+        }
+
         if (addReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
@@ -402,22 +459,38 @@ const blogStore = {
       }
     },
     async deleteReply(context, payload) {
-      const { articleId, commentId, replyId } = payload
       try {
-        const deleteReplyRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
-          method: 'DELETE',
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const { articleId, commentId, replyId, anonymous, hasPermission } = payload
+        let deleteReplyRes
+        if (!anonymous || hasPermission) {
+          deleteReplyRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
+            method: 'DELETE',
+            headers: {
+              'x-access-token': context.rootState.token.token,
+            },
+          })
+        } else {
+          const { password } = payload
+          deleteReplyRes = await axios({
+            url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
+            method: 'DELETE',
+            data: { password },
+          })
+        }
+
         if (deleteReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
           })
         }
       } catch (err) {
-        context.commit('addError', err.message, { root: true })
+        return new Promise((resolve, reject) => {
+          if (err.type === 'NoAuthorizationError') {
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+          } else context.commit('addError', err.message, { root: true })
+          reject()
+        })
       }
     },
   },

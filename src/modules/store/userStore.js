@@ -74,7 +74,6 @@ const userStore = {
           return new Promise((resolve, reject) => resolve(true))
         }
       } catch (err) {
-        console.log(err)
         context.commit('addError', err.message, { root: true })
       }
     },

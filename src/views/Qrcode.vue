@@ -90,176 +90,176 @@
 </template>
 
 <script>
-import QRCode from "qrcode";
-import { Sketch } from "vue-color";
+import QRCode from 'qrcode';
+import { Sketch } from 'vue-color';
 
 export default {
   components: {
-    chromePicker: Sketch
+    chromePicker: Sketch,
   },
   data() {
     return {
-      qrcodeImg: "",
-      qrcodeString: "",
+      qrcodeImg: '',
+      qrcodeString: '',
       btnArr: [
         {
-          icon: "post_add",
-          name: "URL",
+          icon: 'post_add',
+          name: 'URL',
           message:
-            "Enter your website \n(QR Code will be generated automatically)"
+            'Enter your website \n(QR Code will be generated automatically)',
         },
         {
-          icon: "text_format",
-          name: "TEXT",
-          message: "Enter your text \n(QR Code will be generated automatically)"
-        }
+          icon: 'text_format',
+          name: 'TEXT',
+          message: 'Enter your text \n(QR Code will be generated automatically)',
+        },
       ],
-      btnToggled: "",
-      placeholderMessage: "",
+      btnToggled: '',
+      placeholderMessage: '',
       color: {
-        hex: "#9575CD",
+        hex: '#9575CD',
         rgba: {
           r: 149,
           g: 117,
           b: 205,
-          a: 1
-        }
-      }
+          a: 1,
+        },
+      },
     };
   },
   mounted() {
-    this.btnToggled = "URL";
+    this.btnToggled = 'URL';
     this.placeholderMessage =
-      "Enter your website \n(QR Code will be generated automatically)";
+      'Enter your website \n(QR Code will be generated automatically)';
     QRCode.toCanvas(
       this.$refs.canvas,
-      "https://coldsewoo.com",
+      'https://coldsewoo.com',
       {
-        errorCorrectionLevel: "M",
+        errorCorrectionLevel: 'M',
         color: {
           dark: this.color.hex,
-          light: "#0000"
+          light: '#0000',
         },
         width: 160,
-        height: 160
+        height: 160,
       },
-      function(error) {}
+      (error) => {},
     );
   },
   watch: {
-    btnToggled: function(curr) {
+    btnToggled(curr) {
       const self = this;
       switch (curr) {
-        case "URL":
+        case 'URL':
           self.placeholderMessage =
-            "Enter your website \n(QR Code will be generated automatically)";
+            'Enter your website \n(QR Code will be generated automatically)';
           break;
-        case "TEXT":
+        case 'TEXT':
           self.placeholderMessage =
-            "Enter your text \n(QR Code will be generated automatically)";
+            'Enter your text \n(QR Code will be generated automatically)';
           break;
         default:
           self.placeholderMessage =
-            "Enter your website \n(QR Code will be generated automatically)";
+            'Enter your website \n(QR Code will be generated automatically)';
       }
-    }
+    },
   },
   computed: {
     arrowIcon() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "keyboard_arrow_down";
+        case 'xs':
+          return 'keyboard_arrow_down';
         default:
-          return "arrow_forward_ios";
+          return 'arrow_forward_ios';
       }
     },
     borderStyle() {
       const { r, g, b, a } = this.color.rgba;
       return `solid 1px rgba(${r},${g},${b},0.3)`;
-    }
+    },
   },
   methods: {
     generateQRCode() {
-      const str = this.qrcodeString || "https://coldsewoo.com";
+      const str = this.qrcodeString || 'https://coldsewoo.com';
       const self = this;
       QRCode.toCanvas(
         self.$refs.canvas,
         str,
         {
-          errorCorrectionLevel: "M",
+          errorCorrectionLevel: 'M',
           color: {
             dark: self.color.hex,
-            light: "#0000"
+            light: '#0000',
           },
           width: 174,
-          height: 174
+          height: 174,
         },
-        function(error) {
+        (error) => {
           if (error) console.error(error);
-        }
+        },
       );
     },
     savePNG() {
-      const str = this.qrcodeString || "https://coldsewoo.com";
+      const str = this.qrcodeString || 'https://coldsewoo.com';
       const self = this;
       QRCode.toDataURL(
         str,
         {
-          type: "image/png",
+          type: 'image/png',
           color: {
             dark: self.color.hex,
-            light: "#0000"
+            light: '#0000',
           },
           width: 174,
-          height: 174
+          height: 174,
         },
-        function(error, string) {
-          if (error) console.log(error);
+        (error, string) => {
+          if (error) {}
           const link = self.$refs.png;
           link.addEventListener(
-            "click",
-            function(e) {
+            'click',
+            (e) => {
               link.href = string;
-              link.download = "QRCode.png";
+              link.download = 'QRCode.png';
             },
-            false
+            false,
           );
           link.click();
-        }
+        },
       );
     },
     saveSVG() {
-      const str = this.qrcodeString || "https://coldsewoo.com";
+      const str = this.qrcodeString || 'https://coldsewoo.com';
       const self = this;
       QRCode.toString(
         str,
         {
-          type: "svg",
+          type: 'svg',
           color: {
             dark: self.color.hex,
-            light: "#0000"
+            light: '#0000',
           },
           width: 174,
-          height: 174
+          height: 174,
         },
-        function(error, string) {
-          if (error) console.log(error);
-          const string_encoded = encodeURIComponent(string);
-          const url = "data:image/svg+xml;charset=utf-8," + string_encoded;
+        (error, string) => {
+          if (error) {}
+          const stringEncoded = encodeURIComponent(string);
+          const url = `data:image/svg+xml;charset=utf-8,${stringEncoded}`;
           const link = self.$refs.svg;
           link.addEventListener(
-            "click",
-            function(e) {
+            'click',
+            (e) => {
               link.href = url;
-              link.download = "QRCode.svg";
+              link.download = 'QRCode.svg';
             },
-            false
+            false,
           );
           link.click();
-        }
+        },
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
