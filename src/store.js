@@ -47,6 +47,7 @@ export default new Vuex.Store({
       }
       state.isLoggedIn = false
       state.user = {}
+      state.role = 0
     },
     getUser(state, payload) {
       state.user = payload
