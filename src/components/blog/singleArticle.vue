@@ -24,7 +24,9 @@
         </template>
 
         <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>Delete category</v-card-title>
+          <v-card-title class="headline grey lighten-2" primary-title
+            >Delete category</v-card-title
+          >
 
           <v-card-text class="dialogText">
             <p>The article will be deleted.</p>
@@ -34,12 +36,21 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn color="error" flat @click="deleteDialog = !deleteDialog">Cancel</v-btn>
+            <v-btn color="error" flat @click="deleteDialog = !deleteDialog"
+              >Cancel</v-btn
+            >
             <v-btn color="primary" flat @click="deleteArticle">Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn class="primary" v-if="editPriv" fab flat small @click="editArticle">
+      <v-btn
+        class="primary"
+        v-if="editPriv"
+        fab
+        flat
+        small
+        @click="editArticle"
+      >
         <v-icon>edit</v-icon>
       </v-btn>
       <v-btn class="success" fab flat small @click="goList">
@@ -54,27 +65,27 @@
 </template>
 
 <script>
-import editorItem from '@/components/blog/editorView.vue';
-import comments from '@/components/blog/comments.vue';
-import { monthEng } from '@/lib/globalVar';
-import isEmpty from 'lodash.isempty';
+import editorItem from "@/components/blog/editorView.vue";
+import comments from "@/components/blog/comments.vue";
+import { monthEng } from "@/lib/globalVar";
+import isEmpty from "lodash.isempty";
 
 export default {
   components: {
     editorItem,
-    comments,
+    comments
   },
   props: {
     articleId: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       monthEng,
       deleteDialog: false,
-      deleteSent: false,
+      deleteSent: false
     };
   },
   watch: {
@@ -85,14 +96,14 @@ export default {
       // if (!(isEmpty(article))) {
       //   this.metaInfo.title = article.title
       // }
-    },
+    }
   },
   metaInfo() {
     return {
       title: this.article.title,
-      titleTemplate: '%s | Coldsewoo - a blog',
+      titleTemplate: "%s | Coldsewoo - a blog",
       author: this.article.nickname,
-      description: 'Blog content',
+      description: "Blog content"
     };
   },
   computed: {
@@ -105,7 +116,7 @@ export default {
         const result = `${this.monthEng[month - 1]} ${day} ${year}`;
         return result;
       }
-      return '';
+      return "";
     },
     article() {
       return this.$store.state.blogStore.currentArticle;
@@ -114,7 +125,7 @@ export default {
       const isLoggedIn = this.$store.state.isLoggedIn;
       const role = this.$store.state.token.role;
       const username = this.$store.state.token.username;
-      const adminIndex = ['Admin', 'Owner'];
+      const adminIndex = ["Admin", "Owner"];
 
       return (
         isLoggedIn &&
@@ -123,26 +134,26 @@ export default {
     },
     comments() {
       return this.$store.state.blogStore.comments;
-    },
+    }
   },
   mounted() {
     this.getSingleArticle();
     this.getComments();
   },
   beforeDestroy() {
-    this.$store.commit('blogStore/setCurrentArticle', 'reset');
+    this.$store.commit("blogStore/setCurrentArticle", "reset");
   },
   methods: {
     getSingleArticle() {
-      this.$store.dispatch('blogStore/getSingleArticle', this.articleId);
+      this.$store.dispatch("blogStore/getSingleArticle", this.articleId);
     },
     getComments() {
-      this.$store.dispatch('blogStore/getComments', this.articleId);
+      this.$store.dispatch("blogStore/getComments", this.articleId);
     },
     deleteArticle() {
       if (!this.deleteSent) {
         this.deleteSent = true;
-        this.$store.dispatch('blogStore/deleteArticle', this.article);
+        this.$store.dispatch("blogStore/deleteArticle", this.article);
       }
     },
     editArticle() {
@@ -150,11 +161,13 @@ export default {
     },
     goList() {
       let url = this.$route.path;
-      url = url.split('/');
-      url.pop();
-      this.$router.push(`${url.join('/')}/`);
-    },
-  },
+      url = url.split("/");
+      this.$router.push({
+        name: "submenu",
+        props: { tab: url[0], menu: url[1], submenu: url[2] }
+      });
+    }
+  }
 };
 </script>
 

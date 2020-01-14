@@ -153,8 +153,9 @@ module.exports = () => {
               {
                 '/': 'Coldsewoo',
                 '/blog': 'Coldsewoo - a blog',
-                '/vuestagram': 'Coldsewoo - vuestagram',
-                '/currency': 'Coldsewoo - currency',
+                '/vuestagram': 'Coldsewoo - Vuestagram',
+                '/currency': 'Coldsewoo - Currency',
+                '/qrcode': 'Coldsewoo - QRcode',
               },
               ...blogRoutes.map((e) => {
                 const titleObj = {}
@@ -175,6 +176,7 @@ module.exports = () => {
                 '/blog': 'blog',
                 '/vuestagram': 'Instagram clone',
                 '/currency': 'Currency exchange information',
+                '/qrcode': 'QRcode Generator',
               },
               ...blogRoutes.map((e) => {
                 const titleObj = {}
@@ -197,6 +199,8 @@ module.exports = () => {
                 titles[context.route]
               }</title>`,
             )
+            console.log(titles[context.route])
+            console.log(context.route)
             return context
           },
         }),
