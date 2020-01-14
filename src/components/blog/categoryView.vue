@@ -187,7 +187,7 @@ export default {
     background: rgba(235, 235, 235, 1) !important;
   }
   .v-list__tile__title {
-    font-size: 17px !important;
+    font-size: 16px !important;
     font-weight: 400;
   }
 

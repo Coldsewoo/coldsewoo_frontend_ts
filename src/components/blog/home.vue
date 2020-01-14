@@ -138,7 +138,7 @@ export default {
     background: rgba(0, 0, 0, 0.12);
   }
   .v-list__tile__title {
-    font-size: 18px !important;
+    font-size: 16px !important;
   }
 
   .v-list__tile__action-text {

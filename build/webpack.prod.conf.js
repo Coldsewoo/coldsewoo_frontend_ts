@@ -147,12 +147,13 @@ module.exports = () => {
           // Required - The path to the webpack-outputted app to prerender.
           staticDir: path.join(__dirname, '../web'),
           // Required - Routes to render.
-          routes: ['/', '/blog', '/vuestagram', '/currency', ...paths],
+          routes: ['/', '/blog', '/vuestagram', '/currency', '/qrcode', ...paths],
           postProcess(context) {
             const titles = Object.assign(
               {
                 '/': 'Coldsewoo',
                 '/blog': 'Coldsewoo - a blog',
+                '/blog/home': 'Coldsewoo - a blog',
                 '/vuestagram': 'Coldsewoo - Vuestagram',
                 '/currency': 'Coldsewoo - Currency',
                 '/qrcode': 'Coldsewoo - QRcode',
@@ -173,7 +174,8 @@ module.exports = () => {
             const desc = Object.assign(
               {
                 '/': 'Home page',
-                '/blog': 'blog',
+                '/blog': 'Coldsewoo - a blog',
+                '/blog/home': 'Coldsewoo - a blog',
                 '/vuestagram': 'Instagram clone',
                 '/currency': 'Currency exchange information',
                 '/qrcode': 'QRcode Generator',
@@ -205,7 +207,7 @@ module.exports = () => {
           },
         }),
       )
-      webpackConfig.plugins.push(new SitemapPlugin('https://coldsewoo.com', ['/', '/blog', '/vuestagram', '/currency', ...paths], {
+      webpackConfig.plugins.push(new SitemapPlugin('https://coldsewoo.com', ['/', '/blog', '/vuestagram', '/currency', '/qrcode', ...paths], {
         skipGzip: true,
       }))
     })
