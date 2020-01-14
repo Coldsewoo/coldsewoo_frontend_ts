@@ -134,13 +134,13 @@
           <v-list class="footer-v-list">
             <v-list-tile
               class="list-tile footer-tile"
-              href="https://github.com/Coldsewoo/coldsewoo_frontend"
+              href="https://github.com/Coldsewoo/coldsewoo_frontend_ts"
             >
               <v-list-tile-title color="primary">Frontend</v-list-tile-title>
             </v-list-tile>
             <v-list-tile
               class="list-tile footer-tile"
-              href="https://github.com/Coldsewoo/coldsewoo_backend"
+              href="https://github.com/Coldsewoo/coldsewoo_backend_typescript"
             >
               <v-list-tile-title color="primary">Backend</v-list-tile-title>
             </v-list-tile>
