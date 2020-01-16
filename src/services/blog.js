@@ -21,8 +21,8 @@ export default {
   getCategories() {
     return req(apiClient.get('blog/categories'))
   },
-  selectMenuItem(path) {
-    return req(apiClient.post('blog/categories', path))
+  selectMenuItem(payload) {
+    return req(apiClient.post('blog/categories', payload))
   },
   deleteArticle(articleId) {
     return req(apiClient.delete(`blog/articles/${articleId}`))

@@ -1,4 +1,3 @@
-import axios from 'axios'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue'
 import router from '@/router.js'
@@ -170,19 +169,20 @@ const blogStore = {
         context.commit('addError', err.message, { root: true })
       }
     },
-    async selectMenuItem(context, payload) {
-      try {
-        const res = await BlogService.selectMenuItem({ path: payload })
-        if (res.status === 200) {
-          context.commit('selectMenuItem', {
-            data: res.data,
-            selected: payload,
-          })
-        }
-      } catch (err) {
-        context.commit('addError', err.message, { root: true })
-      }
-    },
+    // async selectMenuItem(context, payload) {
+    //   try {
+    //     console.log
+    //     const res = await BlogService.selectMenuItem({ path: payload })
+    //     if (res.status === 200) {
+    //       context.commit('selectMenuItem', {
+    //         data: res.data,
+    //         selected: payload,
+    //       })
+    //     }
+    //   } catch (err) {
+    //     context.commit('addError', err.message, { root: true })
+    //   }
+    // },
     async deleteArticle(context, payload) {
       try {
         const articleId = payload.articleId
@@ -250,27 +250,7 @@ const blogStore = {
     async addComment(context, payload) {
       try {
         const articleId = payload.articleId
-        let addCommentRes
-        if (payload.anonymous) {
-          addCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}`,
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            data: payload,
-          })
-        } else {
-          addCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}`,
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-              'x-access-token': context.rootState.token.token,
-            },
-            data: payload,
-          })
-        }
+        const addCommentRes = await BlogService.addComment(articleId, payload)
         if (addCommentRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()

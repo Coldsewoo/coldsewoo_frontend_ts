@@ -1,5 +1,3 @@
-import axios from 'axios'
-import { API_URL } from 'Library/globalVar'
 import PostService from 'Services/post'
 
 const postStore = {
@@ -135,10 +133,7 @@ const postStore = {
     },
     async getSinglePost(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/posts/${payload}`,
-          method: 'GET',
-        })
+        const res = await PostService.getSinglePost(payload)
         if (res.status === 200) {
           return res.data
         }
@@ -163,15 +158,7 @@ const postStore = {
       try {
         const formData = new FormData()
         formData.append('image', context.state.localImageURL)
-        const imgRes = await axios({
-          url: `${API_URL}/images`,
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/form-data',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: formData,
-        })
+        const imgRes = await PostService.imgUpload(formData)
         payload.imageURL = imgRes.data.image
         payload.imagepId = imgRes.data.pId
         payload.thumbnail = imgRes.data.thumbnail

@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { API_URL } from 'Library/globalVar';
+import BlogService from 'Services/blog'
 
 export default {
   name: 'Categoryview',
@@ -152,11 +152,8 @@ export default {
           break;
       }
       this.payload = payload;
-      const res = await axios({
-        url: `${API_URL}/blog/categories`,
-        method: 'POST',
-        data: this.payload,
-      });
+      const res = await BlogService.selectMenuItem(this.payload)
+
       if (res.status === 200) {
         this.error = false;
         this.posts = res.data;
