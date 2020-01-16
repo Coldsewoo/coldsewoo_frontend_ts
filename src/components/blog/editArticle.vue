@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import editorEdit from '@/components/blog/editorEdit.vue'
+import editorEdit from 'Components/blog/editorEdit.vue'
 
 export default {
   components: {

@@ -214,7 +214,7 @@ export default {
           height: 174,
         },
         (error, string) => {
-          if (error) {}
+          if (error) return;
           const link = self.$refs.png;
           link.addEventListener(
             'click',
@@ -243,7 +243,7 @@ export default {
           height: 174,
         },
         (error, string) => {
-          if (error) {}
+          if (error) return;
           const stringEncoded = encodeURIComponent(string);
           const url = `data:image/svg+xml;charset=utf-8,${stringEncoded}`;
           const link = self.$refs.svg;

@@ -15,7 +15,7 @@
         <v-spacer />
         <v-toolbar-title>
           <img
-            src="@/assets/image.png"
+            src="Assets/image.png"
             class="logo"
             width
             @click="goVuestagramHome"
@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import postStore from '@/modules/store/postStore';
+import postStore from 'Store/postStore';
 import { createNamespacedHelpers } from 'vuex';
-import EventBus from '../EventBus';
-import Body from '../components/posts/Body.vue';
+import EventBus from '@/EventBus';
+import Body from 'Components/posts/Body.vue';
 
 const {
   mapGetters,

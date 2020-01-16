@@ -13,14 +13,16 @@
           <p>
             Frontend :
             <a
+              class="link-box"
               href="https://github.com/Coldsewoo/coldsewoo_frontend_ts"
-            >https://github.com/Coldsewoo/coldsewoo_frontend_ts</a>
+            >Link</a>
           </p>
           <p>
             Backend :
             <a
+              class="link-box"
               href="https://github.com/Coldsewoo/coldsewoo_backend_typescript"
-            >https://github.com/Coldsewoo/coldsewoo_backend_typescript</a>
+            >Link</a>
           </p>
         </v-card>
       </v-flex>

@@ -83,10 +83,10 @@
 </template>
 
 <script>
-import postStore from '@/modules/store/postStore';
+import postStore from 'Store/postStore';
 import EventBus from '@/EventBus.js';
 import { createNamespacedHelpers } from 'vuex';
-import Post from '../posts/Post.vue';
+import Post from 'Components/posts/Post';
 
 const {
   mapGetters,

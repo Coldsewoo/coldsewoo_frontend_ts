@@ -2,7 +2,7 @@ import axios from 'axios'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue'
 import router from '@/router.js'
-import { API_URL } from '@/lib/globalVar'
+import { API_URL } from 'Library/globalVar'
 
 const blogStore = {
   namespaced: true,

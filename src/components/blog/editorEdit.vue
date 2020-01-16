@@ -351,7 +351,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import typescript from 'highlight.js/lib/languages/typescript';
 
-import '@/assets/editorStyle.scss';
+import 'Assets/editorStyle.scss';
 import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
 import { Sketch } from 'vue-color';
 // import the component
@@ -387,7 +387,7 @@ import {
 
 import TextColor from '@/assets/fontColor.js';
 import TextSize from '@/assets/textSize.js';
-import ItalicWithoutCMD from "@/assets/italicWithoutCMD.js"
+import ItalicWithoutCMD from '@/assets/italicWithoutCMD.js'
 import { setTimeout } from 'timers';
 
 export default {
