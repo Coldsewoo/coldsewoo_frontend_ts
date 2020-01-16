@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import blogStore from '@/modules/store/blogStore';
+import blogStore from 'Store/blogStore';
 
 export default {
   name: 'Blog',

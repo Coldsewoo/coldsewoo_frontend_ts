@@ -12,7 +12,7 @@
 
 <script>
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import '@/assets/editorStyle.scss';
+import 'Assets/editorStyle.scss';
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import typescript from 'highlight.js/lib/languages/typescript';

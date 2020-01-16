@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+const path = require('path');
+const utils = require('./utils');
+const config = require('../config');
+const vueLoaderConfig = require('./vue-loader.conf');
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, '..', dir);
 }
 
 const createLintingRule = () => ({
@@ -18,7 +18,7 @@ const createLintingRule = () => ({
     formatter: require('eslint-friendly-formatter'),
     emitWarning: !config.dev.showEslintErrorsInOverlay,
   },
-})
+});
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -28,13 +28,25 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
+    publicPath:
+      process.env.NODE_ENV === 'production'
+        ? config.build.assetsPublicPath
+        : config.dev.assetsPublicPath,
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      vue$: process.env.NODE_ENV === 'development' ? 'vue/dist/vue.runtime.js' : 'vue/dist/vue.runtime.min.js',
+      vue$:
+        process.env.NODE_ENV === 'development'
+          ? 'vue/dist/vue.runtime.js'
+          : 'vue/dist/vue.runtime.min.js',
       '@': resolve('src'),
+      Assets: resolve('src/assets'),
+      Components: resolve('src/components'),
+      Library: resolve('src/libray'),
+      Services: resolve('src/services'),
+      Store: resolve('src/modules/store'),
+      Views: resolve('src/views'),
     },
   },
   module: {
@@ -48,7 +60,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')],
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('node_modules/webpack-dev-server/client'),
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -88,4 +104,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
-}
+};

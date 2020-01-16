@@ -132,7 +132,7 @@
 
 <script>
 import EventBus from '@/EventBus.js';
-import { monthEng } from '@/lib/globalVar'
+import { monthEng } from 'Library/globalVar'
 
 export default {
   name: 'Post',
