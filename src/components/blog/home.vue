@@ -35,9 +35,7 @@
 
 <script>
 import axios from 'axios';
-import { API_URL } from '@/lib/globalVar';
-
-const API_BLOG_URL = 'https://coldsewooweb-backend.herokuapp.com/blog';
+import { API_URL } from 'Library/globalVar';
 
 export default {
   name: 'Categoryview',
@@ -53,7 +51,7 @@ export default {
       posts: [],
       error: false,
       postsLength: 0,
-      currentPostsLength: 0
+      currentPostsLength: 0,
     };
   },
   computed: {
@@ -69,7 +67,7 @@ export default {
     },
     currentPosts() {
       return this.posts.slice(0, this.currentPostsLength)
-    }
+    },
   },
   metaInfo() {
     return {
@@ -118,8 +116,8 @@ export default {
     },
     showMore() {
       this.currentPostsLength += 10
-      if(this.currentPostsLength > this.postsLength) this.currentPostsLength = this.postsLength
-    }
+      if (this.currentPostsLength > this.postsLength) this.currentPostsLength = this.postsLength
+    },
   },
 };
 </script>

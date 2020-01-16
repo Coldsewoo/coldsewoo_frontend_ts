@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { API_URL } from '@/lib/globalVar'
-import userStore from './modules/store/userStore'
+import { API_URL } from 'Library/globalVar'
+import userStore from 'Store/userStore'
 // import blogStore from './modules/store/blogStore';
-import postStore from './modules/store/postStore'
+import postStore from 'Store/postStore'
 
 Vue.use(Vuex)
 

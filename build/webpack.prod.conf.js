@@ -120,7 +120,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsRoot,
       },
     ]),
-    new BundleAnalyzerPlugin({ analyzerPort: 4200, analyzerMode: 'static', openAnalyzer: false }),
+    new BundleAnalyzerPlugin({ analyzerPort: 4200, analyzerMode: 'static', openAnalyzer: false, generateStatsFile: true, statsFilename: 'stats.json' }),
   ],
 })
 
