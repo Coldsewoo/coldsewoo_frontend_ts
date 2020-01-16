@@ -1,9 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-// Libraries
-import interceptor from './library/interceptor.js';
-
 // Views
 
 import Vuestagram from './views/Vuestagram.vue'
@@ -30,7 +27,6 @@ const editCategory = () => import('./components/blog/editCategory.vue')
 const notFound = () => import('./components/notFound.vue')
 const home = () => import('./components/blog/home.vue')
 
-interceptor();
 Vue.use(Router);
 
 export default new Router({

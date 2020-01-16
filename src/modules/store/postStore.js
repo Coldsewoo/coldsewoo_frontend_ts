@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_URL } from 'Library/globalVar'
+import PostService from 'Services/post'
 
 const postStore = {
   namespaced: true,
@@ -124,10 +125,7 @@ const postStore = {
   actions: {
     async getPosts(context) {
       try {
-        const res = await axios({
-          url: `${API_URL}/posts`,
-          method: 'GET',
-        })
+        const res = await PostService.getPosts()
         if (res.status === 200) {
           context.commit('getPosts', res.data)
         }
@@ -177,18 +175,7 @@ const postStore = {
         payload.imageURL = imgRes.data.image
         payload.imagepId = imgRes.data.pId
         payload.thumbnail = imgRes.data.thumbnail
-        const postRes = await axios({
-          url: `${API_URL}/posts`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: payload,
-          validateStatus: (status) => {
-            return true
-          },
-        })
+        const postRes = await PostService.publish(payload)
         if (postRes.status === 200) context.state.updateStatus.status = 'success'
         context.commit('goHome')
       } catch (err) {
@@ -199,22 +186,9 @@ const postStore = {
     async deletePost(context, payload) {
       context.commit('changeStep', 4)
       try {
-        const imgRes = await axios({
-          url: `${API_URL}/images`,
-          method: 'DELETE',
-          params: { imagepId: payload.imagepId },
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const imgRes = await PostService.deletePostImg({ imagepId: payload.imagepId })
         if (imgRes.status === 200) {
-          const postRes = await axios({
-            url: `${API_URL}/posts/${payload._id}`,
-            method: 'DELETE',
-            headers: {
-              'x-access-token': context.rootState.token.token,
-            },
-          })
+          const postRes = await PostService.deletePost(payload._id)
           if (postRes.status === 200) {
             context.commit('goHome')
           }
@@ -225,10 +199,7 @@ const postStore = {
     },
     async editPage(context, payload) {
       try {
-        const findPost = await axios({
-          url: `${API_URL}/posts/${payload._id}`,
-          method: 'GET',
-        })
+        const findPost = await PostService.editPage(payload._id)
         if (findPost.status === 200) {
           context.commit('editPage', findPost.data)
         }
@@ -246,15 +217,7 @@ const postStore = {
           filter: payload.filter,
         }
         const editPostAfter = async function () {
-          const editRes = await axios({
-            url: `${API_URL}/posts/${payload._id}`,
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-access-token': context.rootState.token.token,
-            },
-            data,
-          })
+          const editRes = await PostService.editRes(payload._id, data)
           if (editRes.status === 200) {
             context.commit('goHome')
           }
@@ -262,27 +225,12 @@ const postStore = {
         if (payload.imageURL !== context.state.currentPost.imageURL) {
           const formData = new FormData()
           formData.append('image', payload.imageURL)
-          const imgUploadRes = await axios({
-            url: `${API_URL}/images`,
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/form-data',
-              'x-access-token': context.rootState.token.token,
-            },
-            data: formData,
-          })
+          const imgUploadRes = await PostService.imgUpload(formData)
           if (imgUploadRes.status === 200) {
             data.imageURL = imgUploadRes.data.image
             data.imagepId = imgUploadRes.data.pId
             data.thumbnail = imgUploadRes.data.thumbnail
-            axios({
-              url: `${API_URL}/images`,
-              method: 'DELETE',
-              params: { imagepId: payload.imagepId },
-              headers: {
-                'x-access-token': context.rootState.token.token,
-              },
-            })
+            await PostService.deletePostImg(payload.imagepId)
           }
         }
         editPostAfter()
@@ -297,16 +245,7 @@ const postStore = {
 
         post.likes = likes
         post.likesCount = likes.length
-
-        const editLikeRes = await axios({
-          url: `${API_URL}/posts/${payload.post._id}`,
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: post,
-        })
+        const editLikeRes = await PostService.editLike(payload.post._id, post)
         if (editLikeRes.status === 200) context.commit('goHome')
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -314,15 +253,7 @@ const postStore = {
     },
     async addComment(context, payload) {
       try {
-        const commentRes = await axios({
-          url: `${API_URL}/posts/comments`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: payload,
-        })
+        const commentRes = await PostService.addComment(payload)
         if (commentRes.status === 200) {
           context.commit('goHome')
           return new Promise((resolve, reject) => {
@@ -337,15 +268,7 @@ const postStore = {
     },
     async deleteComment(context, payload) {
       try {
-        const deleteRes = await axios({
-          url: `${API_URL}/posts/comments/${payload._id}`,
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: { post_id: payload.post_id },
-        })
+        const deleteRes = await PostService.deleteComment(payload._id, { post_id: payload.post_id })
         if (deleteRes.status === 200) {
           context.commit('goHome')
           return new Promise((resolve, reject) => {

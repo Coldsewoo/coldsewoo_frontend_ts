@@ -36,7 +36,7 @@ export default new Vuex.Store({
         expiresIn: localStorage.getItem('expiresIn'),
         role: localStorage.getItem('role'),
       }
-      if (!localStorage.getItem('token')) state.token.token = 'null'
+      if (!localStorage.getItem('token')) state.token.token = null
     },
     logout(state) {
       state.token = {

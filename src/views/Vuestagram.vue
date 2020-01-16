@@ -15,7 +15,7 @@
         <v-spacer />
         <v-toolbar-title>
           <img
-            src="Assets/image.png"
+            src="../assets/image.png"
             class="logo"
             width
             @click="goVuestagramHome"

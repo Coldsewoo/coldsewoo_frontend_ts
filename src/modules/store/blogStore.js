@@ -3,6 +3,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import router from '@/router.js'
 import { API_URL } from 'Library/globalVar'
+import BlogService from 'Services/blog'
 
 const blogStore = {
   namespaced: true,
@@ -128,10 +129,7 @@ const blogStore = {
   actions: {
     async getPosts(context) {
       try {
-        const result = await axios({
-          url: `${API_URL}/blog`,
-          method: 'GET',
-        })
+        const result = await BlogService()
         context.commit('getPosts', result)
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -139,32 +137,10 @@ const blogStore = {
     },
     async saveArticle(context, payload) {
       try {
-        const result = await axios({
-          url: `${API_URL}/blog`,
-          method: 'POST',
-          data: payload,
-          headers: {
-            'Content-type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const result = await BlogService.saveArticle(payload)
         if (result.status === 200) {
-          const cloudinaryRenameRes = await axios({
-            url: `${API_URL}/images/blog/${result.data.articleId}`,
-            method: 'PUT',
-            data: payload.images,
-            headers: {
-              'Content-type': 'application/json',
-              'x-access-token': context.rootState.token.token,
-            },
-          })
-          const blogContentImageRenameRes = await axios({
-            url: `${API_URL}/blog/rename/${result.data.articleId}`,
-            method: 'PUT',
-            headers: {
-              'x-access-token': context.rootState.token.token,
-            },
-          })
+          const cloudinaryRenameRes = await BlogService.cloudinaryRename(result.data.articleId, payload.images)
+          const blogContentImageRenameRes = await BlogService.blogContentImageRename(result.data.articleId)
           if (cloudinaryRenameRes.status === 200 && blogContentImageRenameRes.status === 200) {
             return new Promise((resolve, reject) => {
               resolve(result)
@@ -178,21 +154,15 @@ const blogStore = {
     async getSingleArticle(context, payload) {
       const articleId = payload
       try {
-        const res = await axios({
-          url: `${API_URL}/blog/articles/${articleId}`,
-          method: 'GET',
-        })
+        const res = await BlogService.getSingleArticle(articleId)
         context.commit('setCurrentArticle', res.data)
       } catch (err) {
         context.commit('addError', err.message, { root: true })
       }
     },
-    async getCategories(context, payload) {
+    async getCategories(context) {
       try {
-        const res = await axios({
-          url: `${API_URL}/blog/categories`,
-          method: 'GET',
-        })
+        const res = await BlogService.getCategories()
         if (res.status === 200) {
           context.commit('saveCategories', res.data)
         }
@@ -202,11 +172,7 @@ const blogStore = {
     },
     async selectMenuItem(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/blog/categories`,
-          method: 'POST',
-          data: { path: payload },
-        })
+        const res = await BlogService.selectMenuItem({ path: payload })
         if (res.status === 200) {
           context.commit('selectMenuItem', {
             data: res.data,
@@ -220,21 +186,9 @@ const blogStore = {
     async deleteArticle(context, payload) {
       try {
         const articleId = payload.articleId
-        const blogRes = await axios({
-          url: `${API_URL}/blog/articles/${articleId}`,
-          method: 'DELETE',
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
-        const imgRes = await axios({
-          url: `${API_URL}/images/blog/${articleId}`,
-          method: 'DELETE',
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
-        if (blogRes.status === 200 && imgRes.status === 200) {
+        const deleteArticleRes = await BlogService.deleteArticle(articleId)
+        const deleteImgsRes = await BlogService.deleteImgs(articleId)
+        if (deleteArticleRes.status === 200 && deleteImgsRes.status === 200) {
           router.push(`/blog/category/${payload.categories.path}`)
         }
       } catch (err) {
@@ -243,15 +197,7 @@ const blogStore = {
     },
     async saveCategoryChanged(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/blog/categories`,
-          method: 'PUT',
-          headers: {
-            'x-access-token': context.rootState.token.token,
-            'Content-type': 'application/json',
-          },
-          data: payload,
-        })
+        const res = await BlogService.saveCategoryChanged(payload)
         if (res.status === 200) {
           context.dispatch('getCategories').then(() => {
             router.push('/blog/home')
@@ -265,15 +211,7 @@ const blogStore = {
       const formData = new FormData()
       formData.append('image', payload)
       try {
-        const imgRes = await axios({
-          url: `${API_URL}/images/blog`,
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/form-data',
-            'x-access-token': context.rootState.token.token,
-          },
-          data: formData,
-        })
+        const imgRes = await BlogService.onImageSelected(formData)
         if (imgRes.status === 200) {
           return new Promise((resolve, reject) => {
             context.commit('onImageSelected', imgRes.data)
@@ -288,14 +226,7 @@ const blogStore = {
     },
     async deleteImage(context, payload) {
       try {
-        const imgRes = await axios({
-          url: `${API_URL}/images`,
-          method: 'DELETE',
-          params: { imagepId: payload },
-          headers: {
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const imgRes = await BlogService.deleteImage({ imagepId: payload })
         if (imgRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
@@ -308,10 +239,7 @@ const blogStore = {
     async getComments(context, payload) {
       try {
         const articleId = payload
-        const commentsRes = await axios({
-          url: `${API_URL}/blog/comments/${articleId}`,
-          method: 'GET',
-        })
+        const commentsRes = await BlogService.getComments(articleId)
         if (commentsRes.status === 200) {
           context.commit('setComments', commentsRes.data)
         }
@@ -357,20 +285,10 @@ const blogStore = {
         const { articleId, commentId, anonymous, hasPermission } = payload
         let deleteCommentRes
         if (!anonymous || hasPermission) {
-          deleteCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'DELETE',
-            headers: {
-              'x-access-token': context.rootState.token.token,
-            },
-          })
+          deleteCommentRes = await BlogService.deleteComment(articleId, commentId)
         } else {
           const { password } = payload
-          deleteCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'DELETE',
-            data: { password },
-          })
+          deleteCommentRes = await BlogService.deleteCommentPassword(articleId, commentId, { password })
         }
 
         if (deleteCommentRes.status === 200) {
@@ -393,24 +311,9 @@ const blogStore = {
         let editCommentRes
         if (anonymous) {
           const { password } = payload
-          editCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'PUT',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            data: { comment, password },
-          })
+          editCommentRes = await BlogService.editCommentPassword(articleId, commentId, { comment, password })
         } else {
-          editCommentRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'PUT',
-            headers: {
-              'Content-type': 'application/json',
-              'x-access-token': context.rootState.token.token,
-            },
-            data: { comment },
-          })
+          editCommentRes = await BlogService.editComment(articleId, commentId, { comment })
         }
         return new Promise((resolve, reject) => {
           if (editCommentRes.status === 200) resolve()
@@ -427,28 +330,7 @@ const blogStore = {
     async addReply(context, payload) {
       try {
         const { articleId, commentId } = payload
-        let addReplyRes;
-        if (payload.anonymous) {
-          addReplyRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            data: payload,
-          })
-        } else {
-          addReplyRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}`,
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-              'x-access-token': context.rootState.token.token,
-            },
-            data: payload,
-          })
-        }
-
+        const addReplyRes = await BlogService.addReply(articleId, commentId, payload)
         if (addReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
@@ -463,20 +345,10 @@ const blogStore = {
         const { articleId, commentId, replyId, anonymous, hasPermission } = payload
         let deleteReplyRes
         if (!anonymous || hasPermission) {
-          deleteReplyRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
-            method: 'DELETE',
-            headers: {
-              'x-access-token': context.rootState.token.token,
-            },
-          })
+          deleteReplyRes = await BlogService.deleteReplyRes(articleId, commentId, replyId)
         } else {
           const { password } = payload
-          deleteReplyRes = await axios({
-            url: `${API_URL}/blog/comments/${articleId}/${commentId}/${replyId}`,
-            method: 'DELETE',
-            data: { password },
-          })
+          deleteReplyRes = await BlogService.deleteReplyResPassword(articleId, commentId, replyId, { password })
         }
 
         if (deleteReplyRes.status === 200) {

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from '@/router.js'
 import { API_URL } from 'Library/globalVar'
+import UserService from 'Services/user'
 
 const userStore = {
   namespaced: true,
@@ -39,11 +40,7 @@ const userStore = {
   actions: {
     async newAccountSubmit(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/auth/register`,
-          method: 'POST',
-          data: payload,
-        })
+        const res = await UserService.newAccountSubmit(payload)
         if (res.status === 200) {
           context.dispatch('logout')
           router.push('/users/login')
@@ -54,14 +51,7 @@ const userStore = {
     },
     async login(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/auth/login`,
-          method: 'POST',
-          data: {
-            username: payload.username,
-            password: payload.password,
-          },
-        })
+        const res = await UserService.login(payload)
         if (res.status === 200) {
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('username', res.data.username)
@@ -88,15 +78,7 @@ const userStore = {
     },
     async editAccount(context, payload) {
       try {
-        const res = await axios({
-          url: `${API_URL}/users/${payload.username}`,
-          method: 'PUT',
-          data: payload,
-          headers: {
-            'Content-type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const res = await UserService.editAccount(payload)
         if (res.status === 200) {
           context.dispatch('logout')
           router.replace('/users/login')
@@ -111,14 +93,7 @@ const userStore = {
     },
     async deleteAccount(context, payload) {
       try {
-        const deleteRes = await axios({
-          url: `${API_URL}/users/${payload._id}`,
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': context.rootState.token.token,
-          },
-        })
+        const deleteRes = await UserService.deleteAccount(payload)
         if (deleteRes.status === 200) {
           context.dispatch('logout')
           router.push('/')
@@ -131,14 +106,7 @@ const userStore = {
     },
     async resetPasswordSubmit(context, payload) {
       try {
-        const usernameRes = await axios({
-          url: `${API_URL}/users/reset`,
-          method: 'POST',
-          data: { username: payload },
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        const usernameRes = await UserService.resetPasswordSubmit(payload)
         if (usernameRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve(usernameRes.data.email)
@@ -152,14 +120,7 @@ const userStore = {
     },
     async resetPasswordCodeSubmit(context, payload) {
       try {
-        const codeRes = await axios({
-          url: `${API_URL}/users/resetcode`,
-          method: 'POST',
-          data: { code: payload },
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        const codeRes = await UserService.resetPasswordCodeSubmit(payload)
         if (codeRes.status === 200) {
           return new Promise((resolve, reject) => resolve(true))
         }
@@ -171,14 +132,7 @@ const userStore = {
     },
     async saveNewPassword(context, payload) {
       try {
-        const saveRes = await axios({
-          url: `${API_URL}/users/resetpassword`,
-          method: 'POST',
-          data: payload,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+        const saveRes = await UserService.saveNewPassword(payload)
         if (saveRes.status === 200) {
           return new Promise((resolve, reject) => resolve(true))
         }
