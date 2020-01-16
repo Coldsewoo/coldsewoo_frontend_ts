@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { API_URL } from '@/lib/globalVar.js'
-import store from '../store.js'
+import { API_URL } from 'Library/globalVar.js'
+import store from '@/store.js'
 
 export default function setup() {
   axios.interceptors.request.use(

@@ -93,7 +93,8 @@
           <a
             target="_blank"
             href="https://github.com/Coldsewoo/currency_exchanger"
-          >Link to Github repo</a>
+            >Link to Github repo</a
+          >
         </div>
       </v-flex>
 
@@ -104,7 +105,7 @@
 
 <script>
 import axios from 'axios';
-import { API_URL, currencyCode } from '@/lib/globalVar';
+import { API_URL, currencyCode } from 'Library/globalVar';
 
 Number.prototype.getComma = function () {
   let number = this.valueOf().toString();

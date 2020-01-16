@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from '@/lib/globalVar'
+import { API_URL } from 'Library/globalVar'
 
 const postStore = {
   namespaced: true,

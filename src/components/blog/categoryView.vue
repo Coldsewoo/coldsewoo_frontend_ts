@@ -56,32 +56,32 @@
 </template>
 
 <script>
-import axios from "axios";
-import { API_URL } from "@/lib/globalVar";
+import axios from 'axios';
+import { API_URL } from 'Library/globalVar';
 
 export default {
-  name: "Categoryview",
+  name: 'Categoryview',
   props: {
     tab: String,
     menu: String,
-    submenu: String
+    submenu: String,
   },
   data() {
     return {
       payload: {},
-      path: "",
+      path: '',
       posts: [],
       error: false,
       postsLength: 0,
-      currentPostsLength: 0
+      currentPostsLength: 0,
     };
   },
   metaInfo() {
     return {
       title: `${this.payload.tab}`,
-      titleTemplate: "%s | Coldsewoo - a blog",
-      author: "coldsewoo",
-      description: "Blog - articles list in a category"
+      titleTemplate: '%s | Coldsewoo - a blog',
+      author: 'coldsewoo',
+      description: 'Blog - articles list in a category',
     };
   },
   computed: {
@@ -92,12 +92,12 @@ export default {
     },
     selectedCategory() {
       const selected = this.$store.state.blogStore.selectedCategory;
-      if (!selected.includes("/")) return selected;
-      return selected.toUpperCase().split("/")[2];
+      if (!selected.includes('/')) return selected;
+      return selected.toUpperCase().split('/')[2];
     },
     currentPosts() {
       return this.posts.slice(0, this.currentPostLength);
-    }
+    },
   },
   watch: {
     // posts(val, oldVal) {},
@@ -107,7 +107,7 @@ export default {
       await this.getItems();
       this.postsLength = this.posts.length;
       this.currentPostsLength = this.postsLength >= 12 ? 12 : this.postsLength;
-    }
+    },
   },
   async mounted() {
     await this.getItems();
@@ -117,7 +117,7 @@ export default {
   methods: {
     viewArticle(post) {
       this.$router.push(
-        `/blog/category/${post.categories.path}/${post.articleId}`
+        `/blog/category/${post.categories.path}/${post.articleId}`,
       );
     },
     created(date) {
@@ -154,8 +154,8 @@ export default {
       this.payload = payload;
       const res = await axios({
         url: `${API_URL}/blog/categories`,
-        method: "POST",
-        data: this.payload
+        method: 'POST',
+        data: this.payload,
       });
       if (res.status === 200) {
         this.error = false;
@@ -166,10 +166,9 @@ export default {
     },
     showMore() {
       this.currentPostsLength += 10;
-      if (this.currentPostsLength > this.postsLength)
-        this.currentPostsLength = this.postsLength;
-    }
-  }
+      if (this.currentPostsLength > this.postsLength) { this.currentPostsLength = this.postsLength; }
+    },
+  },
 };
 </script>
 

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 // Libraries
-import interceptor from './lib/interceptor.js';
+import interceptor from './library/interceptor.js';
 
 // Views
 
