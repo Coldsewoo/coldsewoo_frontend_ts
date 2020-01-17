@@ -7,6 +7,7 @@
   [v] Currencies.vue - 색조합을 보라색 -> 녹색으로
 
   [v] Search Engine Optimization - 현재 외부에 전혀 노출이 되고 있지 않음
+  
   [ ] Mixin - 모든 API call의 핸들링을 ErrorHandler로 보내도록 해야 함
 
 # Vuestagram
