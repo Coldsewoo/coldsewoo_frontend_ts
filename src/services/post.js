@@ -33,6 +33,7 @@ export default {
   addComment(payload) {
     return req(apiClient.post('posts/comments', payload))
   },
+  // eslint-disable-next-line camelcase
   deleteComment(commentId, post_id) {
     return req(apiClient.delete(`posts/comments/${commentId}`, { data: post_id }))
   },

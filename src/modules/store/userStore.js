@@ -45,8 +45,10 @@ const userStore = {
           context.dispatch('logout')
           router.push('/users/login')
         }
+        return new Promise((r, j) => r())
       } catch (err) {
-        context.commit('addError', err.message, { root: true })
+        // context.commit('addError', err.message, { root: true })
+        return new Promise((r, j) => j(err))
       }
     },
     async login(context, payload) {
@@ -64,7 +66,8 @@ const userStore = {
           return new Promise((resolve, reject) => resolve(true))
         }
       } catch (err) {
-        context.commit('addError', err.message, { root: true })
+        // context.commit('addError', err.message, { root: true })
+        return new Promise((r, j) => j(err))
       }
     },
     logout(context) {

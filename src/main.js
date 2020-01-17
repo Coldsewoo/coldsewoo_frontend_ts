@@ -2,6 +2,7 @@ import 'vuetify/dist/vuetify.min.css'
 import 'es6-promise/auto'
 import 'moment/locale/ko'
 import interceptor from 'Library/interceptor.js';
+import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
 import moment from 'moment-timezone'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
@@ -19,7 +20,6 @@ Vue.use(VueMeta, {
   // optional pluginOptions
   refreshOnceOnNavigation: true,
 })
-
 Vue.use(require('vue-moment'), { moment })
 
 
@@ -28,7 +28,6 @@ Vue.use(Vuetify, {
 });
 
 interceptor();
-
 
 /* eslint-disable no-new */
 new Vue({

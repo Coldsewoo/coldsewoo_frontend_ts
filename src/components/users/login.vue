@@ -52,8 +52,11 @@
 
 <script>
 import { setTimeout } from 'timers';
+import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
+
 
 export default {
+  mixins: [ErrorHandlerMixin],
   data() {
     return {
       errorMessage: '',
@@ -91,7 +94,7 @@ export default {
         if (success) {
           this.$router.push('/');
         }
-      });
+      }).catch(err => this.handleAPIError(err));
     },
     getItem() {
       this.$store.dispatch('postStore/getPostsAuth');
