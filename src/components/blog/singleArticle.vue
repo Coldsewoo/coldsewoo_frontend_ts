@@ -69,12 +69,14 @@ import editorItem from 'Components/blog/editorView.vue';
 import comments from 'Components/blog/comments.vue';
 import { monthEng } from 'Library/globalVar';
 import isEmpty from 'lodash.isempty';
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   components: {
     editorItem,
     comments,
   },
+  extends: BaseBlogComponent,
   props: {
     articleId: {
       type: String,

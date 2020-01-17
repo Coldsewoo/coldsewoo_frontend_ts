@@ -36,6 +36,7 @@
 <script>
 import axios from 'axios';
 import { API_URL } from 'Library/globalVar';
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   name: 'Categoryview',
@@ -44,6 +45,7 @@ export default {
     menu: String,
     submenu: String,
   },
+  extends: BaseBlogComponent,
   data() {
     return {
       payload: {},

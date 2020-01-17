@@ -12,11 +12,13 @@
 
 <script>
 import editorEdit from 'Components/blog/editorEdit.vue'
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   components: {
     editorEdit,
   },
+  extends: BaseBlogComponent,
   props: {
     articleId: String,
   },

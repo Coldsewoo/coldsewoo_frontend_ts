@@ -58,9 +58,11 @@
 <script>
 import { API_URL } from 'Library/globalVar';
 import BlogService from 'Services/blog'
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   name: 'Categoryview',
+  extends: BaseBlogComponent,
   props: {
     tab: String,
     menu: String,

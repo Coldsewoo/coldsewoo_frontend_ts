@@ -399,6 +399,8 @@
 </template>
 
 <script>
+import BaseBlogComponent from './BaseBlogComponent'
+
 export default {
   props: {
     comments: {
@@ -406,6 +408,7 @@ export default {
       default: [],
     },
   },
+  extends: BaseBlogComponent,
   data() {
     return {
       commentInput: {

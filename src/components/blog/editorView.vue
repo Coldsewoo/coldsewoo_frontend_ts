@@ -16,7 +16,6 @@ import 'Assets/editorStyle.scss';
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import typescript from 'highlight.js/lib/languages/typescript';
-
 import { Sketch } from 'vue-color';
 
 import {
@@ -45,15 +44,17 @@ import {
   CodeBlockHighlight,
 } from 'tiptap-extensions';
 
-import TextSize from '@/assets/textSize.js';
-import TextColor from '@/assets/fontColor.js';
+import TextSize from 'Assets/textSize.js';
+import TextColor from 'Assets/fontColor.js';
 import isEmpty from 'lodash.isempty';
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   components: {
     EditorContent,
     Editor,
   },
+  extends: BaseBlogComponent,
   data() {
     return {
       editor: new Editor({

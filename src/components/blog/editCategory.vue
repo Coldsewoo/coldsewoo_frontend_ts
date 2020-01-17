@@ -162,13 +162,16 @@
 <script>
 // import the component
 import Treeselect from '@riophae/vue-treeselect';
+
 // import the styles
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   components: {
     Treeselect,
   },
+  extends: BaseBlogComponent,
   metaInfo() {
     return {
       title: 'Edit Category',

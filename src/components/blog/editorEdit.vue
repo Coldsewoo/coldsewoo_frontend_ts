@@ -385,10 +385,11 @@ import {
   CodeBlockHighlight,
 } from 'tiptap-extensions';
 
-import TextColor from '@/assets/fontColor.js';
-import TextSize from '@/assets/textSize.js';
-import ItalicWithoutCMD from '@/assets/italicWithoutCMD.js'
+import TextColor from 'Assets/fontColor.js';
+import TextSize from 'Assets/textSize.js';
+import ItalicWithoutCMD from 'Assets/italicWithoutCMD.js'
 import { setTimeout } from 'timers';
+import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
   components: {
@@ -398,6 +399,7 @@ export default {
     Treeselect,
     EditorMenuBubble,
   },
+  extends: BaseBlogComponent,
   props: {
     status: {
       type: String,
