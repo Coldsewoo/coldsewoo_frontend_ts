@@ -47,6 +47,7 @@ module.exports = {
       Services: resolve('src/services'),
       Store: resolve('src/modules/store'),
       Views: resolve('src/views'),
+      Mixins: resolve('src/mixins'),
     },
   },
   module: {

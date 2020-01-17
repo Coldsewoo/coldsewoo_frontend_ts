@@ -102,6 +102,7 @@
 <script>
 import EventBus from '@/EventBus.js';
 import { createNamespacedHelpers } from 'vuex';
+import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
 
 const {
   mapGetters,
@@ -112,6 +113,7 @@ const {
 
 export default {
   components: {},
+  mixins: [ErrorHandlerMixin],
   data() {
     return {
       loginForm: {
@@ -168,7 +170,10 @@ export default {
   },
   methods: {
     makeAccount() {
-      this.$store.dispatch('userStore/newAccountSubmit', this.accountForm);
+      this.$store.dispatch('userStore/newAccountSubmit', this.accountForm)
+        .then(() => {})
+        .catch(err => this.handleAPIError(err))
+      ;
     },
     login() { },
     logout() { },
