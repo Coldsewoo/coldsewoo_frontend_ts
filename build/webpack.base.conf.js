@@ -1,12 +1,13 @@
-'use strict';
+'use strict'
 
-const path = require('path');
-const utils = require('./utils');
-const config = require('../config');
-const vueLoaderConfig = require('./vue-loader.conf');
+const path = require('path')
+const utils = require('./utils')
+const config = require('../config')
+const vueLoaderConfig = require('./vue-loader.conf')
+const fs = require('fs')
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir);
+  return path.join(__dirname, '..', dir)
 }
 
 const createLintingRule = () => ({
@@ -18,7 +19,7 @@ const createLintingRule = () => ({
     formatter: require('eslint-friendly-formatter'),
     emitWarning: !config.dev.showEslintErrorsInOverlay,
   },
-});
+})
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -43,11 +44,13 @@ module.exports = {
       '@': resolve('src'),
       Assets: resolve('src/assets'),
       Components: resolve('src/components'),
-      Library: resolve('src/library'),
+      Libraries: resolve('src/libraries'),
       Services: resolve('src/services'),
-      Store: resolve('src/modules/store'),
       Views: resolve('src/views'),
       Mixins: resolve('src/mixins'),
+      Constants: resolve('src/constants'),
+      Layouts: resolve('src/layouts'),
+      Store: resolve('src/modules/store'),
     },
   },
   module: {
@@ -63,9 +66,27 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           resolve('src'),
-          resolve('test'),
           resolve('node_modules/webpack-dev-server/client'),
+          resolve('node_modules/mem'),
+          resolve('node_modules/ora'),
         ],
+        options: {
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                corejs: '3.6.4',
+                useBuiltIns: 'entry',
+              },
+            ],
+          ],
+          plugins: [
+            '@vue/babel-plugin-transform-vue-jsx',
+            '@babel/plugin-transform-runtime',
+            '@babel/plugin-transform-modules-commonjs',
+            '@babel/plugin-syntax-dynamic-import',
+          ],
+        },
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -105,4 +126,4 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
-};
+}

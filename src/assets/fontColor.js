@@ -1,9 +1,9 @@
-import { Mark } from 'tiptap';
-import { updateMark } from 'tiptap-commands';
+import { Mark } from 'tiptap'
+import { updateMark } from 'tiptap-commands'
 
 export default class textColor extends Mark {
   get name() {
-    return 'textColor';
+    return 'textColor'
   }
 
   get schema() {
@@ -17,17 +17,17 @@ export default class textColor extends Mark {
         {
           tag: 'span.font-color',
           getAttrs(dom) {
-            return { color: dom.classList[0] };
+            return { color: dom.classList[0] }
           },
         },
       ],
-      toDOM: (mark) => {
-        return ['span', { style: `color: ${mark.attrs.level}` }, 0];
+      toDOM: mark => {
+        return ['span', { style: `color: ${mark.attrs.level}` }, 0]
       },
-    };
+    }
   }
 
   commands({ type }) {
-    return attrs => updateMark(type, attrs);
+    return attrs => updateMark(type, attrs)
   }
 }

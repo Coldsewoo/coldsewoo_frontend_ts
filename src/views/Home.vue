@@ -2,14 +2,25 @@
   <v-container text-xs-center>
     <v-layout align-center>
       <v-flex d-flex xs12>
-        <v-item-group v-model="window" class="shrink mr-4" mandatory tag="v-flex">
+        <v-item-group
+          v-model="window"
+          class="shrink mr-4"
+          mandatory
+          tag="v-flex"
+        >
           <div class="btn-group">
             <v-btn fab flat @click="changeWindow(-1)">
               <v-icon>keyboard_arrow_up</v-icon>
             </v-btn>
             <v-item v-for="n in itemsLength" :key="n">
               <div slot-scope="{ active, toggle }">
-                <v-btn :input-value="active" class="btn-item" small icon @click="toggle" />
+                <v-btn
+                  :input-value="active"
+                  class="btn-item"
+                  small
+                  icon
+                  @click="toggle"
+                />
               </div>
             </v-item>
             <v-btn fab flat @click="changeWindow(1)">
@@ -20,7 +31,12 @@
         <v-window v-model="window" class="elevation-1 text-xs-center" vertical>
           <v-window-item v-for="(item, index) in items" :key="index">
             <v-card class="pa-2">
-              <v-img :src="item.img" aspect-ratio="2.5" max-width="400" :alt="item.alt"/>
+              <v-img
+                :src="item.img"
+                aspect-ratio="2.5"
+                max-width="400"
+                :alt="item.alt"
+              />
               <v-divider />
               <v-card-title primary-title>
                 <h2 class="text-xs-center headline mb-4">{{ item.title }}</h2>
@@ -38,7 +54,8 @@
                   class="grey darken-4"
                   color="white"
                   target="_blank"
-                >Github</v-btn>
+                  >Github</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-window-item>
@@ -188,70 +205,70 @@ export default {
           alt: 'currency logo image',
         },
       ],
-    };
+    }
   },
   computed: {
     itemsLength() {
-      return this.items.length;
+      return this.items.length
     },
   },
   methods: {
     changeWindow(num) {
-      this.window += num;
-      if (this.window < 0) this.window += this.length;
-      else if (this.window >= this.length) this.window -= this.length;
+      this.window += num
+      if (this.window < 0) this.window += this.length
+      else if (this.window >= this.length) this.window -= this.length
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-  .v-item-group {
-    display: flex;
-    position: absolute;
-    align-items: center;
-    z-index: 1;
-    top: 25%;
-    opacity: 0.5;
+.v-item-group {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  z-index: 1;
+  top: 25%;
+  opacity: 0.5;
 
-    button {
-      max-width: 30px !important;
-      max-height: 30px !important;
+  button {
+    max-width: 30px !important;
+    max-height: 30px !important;
+  }
+  .btn-group {
+    .btn-item {
+      color: #e1bee7;
+      background-color: #e1bee7;
     }
-    .btn-group {
-      .btn-item {
-        color: #e1bee7;
-        background-color: #e1bee7;
-      }
-      .v-item--active button {
-        opacity: 1;
-        color: #ab47bc !important;
-        background-color: #ab47bc !important;
-      }
+    .v-item--active button {
+      opacity: 1;
+      color: #ab47bc !important;
+      background-color: #ab47bc !important;
     }
   }
+}
 
-  .v-window {
-    margin-top: 10px;
+.v-window {
+  margin-top: 10px;
+  height: 80vh !important;
+  background-color: white;
+  .v-window__container {
     height: 80vh !important;
-    background-color: white;
-    .v-window__container {
+    .v-window-item {
       height: 80vh !important;
-      .v-window-item {
+      padding-left: 50px !important;
+      overflow-y: scroll;
+      display: flex;
+      align-items: center;
+      .v-card {
         height: 80vh !important;
-        padding-left: 50px !important;
-        overflow-y: scroll;
-        display: flex;
-        align-items: center;
-        .v-card {
-          height: 80vh !important;
-          width: 100%;
-          border: solid 1px purple;
-          .v-image {
-            margin: 0 auto;
-          }
+        width: 100%;
+        border: solid 1px purple;
+        .v-image {
+          margin: 0 auto;
         }
       }
     }
   }
+}
 </style>

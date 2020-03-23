@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { API_URL } from 'Library/globalVar'
+import { API_URL } from 'Libraries/globalVar'
 import userStore from 'Store/userStore'
 // import blogStore from './modules/store/blogStore';
 import postStore from 'Store/postStore'

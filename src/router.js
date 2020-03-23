@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 
 // Views
 
@@ -27,7 +27,7 @@ const editCategory = () => import('./components/blog/editCategory.vue')
 const notFound = () => import('./components/notFound.vue')
 const home = () => import('./components/blog/home.vue')
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   mode: 'history',
@@ -152,4 +152,4 @@ export default new Router({
     { path: '/404', component: notFound },
     { path: '*', redirect: '/404' },
   ],
-});
+})

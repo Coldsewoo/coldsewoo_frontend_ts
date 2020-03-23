@@ -31,7 +31,12 @@
           />
         </v-flex>
 
-        <v-layout v-show="step === 2" row align-content-center class="horiz-scroll">
+        <v-layout
+          v-show="step === 2"
+          row
+          align-content-center
+          class="horiz-scroll"
+        >
           <v-flex v-for="(filter, i) in filters" :key="i" px-1 pb-1 mx-1>
             <div class="pos-relative" :class="{ active: activeIndex === i }">
               <p>{{ filter.toUpperCase() }}</p>
@@ -44,7 +49,12 @@
                 alt="filteredImage"
                 @click="selectFilter(filter, i)"
               />
-              <v-btn small icon class="pos-absolute remove-media" color="basetext">
+              <v-btn
+                small
+                icon
+                class="pos-absolute remove-media"
+                color="basetext"
+              >
                 <v-icon color="white">close</v-icon>
               </v-btn>
             </div>
@@ -57,7 +67,8 @@
               :key="i"
               class="hashtag"
               @click="deletetagInput(i)"
-            >#{{ hashtag }}</span>
+              >#{{ hashtag }}</span
+            >
             <input
               v-if="hashtags.status"
               v-model="hashtags.text"
@@ -66,7 +77,14 @@
               @keydown.enter="hashtagSubmit"
             />
 
-            <v-btn fab width="20" height="20" dark color="indigo" @click="addHashtagOpen">
+            <v-btn
+              fab
+              width="20"
+              height="20"
+              dark
+              color="indigo"
+              @click="addHashtagOpen"
+            >
               <v-icon dark>{{ tagMsg }}</v-icon>
             </v-btn>
           </div>
@@ -93,17 +111,17 @@
 </template>
 
 <script>
-import EventBus from '@/EventBus.js';
-import { createNamespacedHelpers } from 'vuex';
-import Post from './Post.vue';
-import Edit from './Edit.vue';
+import EventBus from '@/EventBus.js'
+import { createNamespacedHelpers } from 'vuex'
+import Post from './Post.vue'
+import Edit from './Edit.vue'
 
 const {
   mapGetters,
   mapActions,
   mapState,
   mapMutations,
-} = createNamespacedHelpers('postStore');
+} = createNamespacedHelpers('postStore')
 
 export default {
   name: 'Body',
@@ -122,7 +140,7 @@ export default {
         status: false,
       },
       activeIndex: 0,
-    };
+    }
   },
   computed: {
     ...mapState([
@@ -138,33 +156,33 @@ export default {
     reversedPosts() {
       return this.$store.getters['postStore/reversedPosts'].slice(
         0,
-        this.maxPost,
-      );
+        this.maxPost
+      )
     },
     filteredPosts() {
       return this.$store.getters['postStore/filteredPosts'].slice(
         0,
-        this.maxPost,
-      );
+        this.maxPost
+      )
     },
     tagMsg() {
-      return this.hashtags.status ? 'done' : 'add';
+      return this.hashtags.status ? 'done' : 'add'
     },
   },
   watch: {
     step() {
       if (this.step === 1) {
-        this.getPosts();
-        this.message = '';
+        this.getPosts()
+        this.message = ''
         this.hashtags = {
           items: [],
           text: '',
           status: false,
-        };
-        this.filterSelected = 'normal';
+        }
+        this.filterSelected = 'normal'
         this.$nextTick(() => {
-          window.scroll(0, 0);
-        });
+          window.scroll(0, 0)
+        })
       }
     },
     Edit: {
@@ -177,81 +195,81 @@ export default {
     },
   },
   mounted() {
-    this.getPosts();
-    window.addEventListener('scroll', this.scroll);
+    this.getPosts()
+    window.addEventListener('scroll', this.scroll)
     EventBus.$on('publish', () => {
       const payload = {
         message: this.message,
         categories: this.hashtags.items,
         filter: this.filterSelected,
-      };
-      this.$store.dispatch('postStore/publish', payload);
-    });
-    EventBus.$on('filter-selected', (e) => {
-      this.filterSelected = e.filter;
-    });
-    EventBus.$on('commentUpdated', async (_id) => {
-      this.getPosts();
-    });
+      }
+      this.$store.dispatch('postStore/publish', payload)
+    })
+    EventBus.$on('filter-selected', e => {
+      this.filterSelected = e.filter
+    })
+    EventBus.$on('commentUpdated', async _id => {
+      this.getPosts()
+    })
   },
   beforeDestroy() {
-    this.$store.commit('postStore/resetMaxPost');
+    this.$store.commit('postStore/resetMaxPost')
   },
   destroyed() {
-    EventBus.$off('publish');
-    EventBus.$off('filter-selected');
-    EventBus.$off('commentUpdated');
-    window.removeEventListener('scroll', this.scroll);
+    EventBus.$off('publish')
+    EventBus.$off('filter-selected')
+    EventBus.$off('commentUpdated')
+    window.removeEventListener('scroll', this.scroll)
   },
   methods: {
     ...mapActions(['getPosts', 'onImageSelected']),
     hashtagSubmit(e) {
-      if (e && e.keyCode !== 13) return;
+      if (e && e.keyCode !== 13) return
       if (
         this.hashtags.items.indexOf(this.hashtags.text) === -1 &&
         this.hashtags.text.length > 0
       ) {
-        this.hashtags.items.push(this.hashtags.text);
+        this.hashtags.items.push(this.hashtags.text)
       }
-      this.hashtags.text = '';
-      this.hashtags.status = false;
+      this.hashtags.text = ''
+      this.hashtags.status = false
     },
     addHashtagOpen() {
       if (this.hashtags.status) {
-        this.hashtagSubmit();
+        this.hashtagSubmit()
       } else {
-        this.hashtags.status = true;
+        this.hashtags.status = true
       }
     },
     selectFilter(filter, i) {
-      this.filterSelected = filter;
-      this.activeIndex = i;
+      this.filterSelected = filter
+      this.activeIndex = i
     },
     deletetagInput(i) {
-      this.hashtags.items.splice(i, 1);
+      this.hashtags.items.splice(i, 1)
     },
     isActive(filterName) {
-      return this.filterSelected === filterName;
+      return this.filterSelected === filterName
     },
     scroll() {
       const bottomOfWindow =
         Math.max(
           window.pageYOffset,
           document.documentElement.scrollTop,
-          document.body.scrollTop,
+          document.body.scrollTop
         ) +
           window.innerHeight >=
-        document.documentElement.scrollHeight - 2;
+        document.documentElement.scrollHeight - 2
       if (bottomOfWindow) {
-        this.$store.commit('postStore/pending', 'bottom');
+        this.$store.commit('postStore/pending', 'bottom')
         setTimeout(() => {
-          this.$store.commit('postStore/pending', 'false');
-          this.$store.commit('postStore/maxPost');
-        }, 1000);
+          this.$store.commit('postStore/pending', 'false')
+          this.$store.commit('postStore/maxPost')
+        }, 1000)
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

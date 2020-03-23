@@ -1,7 +1,13 @@
 <template>
   <v-layout class="vuestagram">
     <div v-show="updateStatus.status === 'pending'" class="blur">
-      <v-progress-circular :size="100" :width="14" color="purple" indeterminate class="pending" />
+      <v-progress-circular
+        :size="100"
+        :width="14"
+        color="purple"
+        indeterminate
+        class="pending"
+      />
     </div>
     <v-flex xs12 sm12 md6 offset-md-3>
       <v-toolbar class="header">
@@ -15,7 +21,7 @@
         <v-spacer />
         <v-toolbar-title>
           <img
-            src="../assets/image.png"
+            src="/img/source/image.png"
             class="logo"
             width
             @click="goVuestagramHome"
@@ -35,30 +41,44 @@
       <div v-if="step === 1" class="footer">
         <ul class="footer-button-plus">
           <div class="inputFile" @click="loginCheck">
-            <input id="file" type="file" class="inputfile" @change="onSelected" />
+            <input
+              id="file"
+              type="file"
+              class="inputfile"
+              @change="onSelected"
+            />
             <label for="file" class="input-plus">+</label>
           </div>
         </ul>
       </div>
     </v-flex>
-    <div v-show="updateStatus.status === 'bottom' && step === 1 && !maxLenReached" class="blur">
-      <v-progress-circular :size="100" :width="14" color="purple" indeterminate class="pending2" />
+    <div
+      v-show="updateStatus.status === 'bottom' && step === 1 && !maxLenReached"
+      class="blur"
+    >
+      <v-progress-circular
+        :size="100"
+        :width="14"
+        color="purple"
+        indeterminate
+        class="pending2"
+      />
     </div>
   </v-layout>
 </template>
 
 <script>
-import postStore from 'Store/postStore';
-import { createNamespacedHelpers } from 'vuex';
-import EventBus from '@/EventBus';
-import Body from 'Components/posts/Body.vue';
+import postStore from 'Store/postStore'
+import { createNamespacedHelpers } from 'vuex'
+import EventBus from '@/EventBus'
+import Body from 'Components/posts/Body'
 
 const {
   mapGetters,
   mapActions,
   mapState,
   mapMutations,
-} = createNamespacedHelpers('postStore');
+} = createNamespacedHelpers('postStore')
 
 export default {
   name: 'Vuestagram',
@@ -68,7 +88,7 @@ export default {
   data() {
     return {
       post: {},
-    };
+    }
   },
   computed: {
     ...mapState([
@@ -80,13 +100,13 @@ export default {
     ]),
     ...mapGetters(['reversedPosts', 'filteredPosts']),
     isLoggedIn() {
-      return this.$store.state.isLoggedIn;
+      return this.$store.state.isLoggedIn
     },
     maxLenReached() {
       const postLen = this.itemSelector.selected
         ? this.filteredPosts.length
-        : this.reversedPosts.length;
-      return this.maxPost >= postLen;
+        : this.reversedPosts.length
+      return this.maxPost >= postLen
     },
   },
   watch: {},
@@ -95,39 +115,39 @@ export default {
       title: 'Coldsewoo - vuestagram',
       author: 'coldsewoo',
       description: 'Instagram clone',
-    };
+    }
   },
   methods: {
     onSelected(e) {
       this.$store.dispatch('postStore/onImageSelected', {
         item: e.target,
         position: 2,
-      });
+      })
     },
     publish() {
       if (this.updateStatus.status === 'false') {
-        this.$store.commit('postStore/publishStart', 'post');
-        EventBus.$emit('publish');
+        this.$store.commit('postStore/publishStart', 'post')
+        EventBus.$emit('publish')
       }
     },
     home() {
-      this.$store.commit('postStore/goHome', 1);
+      this.$store.commit('postStore/goHome', 1)
     },
     changeStep(num) {
-      this.$store.commit('postStore/changeStep', num);
-      if (num === 1) EventBus.$emit('resetForm');
+      this.$store.commit('postStore/changeStep', num)
+      if (num === 1) EventBus.$emit('resetForm')
     },
     editPost() {
-      EventBus.$emit('editPost');
+      EventBus.$emit('editPost')
     },
     loginCheck() {
-      if (!this.isLoggedIn) this.$router.replace('/users/login');
+      if (!this.isLoggedIn) this.$router.replace('/users/login')
     },
     goVuestagramHome() {
-      this.$router.go(0);
+      this.$router.go(0)
     },
   },
-};
+}
 </script>
 
 <style scoped>

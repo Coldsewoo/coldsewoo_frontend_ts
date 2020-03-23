@@ -1,6 +1,6 @@
 import client from './client'
 
-const { req, apiClient } = client;
+const { req, apiClient } = client
 
 export default {
   getPosts() {
@@ -10,7 +10,9 @@ export default {
     return req(apiClient.get(`posts/${payload}`))
   },
   publish(payload) {
-    return req(apiClient.post('posts', payload, { validateStatus: status => true }))
+    return req(
+      apiClient.post('posts', payload, { validateStatus: status => true })
+    )
   },
   deletePostImg(imagepId) {
     return req(apiClient.delete('images', { params: imagepId }))
@@ -35,6 +37,8 @@ export default {
   },
   // eslint-disable-next-line camelcase
   deleteComment(commentId, post_id) {
-    return req(apiClient.delete(`posts/comments/${commentId}`, { data: post_id }))
+    return req(
+      apiClient.delete(`posts/comments/${commentId}`, { data: post_id })
+    )
   },
 }

@@ -12,7 +12,7 @@
           @change="getRate"
         >
           <template slot="selection" slot-scope="data">
-            {{ data.item.name.split("/")[0] }}
+            {{ data.item.name.split('/')[0] }}
             <v-spacer />
             <v-spacer />
             <v-spacer />
@@ -20,7 +20,7 @@
             <v-spacer />
             <v-spacer />
             <v-spacer />
-            {{ data.item.name.split("/")[1] }}
+            {{ data.item.name.split('/')[1] }}
           </template>
         </v-select>
         <div class="amount">
@@ -62,7 +62,7 @@
           @change="getRate"
         >
           <template slot="selection" slot-scope="data">
-            {{ data.item.name.split("/")[0] }}
+            {{ data.item.name.split('/')[0] }}
             <v-spacer />
             <v-spacer />
             <v-spacer />
@@ -70,7 +70,7 @@
             <v-spacer />
             <v-spacer />
             <v-spacer />
-            {{ data.item.name.split("/")[1] }}
+            {{ data.item.name.split('/')[1] }}
           </template>
         </v-select>
         <div class="amount">
@@ -104,11 +104,11 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_URL, currencyCode } from 'Library/globalVar';
+import axios from 'axios'
+import { API_URL, currencyCode } from 'Libraries/globalVar'
 
-Number.prototype.getComma = function () {
-  let number = this.valueOf().toString();
+Number.prototype.getComma = function() {
+  let number = this.valueOf().toString()
   if (
     number !== '' ||
     number !== undefined ||
@@ -116,18 +116,18 @@ Number.prototype.getComma = function () {
     number !== '0' ||
     number !== null
   ) {
-    if (number.includes('.')) number = number.split('.');
+    if (number.includes('.')) number = number.split('.')
     if (typeof number === 'string') {
-      return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
-    return `${number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${number[1]}`;
+    return `${number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${number[1]}`
   }
-  return number;
-};
+  return number
+}
 
-String.prototype.getValue = function () {
-  return Number(this.valueOf().replace(/,/g, ''));
-};
+String.prototype.getValue = function() {
+  return Number(this.valueOf().replace(/,/g, ''))
+}
 
 export default {
   components: {},
@@ -145,15 +145,15 @@ export default {
       visible: true,
       temp: null,
       tempTarget: null,
-    };
+    }
   },
   computed: {
     currencyCode() {
-      return currencyCode;
+      return currencyCode
     },
     targetValueComma() {
-      if (isNaN(this.targetValue)) return 0;
-      return Number.prototype.getComma.call(this.targetValue);
+      if (isNaN(this.targetValue)) return 0
+      return Number.prototype.getComma.call(this.targetValue)
     },
   },
   metaInfo() {
@@ -161,33 +161,33 @@ export default {
       title: 'Coldsewoo - currency',
       author: 'coldsewoo',
       description: 'Currency - currency exchange information',
-    };
+    }
   },
   mounted() {
-    this.getRate();
+    this.getRate()
   },
   methods: {
     swap() {
-      const temp = this.originName;
-      this.originName = this.targetName;
-      this.targetName = temp;
+      const temp = this.originName
+      this.originName = this.targetName
+      this.targetName = temp
 
-      const valueTemp = this.currencyInput;
-      this.currencyInput = this.targetValue;
-      this.targetValue = valueTemp;
-      this.getRate();
+      const valueTemp = this.currencyInput
+      this.currencyInput = this.targetValue
+      this.targetValue = valueTemp
+      this.getRate()
     },
     async getRate() {
-      let originCode;
-      let targetCode;
+      let originCode
+      let targetCode
       for (const index in this.currencyCode) {
         if (Object.prototype.hasOwnProperty.call(this.currencyCode, index)) {
-          if (!this.currencyCode[index].name) continue;
+          if (!this.currencyCode[index].name) continue
           if (this.currencyCode[index].name === this.originName) {
-            originCode = this.currencyCode[index].code;
+            originCode = this.currencyCode[index].code
           }
           if (this.currencyCode[index].name === this.targetName) {
-            targetCode = this.currencyCode[index].code;
+            targetCode = this.currencyCode[index].code
           }
         }
       }
@@ -195,28 +195,28 @@ export default {
         const res = await axios({
           url: `${API_URL}/currency/${originCode}`,
           method: 'GET',
-        });
-        const rates = res.data.rates;
+        })
+        const rates = res.data.rates
         const result =
           rates[targetCode] *
-          Number(this.currencyInput.toString().replace(/,/g, ''));
-        this.targetValue = result.toFixed(2);
+          Number(this.currencyInput.toString().replace(/,/g, ''))
+        this.targetValue = result.toFixed(2)
       } catch (err) {
         // eslint-disable-next-line no-console
-        this.$store.commit('addError', err.mesage);
+        this.$store.commit('addError', err.mesage)
       }
     },
     onBlurNumberInput(e) {
-      this.visible = false;
-      this.temp = this.currencyInput;
-      this.currencyInput = Number.prototype.getComma.call(this.currencyInput);
+      this.visible = false
+      this.temp = this.currencyInput
+      this.currencyInput = Number.prototype.getComma.call(this.currencyInput)
     },
     onFocusTextInput() {
-      this.visible = true;
-      this.currencyInput = String.prototype.getValue.call(this.currencyInput);
+      this.visible = true
+      this.currencyInput = String.prototype.getValue.call(this.currencyInput)
     },
   },
-};
+}
 </script>
 
 <style scoped>

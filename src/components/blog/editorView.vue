@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import 'Assets/editorStyle.scss';
-import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';
-import typescript from 'highlight.js/lib/languages/typescript';
-import { Sketch } from 'vue-color';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import 'Assets/editorStyle.scss'
+import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
+import typescript from 'highlight.js/lib/languages/typescript'
+import { Sketch } from 'vue-color'
 
 import {
   Blockquote,
@@ -42,11 +42,11 @@ import {
   TableCell,
   TableRow,
   CodeBlockHighlight,
-} from 'tiptap-extensions';
+} from 'tiptap-extensions'
 
-import TextSize from 'Assets/textSize.js';
-import TextColor from 'Assets/fontColor.js';
-import isEmpty from 'lodash.isempty';
+import TextSize from 'Assets/textSize.js'
+import TextColor from 'Assets/fontColor.js'
+import isEmpty from 'lodash.isempty'
 import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
@@ -114,29 +114,29 @@ export default {
       previewImage: null,
       imagesToUpload: [],
       content: {},
-    };
+    }
   },
   watch: {
     article(article, old) {
       if (!isEmpty(article)) {
-        this.editor.setContent(article.content);
+        this.editor.setContent(article.content)
       }
     },
   },
   beforeDestroy() {
-    this.editor.destroy();
+    this.editor.destroy()
   },
   computed: {
     article() {
-      return this.$store.state.blogStore.currentArticle;
+      return this.$store.state.blogStore.currentArticle
     },
   },
   methods: {
     openJson() {
-      this.editor.setContent(this.article.content);
+      this.editor.setContent(this.article.content)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/router.js'
-import { API_URL } from 'Library/globalVar'
+import { API_URL } from 'Libraries/globalVar'
 import UserService from 'Services/user'
 
 const userStore = {
@@ -77,7 +77,7 @@ const userStore = {
       localStorage.removeItem('expiresIn')
       localStorage.removeItem('role')
       context.commit('logout', null, { root: true })
-      router.replace('/users/login').catch((err) => {})
+      router.replace('/users/login').catch(err => {})
     },
     async editAccount(context, payload) {
       try {
@@ -87,7 +87,9 @@ const userStore = {
           router.replace('/users/login')
         } else {
           for (const item in res.data.errors) {
-            context.commit('addError', res.data.errors[item].message, { root: true })
+            context.commit('addError', res.data.errors[item].message, {
+              root: true,
+            })
           }
         }
       } catch (err) {

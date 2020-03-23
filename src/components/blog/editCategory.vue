@@ -12,8 +12,12 @@
               class="tree grey lighten-5"
             >
               <template v-slot:prepend="{ item, active }">
-                <v-icon v-if="active" :color="active ? 'primary' : ''">turned_in</v-icon>
-                <v-icon v-if="!active" :color="active ? 'primary' : ''">turned_in_not</v-icon>
+                <v-icon v-if="active" :color="active ? 'primary' : ''"
+                  >turned_in</v-icon
+                >
+                <v-icon v-if="!active" :color="active ? 'primary' : ''"
+                  >turned_in_not</v-icon
+                >
               </template>
             </v-treeview>
             <div class="add">
@@ -23,13 +27,16 @@
                 </template>
 
                 <v-card>
-                  <v-card-title class="headline grey lighten-2" primary-title>Add category</v-card-title>
+                  <v-card-title class="headline grey lighten-2" primary-title
+                    >Add category</v-card-title
+                  >
                   <v-alert
                     :value="!valid.newCategory.alert"
                     type="warning"
                     transition="scale-transition"
                     @click="resetValid"
-                  >The category name already exists!</v-alert>
+                    >The category name already exists!</v-alert
+                  >
 
                   <v-card-text class="treeselect">
                     <Treeselect
@@ -42,7 +49,11 @@
                       placeholder="Categories"
                     />
                     <p>{{ value }}</p>
-                    <v-form ref="newForm" v-model="valid.newCategory.form" class="addField">
+                    <v-form
+                      ref="newForm"
+                      v-model="valid.newCategory.form"
+                      class="addField"
+                    >
                       <v-text-field
                         v-model="newCategoryName"
                         :label="newCategoryNameLabel"
@@ -55,13 +66,16 @@
 
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn color="error" flat @click="closeDialog('addDialog')">Cancel</v-btn>
+                    <v-btn color="error" flat @click="closeDialog('addDialog')"
+                      >Cancel</v-btn
+                    >
                     <v-btn
                       :disabled="!valid.newCategory.form"
                       color="primary"
                       flat
                       @click="addCategory"
-                    >Add</v-btn>
+                      >Add</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -74,29 +88,36 @@
               <p v-if="selectedCategory">
                 <strong>SELECTED</strong>
               </p>
-              <p>{{ selectedCategory ? selectedCategory : "Select a category" }}</p>
+              <p>
+                {{ selectedCategory ? selectedCategory : 'Select a category' }}
+              </p>
             </div>
             <div
               v-if="selectedCategory"
               :class="{
                 innerButtons:
                   true != $vuetify.breakpoint.sm &&
-                  true != $vuetify.breakpoint.xs
+                  true != $vuetify.breakpoint.xs,
               }"
             >
               <v-dialog v-model="dialogs.changeDialog" width="500">
                 <template v-slot:activator="{ on }">
-                  <v-btn flat dark class="blue darken-2" v-on="on">Change Name</v-btn>
+                  <v-btn flat dark class="blue darken-2" v-on="on"
+                    >Change Name</v-btn
+                  >
                 </template>
 
                 <v-card>
-                  <v-card-title class="headline grey lighten-2" primary-title>Edit category name</v-card-title>
+                  <v-card-title class="headline grey lighten-2" primary-title
+                    >Edit category name</v-card-title
+                  >
                   <v-alert
                     :value="!valid.changeCategory.alert"
                     type="warning"
                     transition="scale-transition"
                     @click="resetValid"
-                  >The category name already exists!</v-alert>
+                    >The category name already exists!</v-alert
+                  >
                   <v-card-text>
                     <v-form ref="form" v-model="valid.changeCategory.form">
                       <v-text-field
@@ -111,13 +132,19 @@
 
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn color="error" flat @click="closeDialog('changeDialog')">Cancel</v-btn>
+                    <v-btn
+                      color="error"
+                      flat
+                      @click="closeDialog('changeDialog')"
+                      >Cancel</v-btn
+                    >
                     <v-btn
                       :disabled="!valid.changeCategory.form"
                       color="primary"
                       flat
                       @click="changeCategory"
-                    >Edit</v-btn>
+                      >Edit</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -127,7 +154,9 @@
                 </template>
 
                 <v-card>
-                  <v-card-title class="headline grey lighten-2" primary-title>Delete category</v-card-title>
+                  <v-card-title class="headline grey lighten-2" primary-title
+                    >Delete category</v-card-title
+                  >
 
                   <v-card-text class="dialogText">
                     <p>Do you want to remove this category?</p>
@@ -138,8 +167,15 @@
 
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn color="error" flat @click="closeDialog('deleteDialog')">Cancel</v-btn>
-                    <v-btn color="primary" flat @click="deleteCategory">Delete</v-btn>
+                    <v-btn
+                      color="error"
+                      flat
+                      @click="closeDialog('deleteDialog')"
+                      >Cancel</v-btn
+                    >
+                    <v-btn color="primary" flat @click="deleteCategory"
+                      >Delete</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -150,7 +186,9 @@
       <v-divider />
       <v-card-actions>
         <v-spacer />
-        <v-btn flat dark class="blue darken-2" @click="goBlogHome">Cancel</v-btn>
+        <v-btn flat dark class="blue darken-2" @click="goBlogHome"
+          >Cancel</v-btn
+        >
         <v-btn dark color="green darken-1" @click.prevent="saveCategoryChanged">
           <v-icon small>save</v-icon>Save
         </v-btn>
@@ -161,10 +199,10 @@
 
 <script>
 // import the component
-import Treeselect from '@riophae/vue-treeselect';
+import Treeselect from '@riophae/vue-treeselect'
 
 // import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
@@ -210,339 +248,337 @@ export default {
           message: '',
         },
       },
-    };
+    }
   },
   computed: {
     selectedCategory() {
-      if (!this.active.length) return undefined;
-      return this.active[0].split('/').join('  -  ');
+      if (!this.active.length) return undefined
+      return this.active[0].split('/').join('  -  ')
     },
     categoriesList() {
-      return this.$store.getters['blogStore/categoriesList'];
+      return this.$store.getters['blogStore/categoriesList']
     },
     newCategoryNameLabel() {
-      return this.value ? 'Category Name' : 'Tab name';
+      return this.value ? 'Category Name' : 'Tab name'
     },
   },
   watch: {
     categoriesList(newVal, oldVal) {
-      this.categories = newVal.slice();
+      this.categories = newVal.slice()
     },
     categories: {
       handler(newVal, oldval) {
-        this.active = [];
+        this.active = []
       },
       deep: true,
     },
     active(newVal, oldVal) {
-      if (!newVal.length) this.value = null;
+      if (!newVal.length) this.value = null
       else {
-        const splitVal = newVal[0].split('/');
+        const splitVal = newVal[0].split('/')
         if (splitVal.length === 3) {
-          splitVal.pop();
-          this.value = splitVal.join('/');
-        } else this.value = splitVal.join('/');
+          splitVal.pop()
+          this.value = splitVal.join('/')
+        } else this.value = splitVal.join('/')
       }
     },
   },
   mounted() {
-    this.getCategories();
+    this.getCategories()
   },
   methods: {
     getCategories() {
-      this.$store.dispatch('blogStore/getCategories');
+      this.$store.dispatch('blogStore/getCategories')
     },
     selectTab(i) {
-      this.currentTab = i;
+      this.currentTab = i
     },
     selectMenu(n) {
-      this.currentMenu = n;
+      this.currentMenu = n
     },
     selectSubmenu(submenu) {
-      this.currentSubmenu = submenu;
+      this.currentSubmenu = submenu
     },
     closeDialog(name) {
       switch (name) {
         case 'addDialog':
-          this.dialogs.addDialog = false;
-          this.newCategoryName = '';
-          break;
+          this.dialogs.addDialog = false
+          this.newCategoryName = ''
+          break
         case 'changeDialog':
-          this.dialogs.changeDialog = false;
-          this.newCategoryName = '';
-          break;
+          this.dialogs.changeDialog = false
+          this.newCategoryName = ''
+          break
         case 'deleteDialog':
-          this.dialogs.deleteDialog = false;
-          break;
+          this.dialogs.deleteDialog = false
+          break
         default:
-          break;
+          break
       }
     },
     changeCategory() {
-      const items = this.active[0].split('/');
-      const level = items.length;
-      let path;
-      let parent;
-      let mainIndex;
+      const items = this.active[0].split('/')
+      const level = items.length
+      let path
+      let parent
+      let mainIndex
       switch (level) {
         case 1:
-          path = this.categories.filter((e) => {
-            return e.name === items[0];
-          })[0];
-          parent = this.categories;
+          path = this.categories.filter(e => {
+            return e.name === items[0]
+          })[0]
+          parent = this.categories
           if (
             parent.filter(e => e.name === this.changeCategoryName).length > 0
           ) {
-            this.valid.changeCategory.alert = false;
-            return;
+            this.valid.changeCategory.alert = false
+            return
           }
           for (const menu of path.children) {
             const menuId = menu.id.replace(
               `${path.name}`,
-              `${this.changeCategoryName}`,
-            );
+              `${this.changeCategoryName}`
+            )
             for (const submenu of menu.children) {
               const submenuId = submenu.id.replace(
                 `${path.name}`,
-                `${this.changeCategoryName}`,
-              );
-              parent = menu.children;
-              const index = parent.indexOf(submenu);
+                `${this.changeCategoryName}`
+              )
+              parent = menu.children
+              const index = parent.indexOf(submenu)
               index > -1 &&
                 parent.splice(index, 1, {
                   id: submenuId,
                   name: submenu.name,
                   label: submenu.label,
-                });
+                })
             }
-            parent = path.children;
-            const mainIndex = parent.indexOf(menu);
+            parent = path.children
+            const mainIndex = parent.indexOf(menu)
             mainIndex > -1 &&
               parent.splice(mainIndex, 1, {
                 id: menuId,
                 name: menu.name,
                 label: menu.label,
                 children: menu.children,
-              });
+              })
           }
-          parent = this.categories;
+          parent = this.categories
 
-          mainIndex = parent.indexOf(path);
+          mainIndex = parent.indexOf(path)
           mainIndex > -1 &&
             parent.splice(mainIndex, 1, {
               id: this.changeCategoryName,
               name: this.changeCategoryName,
               label: this.changeCategoryName,
               children: path.children,
-            });
-          break;
+            })
+          break
         case 2:
           path = this.categories
-            .filter((e) => {
-              return e.name === items[0];
+            .filter(e => {
+              return e.name === items[0]
             })[0]
-            .children.filter((e) => {
-              return e.name === items[1];
-            })[0];
-          parent = this.categories.filter((e) => {
-            return e.name === items[0];
-          })[0].children;
+            .children.filter(e => {
+              return e.name === items[1]
+            })[0]
+          parent = this.categories.filter(e => {
+            return e.name === items[0]
+          })[0].children
           if (
             parent.filter(e => e.name === this.changeCategoryName).length > 0
           ) {
-            this.valid.changeCategory.alert = false;
-            return;
+            this.valid.changeCategory.alert = false
+            return
           }
           for (const submenu of path.children) {
             const submenuId = submenu.id.replace(
               `${path.name}`,
-              `${this.changeCategoryName}`,
-            );
-            parent = path.children;
-            const index = parent.indexOf(submenu);
+              `${this.changeCategoryName}`
+            )
+            parent = path.children
+            const index = parent.indexOf(submenu)
             index > -1 &&
               parent.splice(index, 1, {
                 id: submenuId,
                 name: submenu.name,
                 label: submenu.label,
                 isDisabled: true,
-              });
+              })
           }
-          parent = this.categories.filter((e) => {
-            return e.name === items[0];
-          })[0].children;
-          mainIndex = parent.indexOf(path);
+          parent = this.categories.filter(e => {
+            return e.name === items[0]
+          })[0].children
+          mainIndex = parent.indexOf(path)
           mainIndex > -1 &&
             parent.splice(mainIndex, 1, {
               id: `${items[0]}/${this.changeCategoryName}`,
               name: this.changeCategoryName,
               label: this.changeCategoryName,
               children: path.children,
-            });
-          break;
+            })
+          break
         case 3:
           parent = this.categories
-            .filter((e) => {
-              return e.name === items[0];
+            .filter(e => {
+              return e.name === items[0]
             })[0]
-            .children.filter((e) => {
-              return e.name === items[1];
-            })[0].children;
+            .children.filter(e => {
+              return e.name === items[1]
+            })[0].children
           if (
             parent.filter(e => e.name === this.changeCategoryName).length > 0
           ) {
-            this.valid.changeCategory.alert = false;
-            return;
+            this.valid.changeCategory.alert = false
+            return
           }
           mainIndex = parent.indexOf(
-            parent.filter((e) => {
-              return e.name === items[2];
-            })[0],
-          );
+            parent.filter(e => {
+              return e.name === items[2]
+            })[0]
+          )
           mainIndex > -1 &&
             parent.splice(mainIndex, 1, {
               id: `${items[0]}/${items[1]}/${this.changeCategoryName}`,
               name: this.changeCategoryName,
               label: this.changeCategoryName,
               isDisabled: true,
-            });
-          break;
+            })
+          break
         default:
-          break;
+          break
       }
       this.Promises.push({
         type: 'edit',
         origin: this.active[0],
         name: this.changeCategoryName,
         label: this.changeCategoryName,
-      });
-      this.dialogs.changeDialog = false;
-      this.changeCategoryName = '';
+      })
+      this.dialogs.changeDialog = false
+      this.changeCategoryName = ''
     },
     addCategory() {
-      let level;
-      let items;
-      let obj;
-      let parent;
-      if (!this.value) level = 0;
+      let level
+      let items
+      let obj
+      let parent
+      if (!this.value) level = 0
       else {
-        items = this.value.split('/');
-        level = items.length;
+        items = this.value.split('/')
+        level = items.length
       }
       switch (level) {
         case 0:
-          parent = this.categories;
+          parent = this.categories
           if (parent.filter(e => e.name === this.newCategoryName).length > 0) {
-            this.valid.newCategory.alert = false;
-            return;
+            this.valid.newCategory.alert = false
+            return
           }
           obj = {
             id: this.newCategoryName,
             name: this.newCategoryName,
             label: this.newCategoryName,
             children: [],
-          };
-          this.categories.push(obj);
-          break;
+          }
+          this.categories.push(obj)
+          break
         case 1:
-          parent = this.categories.filter((e) => {
-            return e.name === items[0];
-          })[0].children;
+          parent = this.categories.filter(e => {
+            return e.name === items[0]
+          })[0].children
           if (parent.filter(e => e.name === this.newCategoryName).length > 0) {
-            this.valid.newCategory.alert = false;
-            return;
+            this.valid.newCategory.alert = false
+            return
           }
           obj = {
             id: `${this.value}/${this.newCategoryName}`,
             name: this.newCategoryName,
             label: this.newCategoryName,
             children: [],
-          };
-          this.categories
-            .filter(e => e.name === items[0])[0]
-            .children.push(obj);
-          break;
+          }
+          this.categories.filter(e => e.name === items[0])[0].children.push(obj)
+          break
         case 2:
           parent = this.categories
-            .filter((e) => {
-              return e.name === items[0];
+            .filter(e => {
+              return e.name === items[0]
             })[0]
-            .children.filter((e) => {
-              return e.name === items[1];
-            })[0].children;
+            .children.filter(e => {
+              return e.name === items[1]
+            })[0].children
           if (parent.filter(e => e.name === this.newCategoryName).length > 0) {
-            this.valid.newCategory.alert = false;
-            return;
+            this.valid.newCategory.alert = false
+            return
           }
           obj = {
             id: `${this.value}/${this.newCategoryName}`,
             name: this.newCategoryName,
             isDisabled: true,
             label: this.newCategoryName,
-          };
+          }
           this.categories
             .filter(e => e.name === items[0])[0]
             .children.filter(e => e.name === items[1])[0]
-            .children.push(obj);
-          break;
+            .children.push(obj)
+          break
         default:
-          break;
+          break
       }
       this.Promises.push({
         type: 'add',
         origin: this.value,
         name: this.newCategoryName,
         label: this.newCategoryName,
-      });
-      this.dialogs.addDialog = false;
-      this.newCategoryName = '';
-      this.value = null;
+      })
+      this.dialogs.addDialog = false
+      this.newCategoryName = ''
+      this.value = null
     },
     deleteCategory() {
-      const items = this.active[0].split('/');
-      const level = items.length;
-      let parent;
-      let path;
-      let index;
+      const items = this.active[0].split('/')
+      const level = items.length
+      let parent
+      let path
+      let index
       switch (level) {
         case 1:
-          parent = this.categories;
-          path = this.categories.filter(e => e.name === items[0])[0];
-          index = parent.indexOf(path);
-          index > -1 && parent.splice(index, 1);
-          break;
+          parent = this.categories
+          path = this.categories.filter(e => e.name === items[0])[0]
+          index = parent.indexOf(path)
+          index > -1 && parent.splice(index, 1)
+          break
         case 2:
-          parent = this.categories.filter(e => e.name === items[0])[0].children;
-          path = parent.filter(e => e.name === items[1])[0];
-          index = parent.indexOf(path);
-          index > -1 && parent.splice(index, 1);
-          break;
+          parent = this.categories.filter(e => e.name === items[0])[0].children
+          path = parent.filter(e => e.name === items[1])[0]
+          index = parent.indexOf(path)
+          index > -1 && parent.splice(index, 1)
+          break
         case 3:
           parent = this.categories
             .filter(e => e.name === items[0])[0]
-            .children.filter(e => e.name === items[1])[0].children;
-          path = parent.filter(e => e.name === items[2])[0];
-          index = parent.indexOf(path);
-          index > -1 && parent.splice(index, 1);
-          break;
+            .children.filter(e => e.name === items[1])[0].children
+          path = parent.filter(e => e.name === items[2])[0]
+          index = parent.indexOf(path)
+          index > -1 && parent.splice(index, 1)
+          break
         default:
-          break;
+          break
       }
       this.Promises.push({
         type: 'delete',
         origin: this.active[0],
         name: path.name,
         label: path.label,
-      });
-      this.dialogs.deleteDialog = false;
+      })
+      this.dialogs.deleteDialog = false
     },
     saveCategoryChanged() {
-      this.$store.dispatch('blogStore/saveCategoryChanged', this.Promises);
+      this.$store.dispatch('blogStore/saveCategoryChanged', this.Promises)
     },
     goBlogHome() {
-      this.Promises = [];
-      this.categories = this.categoriesList;
-      this.$router.push('/blog');
+      this.Promises = []
+      this.categories = this.categoriesList
+      this.$router.push('/blog')
     },
     resetValid() {
       this.valid = {
@@ -556,70 +592,70 @@ export default {
           status: true,
           message: '',
         },
-      };
+      }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">
-  .edit-container {
-    margin-top: 30px;
-  }
-  .tree {
-    min-height: 350px !important;
-  }
-  .leftView {
-    border-right: solid 1px rgba(0, 0, 0, 0.12);
+.edit-container {
+  margin-top: 30px;
+}
+.tree {
+  min-height: 350px !important;
+}
+.leftView {
+  border-right: solid 1px rgba(0, 0, 0, 0.12);
 
-    .add {
-      margin: 0px auto;
-      text-align: center;
-    }
+  .add {
+    margin: 0px auto;
+    text-align: center;
   }
+}
 
-  .treeselect {
-    min-height: 320px !important;
-    p {
-      font-size: 20px;
-      margin-left: 5px;
-      color: purple;
-    }
-    .addField {
-      width: 100%;
-      height: 100%;
-      top: 150px;
-      margin: 0 auto;
-      position: relative;
-    }
+.treeselect {
+  min-height: 320px !important;
+  p {
+    font-size: 20px;
+    margin-left: 5px;
+    color: purple;
   }
-
-  .dialogText {
-    p {
-      font-size: 20px;
-    }
-  }
-
-  .rightView {
+  .addField {
+    width: 100%;
     height: 100%;
-    .innerButtons {
-      width: 100%;
-      height: 100%;
-      top: 50%;
-      margin: 0 auto;
-      position: relative;
-      button {
-        margin: 5px 4px;
-      }
-    }
-    .categoryText {
-      width: 100%;
-      margin: auto;
+    top: 150px;
+    margin: 0 auto;
+    position: relative;
+  }
+}
 
-      p {
-        font-size: 20px;
-        margin-bottom: 35px;
-      }
+.dialogText {
+  p {
+    font-size: 20px;
+  }
+}
+
+.rightView {
+  height: 100%;
+  .innerButtons {
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    margin: 0 auto;
+    position: relative;
+    button {
+      margin: 5px 4px;
     }
   }
+  .categoryText {
+    width: 100%;
+    margin: auto;
+
+    p {
+      font-size: 20px;
+      margin-bottom: 35px;
+    }
+  }
+}
 </style>

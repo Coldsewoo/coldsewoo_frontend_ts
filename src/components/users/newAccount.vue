@@ -100,8 +100,8 @@
 </template>
 
 <script>
-import EventBus from '@/EventBus.js';
-import { createNamespacedHelpers } from 'vuex';
+import EventBus from '@/EventBus.js'
+import { createNamespacedHelpers } from 'vuex'
 import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
 
 const {
@@ -109,7 +109,7 @@ const {
   mapActions,
   mapState,
   mapMutations,
-} = createNamespacedHelpers('userStore');
+} = createNamespacedHelpers('userStore')
 
 export default {
   components: {},
@@ -139,7 +139,7 @@ export default {
           v => !!v || 'Password is required',
           v =>
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-              v,
+              v
             ) ||
             'Minimum eight characters, at least one letter, one number and one special character',
         ],
@@ -156,35 +156,39 @@ export default {
           v => !!v || 'Email is required!',
           v =>
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-              v,
+              v
             ) || 'Should be a valid email address!',
         ],
         status: '',
         avatar: '',
       },
       errors: {},
-    };
+    }
   },
   mounted() {
-    if (this.$store.state.token.token && this.$store.state.token.token !== 'null') this.$router.push('/');
+    if (
+      this.$store.state.token.token &&
+      this.$store.state.token.token !== 'null'
+    )
+      this.$router.push('/')
   },
   methods: {
     makeAccount() {
-      this.$store.dispatch('userStore/newAccountSubmit', this.accountForm)
+      this.$store
+        .dispatch('userStore/newAccountSubmit', this.accountForm)
         .then(() => {})
         .catch(err => this.handleAPIError(err))
-      ;
     },
-    login() { },
-    logout() { },
+    login() {},
+    logout() {},
   },
-};
+}
 </script>
 
 <style scoped>
-  .container {
-    height: 75vh;
-  }
+.container {
+  height: 75vh;
+}
 </style>
 
 <!--

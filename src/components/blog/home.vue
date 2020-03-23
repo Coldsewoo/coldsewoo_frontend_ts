@@ -20,22 +20,27 @@
           </v-list-tile-content>
           <v-list-tile-action>
             <v-list-tile-action-text>
-              {{
-              created(post.created)
-              }}
+              {{ created(post.created) }}
             </v-list-tile-action-text>
           </v-list-tile-action>
         </v-list-tile>
         <v-divider v-if="index + 1 < posts.length" :key="index" />
       </template>
     </v-list>
-    <v-btn v-if="currentPostsLength < postsLength" block flat color="green darken-3" @click="showMore">더보기</v-btn>
+    <v-btn
+      v-if="currentPostsLength < postsLength"
+      block
+      flat
+      color="green darken-3"
+      @click="showMore"
+      >더보기</v-btn
+    >
   </v-flex>
 </template>
 
 <script>
-import axios from 'axios';
-import { API_URL } from 'Library/globalVar';
+import axios from 'axios'
+import { API_URL } from 'Libraries/globalVar'
 import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
@@ -54,18 +59,18 @@ export default {
       error: false,
       postsLength: 0,
       currentPostsLength: 0,
-    };
+    }
   },
   computed: {
     categoryLevel() {
-      if (this.submenu) return 3;
-      if (this.menu) return 2;
-      return 1;
+      if (this.submenu) return 3
+      if (this.menu) return 2
+      return 1
     },
     selectedCategory() {
-      const selected = this.$store.state.blogStore.selectedCategory;
-      if (!selected.includes('/')) return selected;
-      return selected.toUpperCase().split('/')[2];
+      const selected = this.$store.state.blogStore.selectedCategory
+      if (!selected.includes('/')) return selected
+      return selected.toUpperCase().split('/')[2]
     },
     currentPosts() {
       return this.posts.slice(0, this.currentPostsLength)
@@ -77,12 +82,12 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: 'coldsewoo',
       description: 'Blog - all articles list',
-    };
+    }
   },
   watch: {
     posts(val, oldVal) {},
     $route(to, from) {
-      this.path = to.path;
+      this.path = to.path
       // this.getItems();
     },
   },
@@ -94,34 +99,35 @@ export default {
   methods: {
     viewArticle(post) {
       this.$router.push(
-        `/blog/category/${post.categories.path}/${post.articleId}`,
-      );
+        `/blog/category/${post.categories.path}/${post.articleId}`
+      )
     },
     created(date) {
-      const string = date.toString();
-      const year = date.substring(0, 4);
-      const month = date.substring(4, 6);
-      const day = date.substring(6, 8);
-      return `${year}/${month}/${day}`;
+      const string = date.toString()
+      const year = date.substring(0, 4)
+      const month = date.substring(4, 6)
+      const day = date.substring(6, 8)
+      return `${year}/${month}/${day}`
     },
     async getItems() {
       const res = await axios({
         url: `${API_URL}/blog`,
         method: 'GET',
-      });
+      })
       if (res.status === 200) {
-        this.error = false;
-        this.posts = res.data;
+        this.error = false
+        this.posts = res.data
       } else {
-        this.error = true;
+        this.error = true
       }
     },
     showMore() {
       this.currentPostsLength += 10
-      if (this.currentPostsLength > this.postsLength) this.currentPostsLength = this.postsLength
+      if (this.currentPostsLength > this.postsLength)
+        this.currentPostsLength = this.postsLength
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

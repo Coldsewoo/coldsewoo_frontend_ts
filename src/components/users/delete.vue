@@ -6,7 +6,9 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>Privacy Policy</v-card-title>
+        <v-card-title class="headline grey lighten-2" primary-title
+          >Privacy Policy</v-card-title
+        >
 
         <v-card-text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -34,9 +36,9 @@ export default {
   data() {
     return {
       dialog: false,
-    };
+    }
   },
-};
+}
 </script>
 
 <style></style>

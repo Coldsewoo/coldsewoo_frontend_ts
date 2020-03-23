@@ -11,7 +11,7 @@
                 single-line
                 :rules="[
                   rules.userNickname.required,
-                  rules.userNickname.counter
+                  rules.userNickname.counter,
                 ]"
                 :counter="isLoggedIn ? false : 15"
                 prepend-icon="person_outline"
@@ -86,11 +86,11 @@
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <span class="date" v-on="on">{{
-                      comment.created | moment("from", "now")
+                      comment.created | moment('from', 'now')
                     }}</span>
                   </template>
                   <span>{{
-                    comment.created | moment("YYYY년 MMMM Do dddd a h:mm:ss")
+                    comment.created | moment('YYYY년 MMMM Do dddd a h:mm:ss')
                   }}</span>
                 </v-tooltip>
 
@@ -128,7 +128,10 @@
                     <v-card v-if="!hasPermission[comment._id]">
                       <v-card-text>
                         비밀번호를 입력하세요
-                        <v-text-field v-model="dialog.input" type="password"></v-text-field>
+                        <v-text-field
+                          v-model="dialog.input"
+                          type="password"
+                        ></v-text-field>
                       </v-card-text>
 
                       <v-divider></v-divider>
@@ -207,7 +210,7 @@
                           $vuetify.breakpoint.xs
                             ? [
                                 rules.password.xsrequired,
-                                rules.password.xscounter
+                                rules.password.xscounter,
                               ]
                             : [rules.password.required, rules.password.counter]
                         "
@@ -247,7 +250,7 @@
                       single-line
                       :rules="[
                         rules.userNickname.required,
-                        rules.userNickname.counter
+                        rules.userNickname.counter,
                       ]"
                       :counter="isLoggedIn ? false : 15"
                       prepend-icon="person_outline"
@@ -315,11 +318,11 @@
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
                     <span class="date" v-on="on">{{
-                      reply.created | moment("from", "now")
+                      reply.created | moment('from', 'now')
                     }}</span>
                   </template>
                   <span>{{
-                    reply.created | moment("YYYY년 MMMM Do dddd a h:mm:ss")
+                    reply.created | moment('YYYY년 MMMM Do dddd a h:mm:ss')
                   }}</span>
                 </v-tooltip>
 
@@ -342,7 +345,10 @@
                     <v-card v-if="!hasPermission[reply._id]">
                       <v-card-text>
                         비밀번호를 입력하세요
-                        <v-text-field v-model="dialog.input" type="password"></v-text-field>
+                        <v-text-field
+                          v-model="dialog.input"
+                          type="password"
+                        ></v-text-field>
                       </v-card-text>
 
                       <v-divider></v-divider>
@@ -405,7 +411,9 @@ export default {
   props: {
     comments: {
       type: Object,
-      default: [],
+      default() {
+        return {}
+      },
     },
   },
   extends: BaseBlogComponent,
@@ -441,60 +449,60 @@ export default {
         input: '',
         opened: '',
       },
-    };
+    }
   },
   computed: {
     replyToggled() {
-      return this.replyToggle;
+      return this.replyToggle
     },
     article() {
-      return this.$store.state.blogStore.currentArticle;
+      return this.$store.state.blogStore.currentArticle
     },
     isLoggedIn() {
-      return this.$store.state.isLoggedIn;
+      return this.$store.state.isLoggedIn
     },
     hasPermission() {
-      const hasPermission = {};
-      const user = this.$store.state.user;
-      const commentsAndReply = [];
-      this.comments.forEach((comment) => {
-        commentsAndReply.push(comment);
-        comment.reply.forEach((reply) => {
-          commentsAndReply.push(reply);
-        });
-      });
-      commentsAndReply.forEach((item) => {
-        const { _id, username } = item;
-        if (!this.isLoggedIn) hasPermission[_id] = false;
+      const hasPermission = {}
+      const user = this.$store.state.user
+      const commentsAndReply = []
+      this.comments.forEach(comment => {
+        commentsAndReply.push(comment)
+        comment.reply.forEach(reply => {
+          commentsAndReply.push(reply)
+        })
+      })
+      commentsAndReply.forEach(item => {
+        const { _id, username } = item
+        if (!this.isLoggedIn) hasPermission[_id] = false
         else {
-          if (['Admin', 'Owner'].includes(user.role)) hasPermission[_id] = true;
-          if (user.username === item.username) hasPermission[_id] = true;
+          if (['Admin', 'Owner'].includes(user.role)) hasPermission[_id] = true
+          if (user.username === item.username) hasPermission[_id] = true
         }
-        if (hasPermission[_id] === undefined) hasPermission[_id] = false;
-      });
-      return hasPermission;
+        if (hasPermission[_id] === undefined) hasPermission[_id] = false
+      })
+      return hasPermission
     },
   },
   watch: {
     comments(val) {
-      this.comments = val;
+      this.comments = val
     },
   },
   async mounted() {
     if (this.isLoggedIn) {
-      await this.$store.dispatch('getUser');
+      await this.$store.dispatch('getUser')
       this.commentInput = {
         userNickname: this.$store.state.user.nickname,
         password: '',
         comment: '',
-      };
+      }
     }
   },
   methods: {
     addComment() {
-      const validation = this.validate(this.commentInput);
-      if (!validation) return;
-      let payload;
+      const validation = this.validate(this.commentInput)
+      if (!validation) return
+      let payload
 
       if (this.isLoggedIn) {
         payload = {
@@ -502,74 +510,74 @@ export default {
           comment: this.commentInput.comment,
           anonymous: false,
           created: this.$moment(),
-        };
+        }
       } else {
         payload = {
           ...this.commentInput,
           articleId: this.article.articleId,
           anonymous: true,
           created: this.$moment(),
-        };
+        }
       }
       this.$store.dispatch('blogStore/addComment', payload).then(() => {
-        this.$store.dispatch('blogStore/getComments', payload.articleId);
-        this.resetCommentInput();
-      });
+        this.$store.dispatch('blogStore/getComments', payload.articleId)
+        this.resetCommentInput()
+      })
     },
     validate(input) {
-      const { userNickname, password, comment } = input;
-      let isValid = true;
-      if (!userNickname || userNickname.length > 15) isValid = false;
+      const { userNickname, password, comment } = input
+      let isValid = true
+      if (!userNickname || userNickname.length > 15) isValid = false
       if ((!password || password.length > 15) && !this.isLoggedIn) {
-        isValid = false;
+        isValid = false
       }
-      if (!comment || comment.length > 250) isValid = false;
-      return isValid;
+      if (!comment || comment.length > 250) isValid = false
+      return isValid
     },
     resetCommentInput() {
       this.commentInput = {
         userNickname: this.$store.state.user.nickname || '',
         password: '',
         comment: '',
-      };
-      this.editToggle = {};
-      this.editInput = {};
-      this.replyToggle = {};
-      this.replyInput = {};
-      this.$refs.form.resetValidation();
+      }
+      this.editToggle = {}
+      this.editInput = {}
+      this.replyToggle = {}
+      this.replyInput = {}
+      this.$refs.form.resetValidation()
       this.dialog = {
         show: false,
         input: '',
         opened: '',
-      };
+      }
     },
     editComment(comment) {
-      let payload = {};
+      let payload = {}
       if (comment.anonymous) {
         payload = {
           articleId: this.article.articleId,
           commentId: comment._id,
           anonymous: true,
           ...this.editInput[comment._id],
-        };
+        }
       } else {
         payload = {
           articleId: this.article.articleId,
           commentId: comment._id,
           comment: this.editInput[comment._id].comment,
           anonymous: false,
-        };
+        }
       }
       this.$store
         .dispatch('blogStore/editComment', payload)
         .then(() => {
-          this.$store.dispatch('blogStore/getComments', payload.articleId);
-          this.resetCommentInput();
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.resetCommentInput()
         })
-        .catch((err) => {});
+        .catch(err => {})
     },
     deleteComment(comment) {
-      let payload = {};
+      let payload = {}
       if (comment.anonymous) {
         payload = {
           articleId: this.article.articleId,
@@ -577,49 +585,49 @@ export default {
           password: this.dialog.input,
           anonymous: true,
           hasPermission: this.hasPermission[comment._id],
-        };
+        }
       } else {
         payload = {
           articleId: this.article.articleId,
           commentId: comment._id,
           anonymous: false,
           hasPermission: this.hasPermission[comment._id],
-        };
+        }
       }
       this.$store
         .dispatch('blogStore/deleteComment', payload)
         .then(() => {
-          this.$store.dispatch('blogStore/getComments', payload.articleId);
-          this.resetCommentInput();
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.resetCommentInput()
         })
-        .catch((err) => {});
+        .catch(err => {})
     },
     addReply(comment) {
-      const validation = this.validate(this.replyInput[comment._id]);
-      if (!validation) return;
-      let payload;
+      const validation = this.validate(this.replyInput[comment._id])
+      if (!validation) return
+      let payload
 
       if (this.isLoggedIn) {
         payload = {
           anonymous: false,
           comment: this.replyInput[comment._id].comment,
-        };
+        }
       } else {
         payload = {
           ...this.replyInput[comment._id],
           anonymous: true,
-        };
+        }
       }
-      payload.commentId = comment._id;
-      payload.articleId = this.article.articleId;
-      payload.created = this.$moment();
+      payload.commentId = comment._id
+      payload.articleId = this.article.articleId
+      payload.created = this.$moment()
       this.$store.dispatch('blogStore/addReply', payload).then(() => {
-        this.$store.dispatch('blogStore/getComments', payload.articleId);
-        this.resetCommentInput();
-      });
+        this.$store.dispatch('blogStore/getComments', payload.articleId)
+        this.resetCommentInput()
+      })
     },
     deleteReply(reply) {
-      let payload = {};
+      let payload = {}
       if (reply.anonymous) {
         payload = {
           articleId: this.article.articleId,
@@ -628,7 +636,7 @@ export default {
           password: this.dialog.input,
           anonymous: true,
           hasPermission: this.hasPermission[reply._id],
-        };
+        }
       } else {
         payload = {
           articleId: this.article.articleId,
@@ -636,45 +644,45 @@ export default {
           replyId: reply._id,
           anonymous: false,
           hasPermission: this.hasPermission[reply._id],
-        };
+        }
       }
       this.$store
         .dispatch('blogStore/deleteReply', payload)
         .then(() => {
-          this.$store.dispatch('blogStore/getComments', payload.articleId);
-          this.resetCommentInput();
+          this.$store.dispatch('blogStore/getComments', payload.articleId)
+          this.resetCommentInput()
         })
-        .catch((err) => {});
+        .catch(err => {})
     },
     toggleReplyInput(_id) {
       if (!this.replyToggle[_id]) {
-        this.$set(this.replyToggle, _id, true);
+        this.$set(this.replyToggle, _id, true)
         this.$set(this.replyInput, _id, {
           userNickname: this.$store.state.user.nickname || '',
           password: '',
           comment: '',
-        });
+        })
       } else {
-        this.$set(this.replyToggle, _id, false);
+        this.$set(this.replyToggle, _id, false)
       }
     },
     toggleEdit(comment) {
-      this.$set(this.editToggle, comment._id, true);
+      this.$set(this.editToggle, comment._id, true)
       this.$set(this.editInput, comment._id, {
         userNickname: comment.userNickname,
         password: '',
         comment: comment.comment,
-      });
+      })
     },
     toggleDialog(_id) {
       this.dialog = {
         show: true,
         opened: _id,
         input: '',
-      };
+      }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

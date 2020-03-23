@@ -10,7 +10,8 @@
               :class="{ 'tab-selected': currentTab === i }"
               class="tab_header"
               @click="selectTab(i)"
-            >{{ i }}</v-tab>
+              >{{ i }}</v-tab
+            >
             <v-tab-item v-for="(tab, i) in ordered" :key="i">
               <v-card>
                 <v-layout fill-height>
@@ -22,19 +23,23 @@
                       class="menuItem"
                       v-if="menu !== '_' && n !== '_'"
                       @click="selectMenu(n)"
-                    >{{ n }}</p>
+                    >
+                      {{ n }}
+                    </p>
                   </v-flex>
                   <v-flex v-if="currentMenu" xs4 md2>
                     <p
                       v-for="(submenu, j) in ordered[currentTab][currentMenu]"
                       :key="j"
                       :class="{
-                        'submenu-selected': currentSubmenu === submenu
+                        'submenu-selected': currentSubmenu === submenu,
                       }"
                       class="menuItem"
                       v-show="submenu !== '_'"
                       @click="selectSubmenu(submenu)"
-                    >{{ submenu }}</p>
+                    >
+                      {{ submenu }}
+                    </p>
                   </v-flex>
                 </v-layout>
               </v-card>
@@ -50,7 +55,7 @@
           <template v-slot:activator="{ on }">
             <v-btn
               :class="{
-                transparent: $vuetify.breakpoint.sm || $vuetify.breakpoint.xs
+                transparent: $vuetify.breakpoint.sm || $vuetify.breakpoint.xs,
               }"
               fixed
               right
@@ -76,9 +81,7 @@
               <v-icon color="green">{{ menu.icon }}</v-icon>
               <v-spacer />
               <v-list-tile-title class="needSpace">
-                {{
-                menu.name
-                }}
+                {{ menu.name }}
               </v-list-tile-title>
             </v-list-tile>
           </v-list>
@@ -86,7 +89,7 @@
       </div>
       <v-btn
         :class="{
-          transparent: $vuetify.breakpoint.sm || $vuetify.breakpoint.xs
+          transparent: $vuetify.breakpoint.sm || $vuetify.breakpoint.xs,
         }"
         fixed
         right
@@ -104,7 +107,7 @@
 </template>
 
 <script>
-import blogStore from 'Store/blogStore';
+import blogStore from 'Store/blogStore'
 
 export default {
   name: 'Blog',
@@ -134,65 +137,65 @@ export default {
           priv: 2,
         },
       ],
-    };
+    }
   },
   computed: {
     menus() {
-      return this.$store.state.blogStore.categories;
+      return this.$store.state.blogStore.categories
     },
     ordered() {
-      return this.$store.getters['blogStore/orderedCategories'];
+      return this.$store.getters['blogStore/orderedCategories']
     },
     current() {
-      return this.$store.getters['blogStore/selectedCategoryObj'];
+      return this.$store.getters['blogStore/selectedCategoryObj']
     },
     role() {
-      return this.$store.state.role;
+      return this.$store.state.role
     },
   },
   created() {
-    this.$store.registerModule('blogStore', blogStore);
+    this.$store.registerModule('blogStore', blogStore)
   },
   mounted() {
-    this.getCategories();
-    const query = this.$route.params;
-    this.currentTab = query.tab || '';
-    this.currentMenu = query.menu || '';
-    this.currentSubmenu = query.submenu || '';
+    this.getCategories()
+    const query = this.$route.params
+    this.currentTab = query.tab || ''
+    this.currentMenu = query.menu || ''
+    this.currentSubmenu = query.submenu || ''
   },
   destroyed() {
-    this.$store.unregisterModule('blogStore');
+    this.$store.unregisterModule('blogStore')
   },
   methods: {
     goup() {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
     },
     newArticle() {
-      this.$router.push('/blog/newarticle');
+      this.$router.push('/blog/newarticle')
     },
     getCategories() {
-      this.$store.dispatch('blogStore/getCategories');
+      this.$store.dispatch('blogStore/getCategories')
     },
     selectTab(i) {
-      this.currentTab = i;
-      this.$router.push(`/blog/category/${this.currentTab}`).catch((err) => {});
+      this.currentTab = i
+      this.$router.push(`/blog/category/${this.currentTab}`).catch(err => {})
     },
     selectMenu(n) {
-      this.currentMenu = n;
+      this.currentMenu = n
       this.$router
         .push(`/blog/category/${this.currentTab}/${this.currentMenu}/`)
-        .catch((err) => {});
+        .catch(err => {})
     },
     selectSubmenu(submenu) {
-      this.currentSubmenu = submenu;
+      this.currentSubmenu = submenu
       this.$router
         .push(
-          `/blog/category/${this.currentTab}/${this.currentMenu}/${this.currentSubmenu}/`,
+          `/blog/category/${this.currentTab}/${this.currentMenu}/${this.currentSubmenu}/`
         )
-        .catch((err) => {});
+        .catch(err => {})
     },
   },
-};
+}
 </script>
 
 <style scoped>

@@ -1,8 +1,11 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+
 import 'vuetify/dist/vuetify.min.css'
-import 'es6-promise/auto'
 import 'moment/locale/ko'
-import interceptor from 'Library/interceptor.js';
-import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
+import 'es6-promise/auto'
+
+import interceptor from 'Libraries/interceptor'
 import moment from 'moment-timezone'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
@@ -14,7 +17,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 // dev Vue Console
-Vue.config.devtools = process.env.NODE_ENV === 'development';
+Vue.config.devtools = process.env.NODE_ENV === 'development'
 
 Vue.use(VueMeta, {
   // optional pluginOptions
@@ -22,12 +25,11 @@ Vue.use(VueMeta, {
 })
 Vue.use(require('vue-moment'), { moment })
 
-
 Vue.use(Vuetify, {
   iconfont: 'md',
-});
+})
 
-interceptor();
+interceptor()
 
 /* eslint-disable no-new */
 new Vue({
@@ -35,4 +37,7 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  created() {
+    this.$moment.locale('en')
+  },
 })

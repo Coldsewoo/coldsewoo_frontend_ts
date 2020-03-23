@@ -12,8 +12,8 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '127.0.0.3', // can be overwritten by process.env.HOST
+    port: 12004, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     openPage: '',
@@ -40,15 +40,15 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: false,
 
-    cssSourceMap: false
+    cssSourceMap: false,
   },
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../web/index.html'),
+    index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../web'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
@@ -65,6 +65,6 @@ module.exports = {
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
     productionGzip: true,
-    productionGzipExtensions: ['js', 'css']
-  }
+    productionGzipExtensions: ['js', 'css'],
+  },
 }

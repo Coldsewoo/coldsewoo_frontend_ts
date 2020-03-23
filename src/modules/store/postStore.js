@@ -49,7 +49,7 @@ const postStore = {
     filteredPosts(state) {
       if (state.posts.length > 0 && state.itemSelector.selected) {
         return state.posts
-          .filter((e) => {
+          .filter(e => {
             const filter = state.itemSelector.filter
             const item = state.itemSelector.key
             return e[filter].includes(item)
@@ -146,7 +146,7 @@ const postStore = {
       const position = payload.position
       const reader = new FileReader()
       reader.readAsDataURL(file[0])
-      reader.onload = (e) => {
+      reader.onload = e => {
         const payload = {
           localImageURL: e.target.result,
           step: position,
@@ -163,7 +163,8 @@ const postStore = {
         payload.imagepId = imgRes.data.pId
         payload.thumbnail = imgRes.data.thumbnail
         const postRes = await PostService.publish(payload)
-        if (postRes.status === 200) context.state.updateStatus.status = 'success'
+        if (postRes.status === 200)
+          context.state.updateStatus.status = 'success'
         context.commit('goHome')
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -173,7 +174,9 @@ const postStore = {
     async deletePost(context, payload) {
       context.commit('changeStep', 4)
       try {
-        const imgRes = await PostService.deletePostImg({ imagepId: payload.imagepId })
+        const imgRes = await PostService.deletePostImg({
+          imagepId: payload.imagepId,
+        })
         if (imgRes.status === 200) {
           const postRes = await PostService.deletePost(payload._id)
           if (postRes.status === 200) {
@@ -203,7 +206,7 @@ const postStore = {
           categories: payload.categories,
           filter: payload.filter,
         }
-        const editPostAfter = async function () {
+        const editPostAfter = async function() {
           const editRes = await PostService.editRes(payload._id, data)
           if (editRes.status === 200) {
             context.commit('goHome')
@@ -255,7 +258,9 @@ const postStore = {
     },
     async deleteComment(context, payload) {
       try {
-        const deleteRes = await PostService.deleteComment(payload._id, { post_id: payload.post_id })
+        const deleteRes = await PostService.deleteComment(payload._id, {
+          post_id: payload.post_id,
+        })
         if (deleteRes.status === 200) {
           context.commit('goHome')
           return new Promise((resolve, reject) => {

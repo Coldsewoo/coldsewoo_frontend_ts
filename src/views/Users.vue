@@ -8,10 +8,10 @@
 export default {
   components: {},
   data() {
-    return {};
+    return {}
   },
   methods: {},
-};
+}
 </script>
 
 <style scoped></style>

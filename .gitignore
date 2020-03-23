@@ -25,11 +25,3 @@ yarn-error.log*
 *.sw?
 .editorconfig
 .eslintignore
-
-README.md
-
-# test files
-
-src/views/test.js
-src/views/test.vue
-src/components/blog/test.vue

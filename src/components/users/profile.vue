@@ -3,7 +3,9 @@
     <div class="text-xs-center">
       <v-dialog v-model="dialog" width="500">
         <v-card>
-          <v-card-title class="headline red lighten-2" primary-title>Delete Account</v-card-title>
+          <v-card-title class="headline red lighten-2" primary-title
+            >Delete Account</v-card-title
+          >
 
           <v-card-text class="subheading">
             Are you sure to delete your account : {{ user.username }} ?
@@ -20,14 +22,20 @@
         </v-card>
       </v-dialog>
     </div>
-    <span class="post2" @click="showProfile = !showProfile">{{ postText }}</span>
+    <span class="post2" @click="showProfile = !showProfile">{{
+      postText
+    }}</span>
     <v-card class="post">
       <div v-show="showProfile" class="show">
         <v-card-title primary-title>
           <hr />
           <div class="profile">
             <div class="profile-row">
-              <v-img :src="user.avatar" class="profile-img" alt="avatar"></v-img>
+              <v-img
+                :src="user.avatar"
+                class="profile-img"
+                alt="avatar"
+              ></v-img>
             </div>
             <div class="profile-user">
               <h3 class="profile-name">{{ user.nickname }}</h3>
@@ -83,17 +91,17 @@
 </template>
 
 <script>
-import postStore from 'Store/postStore';
-import EventBus from '@/EventBus.js';
-import { createNamespacedHelpers } from 'vuex';
-import Post from 'Components/posts/Post';
+import postStore from 'Store/postStore'
+import EventBus from '@/EventBus.js'
+import { createNamespacedHelpers } from 'vuex'
+import Post from 'Components/posts/Post'
 
 const {
   mapGetters,
   mapActions,
   mapState,
   mapMutations,
-} = createNamespacedHelpers('postStore');
+} = createNamespacedHelpers('postStore')
 
 export default {
   components: {
@@ -107,7 +115,7 @@ export default {
       user: {},
       showProfile: true,
       dialog: false,
-    };
+    }
   },
 
   computed: {
@@ -125,23 +133,23 @@ export default {
     filteredPosts() {
       return this.$store.getters['postStore/filteredPosts']
         .filter(e => e.username === this.user.username)
-        .slice(0, this.maxPost);
+        .slice(0, this.maxPost)
     },
     myUser() {
       return {
         username: this.$store.state.token.username,
         role: this.$store.state.token.role,
-      };
+      }
     },
     postText() {
-      return this.showProfile ? 'Hide Profile' : 'Show Profile';
+      return this.showProfile ? 'Hide Profile' : 'Show Profile'
     },
   },
   watch: {
     $route() {
-      this.$store.dispatch('getUser', this.username).then((data) => {
-        this.user = data;
-      });
+      this.$store.dispatch('getUser', this.username).then(data => {
+        this.user = data
+      })
     },
     posts: {
       handler() {},
@@ -149,33 +157,33 @@ export default {
     },
     step() {
       if (this.step === 1) {
-        this.getPosts();
-        this.message = '';
+        this.getPosts()
+        this.message = ''
         this.hashtags = {
           items: [],
           text: '',
           status: false,
-        };
-        this.filterSelected = 'normal';
+        }
+        this.filterSelected = 'normal'
         this.$nextTick(() => {
-          window.scroll(0, 0);
-        });
+          window.scroll(0, 0)
+        })
       }
     },
   },
   mounted() {
-    this.getPosts();
-    this.scroll();
+    this.getPosts()
+    this.scroll()
     this.$store.commit('postStore/findByItem', {
       username: this.username,
-    });
-    this.$store.dispatch('getUser', this.username).then((data) => {
-      if (!data) this.$router.push('/404');
-      else this.user = data;
-    });
-    EventBus.$on('commentUpdated', async (_id) => {
-      this.getPosts();
-    });
+    })
+    this.$store.dispatch('getUser', this.username).then(data => {
+      if (!data) this.$router.push('/404')
+      else this.user = data
+    })
+    EventBus.$on('commentUpdated', async _id => {
+      this.getPosts()
+    })
   },
   methods: {
     ...mapActions(['getPosts', 'onImageSelected']),
@@ -185,24 +193,24 @@ export default {
           Math.max(
             window.pageYOffset,
             document.documentElement.scrollTop,
-            document.body.scrollTop,
+            document.body.scrollTop
           ) +
             window.innerHeight >=
-          document.documentElement.scrollHeight - 2;
+          document.documentElement.scrollHeight - 2
         if (bottomOfWindow) {
-          this.$store.commit('postStore/pending', 'bottom');
+          this.$store.commit('postStore/pending', 'bottom')
           setTimeout(() => {
-            this.$store.commit('postStore/pending', 'false');
-            this.$store.commit('postStore/maxPost');
-          }, 1000);
+            this.$store.commit('postStore/pending', 'false')
+            this.$store.commit('postStore/maxPost')
+          }, 1000)
         }
-      };
+      }
     },
     deleteAccount() {
-      this.$store.dispatch('userStore/deleteAccount', this.user);
+      this.$store.dispatch('userStore/deleteAccount', this.user)
     },
   },
-};
+}
 </script>
 
 <style scoped>

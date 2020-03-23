@@ -8,7 +8,10 @@
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
-            <div v-if="step === 1" style="margin:10px auto;text-align:center;font-size:15px;">
+            <div
+              v-if="step === 1"
+              style="margin:10px auto;text-align:center;font-size:15px;"
+            >
               <Strong>Please enter your username</Strong>
             </div>
             <div v-if="step === 2" style="font-size:15px;">
@@ -72,10 +75,21 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn v-if="step === 1" color="error" @click.prevent="cancel">cancel</v-btn>
-            <v-btn v-if="step === 1" color="primary" @click.prevent="submit">Submit</v-btn>
-            <v-btn v-if="step === 2" color="primary" @click.prevent="submitCode">Submit</v-btn>
-            <v-btn v-if="step === 3" color="primary" @click.prevent="saveNewPassword">Submit</v-btn>
+            <v-btn v-if="step === 1" color="error" @click.prevent="cancel"
+              >cancel</v-btn
+            >
+            <v-btn v-if="step === 1" color="primary" @click.prevent="submit"
+              >Submit</v-btn
+            >
+            <v-btn v-if="step === 2" color="primary" @click.prevent="submitCode"
+              >Submit</v-btn
+            >
+            <v-btn
+              v-if="step === 3"
+              color="primary"
+              @click.prevent="saveNewPassword"
+              >Submit</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -84,7 +98,7 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 
 export default {
   data() {
@@ -103,7 +117,7 @@ export default {
         newPasswordRules: [
           v =>
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-              v,
+              v
             ) ||
             'Minimum eight characters, at least one letter, one number and one special character',
         ],
@@ -120,67 +134,67 @@ export default {
       stepOneSubmitStatus: false,
       stepTwoSubmitStatus: false,
       stepThreeSubmitStatus: false,
-    };
+    }
   },
   methods: {
     submit() {
-      if (this.stepOneSubmitStatus) return;
-      this.stepOneSubmitStatus = true;
+      if (this.stepOneSubmitStatus) return
+      this.stepOneSubmitStatus = true
       this.$store
         .dispatch('userStore/resetPasswordSubmit', this.submitForm.username)
-        .then((email) => {
+        .then(email => {
           if (!email) {
-            this.step = 1;
-            this.stepOneSubmitStatus = false;
+            this.step = 1
+            this.stepOneSubmitStatus = false
           } else {
-            this.email = email;
-            this.step = 2;
-            this.stepOneSubmitStatus = false;
+            this.email = email
+            this.step = 2
+            this.stepOneSubmitStatus = false
           }
-        });
+        })
     },
     getItem() {
-      this.$store.dispatch('postStore/getPostsAuth');
+      this.$store.dispatch('postStore/getPostsAuth')
     },
     cancel() {
-      this.$router.replace('/users/login');
+      this.$router.replace('/users/login')
     },
     submitCode() {
-      if (this.stepTwoSubmitStatus) return;
-      this.stepTwoSubmitStatus = true;
+      if (this.stepTwoSubmitStatus) return
+      this.stepTwoSubmitStatus = true
       this.$store
         .dispatch('userStore/resetPasswordCodeSubmit', this.submitForm.code)
-        .then((res) => {
+        .then(res => {
           if (res) {
-            this.step = 3;
-            this.stepTwoSubmitStatus = false;
+            this.step = 3
+            this.stepTwoSubmitStatus = false
           } else {
-            this.stepTwoSubmitStatus = false;
-            this.step = 2;
+            this.stepTwoSubmitStatus = false
+            this.step = 2
           }
-        });
+        })
     },
     saveNewPassword() {
-      if (this.stepThreeSubmitStatus) return;
-      this.stepThreeSubmitStatus = true;
+      if (this.stepThreeSubmitStatus) return
+      this.stepThreeSubmitStatus = true
       this.$store
         .dispatch('userStore/saveNewPassword', {
           code: this.submitForm.code,
           newPassword: this.submitForm.newPassword,
           passwordConfirmation: this.submitForm.newPasswordConfirmation,
         })
-        .then((res) => {
+        .then(res => {
           if (res) {
-            this.stepThreeSubmitStatus = false;
-            this.$router.push('/users/login');
+            this.stepThreeSubmitStatus = false
+            this.$router.push('/users/login')
           } else {
-            this.step = 3;
-            this.stepThreeSubmitStatus = false;
+            this.step = 3
+            this.stepThreeSubmitStatus = false
           }
-        });
+        })
     },
   },
-};
+}
 </script>
 
 <style scoped>

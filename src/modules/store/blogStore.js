@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue'
 import router from '@/router.js'
-import { API_URL } from 'Library/globalVar'
+import { API_URL } from 'Libraries/globalVar'
 import BlogService from 'Services/blog'
 
 const blogStore = {
@@ -128,7 +128,7 @@ const blogStore = {
   actions: {
     async getPosts(context) {
       try {
-        const result = await BlogService()
+        const result = await BlogService.getPosts()
         context.commit('getPosts', result)
       } catch (err) {
         context.commit('addError', err.message, { root: true })
@@ -138,9 +138,17 @@ const blogStore = {
       try {
         const result = await BlogService.saveArticle(payload)
         if (result.status === 200) {
-          const cloudinaryRenameRes = await BlogService.cloudinaryRename(result.data.articleId, payload.images)
-          const blogContentImageRenameRes = await BlogService.blogContentImageRename(result.data.articleId)
-          if (cloudinaryRenameRes.status === 200 && blogContentImageRenameRes.status === 200) {
+          const cloudinaryRenameRes = await BlogService.cloudinaryRename(
+            result.data.articleId,
+            payload.images
+          )
+          const blogContentImageRenameRes = await BlogService.blogContentImageRename(
+            result.data.articleId
+          )
+          if (
+            cloudinaryRenameRes.status === 200 &&
+            blogContentImageRenameRes.status === 200
+          ) {
             return new Promise((resolve, reject) => {
               resolve(result)
             })
@@ -166,6 +174,7 @@ const blogStore = {
           context.commit('saveCategories', res.data)
         }
       } catch (err) {
+        console.log(err)
         context.commit('addError', err.message, { root: true })
       }
     },
@@ -265,10 +274,17 @@ const blogStore = {
         const { articleId, commentId, anonymous, hasPermission } = payload
         let deleteCommentRes
         if (!anonymous || hasPermission) {
-          deleteCommentRes = await BlogService.deleteComment(articleId, commentId)
+          deleteCommentRes = await BlogService.deleteComment(
+            articleId,
+            commentId
+          )
         } else {
           const { password } = payload
-          deleteCommentRes = await BlogService.deleteCommentPassword(articleId, commentId, { password })
+          deleteCommentRes = await BlogService.deleteCommentPassword(
+            articleId,
+            commentId,
+            { password }
+          )
         }
 
         if (deleteCommentRes.status === 200) {
@@ -279,7 +295,9 @@ const blogStore = {
       } catch (err) {
         return new Promise((resolve, reject) => {
           if (err.type === 'NoAuthorizationError') {
-            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', {
+              root: true,
+            })
           } else context.commit('addError', err.message, { root: true })
           reject()
         })
@@ -291,9 +309,15 @@ const blogStore = {
         let editCommentRes
         if (anonymous) {
           const { password } = payload
-          editCommentRes = await BlogService.editCommentPassword(articleId, commentId, { comment, password })
+          editCommentRes = await BlogService.editCommentPassword(
+            articleId,
+            commentId,
+            { comment, password }
+          )
         } else {
-          editCommentRes = await BlogService.editComment(articleId, commentId, { comment })
+          editCommentRes = await BlogService.editComment(articleId, commentId, {
+            comment,
+          })
         }
         return new Promise((resolve, reject) => {
           if (editCommentRes.status === 200) resolve()
@@ -301,7 +325,9 @@ const blogStore = {
       } catch (err) {
         return new Promise((resolve, reject) => {
           if (err.type === 'NoAuthorizationError') {
-            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', {
+              root: true,
+            })
           } else context.commit('addError', err.message, { root: true })
           reject()
         })
@@ -310,7 +336,11 @@ const blogStore = {
     async addReply(context, payload) {
       try {
         const { articleId, commentId } = payload
-        const addReplyRes = await BlogService.addReply(articleId, commentId, payload)
+        const addReplyRes = await BlogService.addReply(
+          articleId,
+          commentId,
+          payload
+        )
         if (addReplyRes.status === 200) {
           return new Promise((resolve, reject) => {
             resolve()
@@ -322,13 +352,28 @@ const blogStore = {
     },
     async deleteReply(context, payload) {
       try {
-        const { articleId, commentId, replyId, anonymous, hasPermission } = payload
+        const {
+          articleId,
+          commentId,
+          replyId,
+          anonymous,
+          hasPermission,
+        } = payload
         let deleteReplyRes
         if (!anonymous || hasPermission) {
-          deleteReplyRes = await BlogService.deleteReplyRes(articleId, commentId, replyId)
+          deleteReplyRes = await BlogService.deleteReplyRes(
+            articleId,
+            commentId,
+            replyId
+          )
         } else {
           const { password } = payload
-          deleteReplyRes = await BlogService.deleteReplyResPassword(articleId, commentId, replyId, { password })
+          deleteReplyRes = await BlogService.deleteReplyResPassword(
+            articleId,
+            commentId,
+            replyId,
+            { password }
+          )
         }
 
         if (deleteReplyRes.status === 200) {
@@ -339,7 +384,9 @@ const blogStore = {
       } catch (err) {
         return new Promise((resolve, reject) => {
           if (err.type === 'NoAuthorizationError') {
-            context.commit('addError', '비밀번호가 일치하지 않습니다.', { root: true })
+            context.commit('addError', '비밀번호가 일치하지 않습니다.', {
+              root: true,
+            })
           } else context.commit('addError', err.message, { root: true })
           reject()
         })

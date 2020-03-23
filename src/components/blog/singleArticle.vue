@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import editorItem from 'Components/blog/editorView.vue';
-import comments from 'Components/blog/comments.vue';
-import { monthEng } from 'Library/globalVar';
-import isEmpty from 'lodash.isempty';
+import editorItem from 'Components/blog/editorView.vue'
+import comments from 'Components/blog/comments.vue'
+import { monthEng } from 'Libraries/globalVar'
+import isEmpty from 'lodash.isempty'
 import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
@@ -88,11 +88,11 @@ export default {
       monthEng,
       deleteDialog: false,
       deleteSent: false,
-    };
+    }
   },
   watch: {
     comments(val) {
-      this.comments = val;
+      this.comments = val
     },
     article(article, old) {
       // if (!(isEmpty(article))) {
@@ -106,71 +106,71 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: this.article.nickname,
       description: 'Blog content',
-    };
+    }
   },
   computed: {
     createdDay() {
       if (this.article.created) {
-        const date = this.article.created;
-        const year = parseInt(date.substring(0, 4));
-        const month = parseInt(date.substring(4, 6));
-        const day = date.substring(6, 8);
-        const result = `${this.monthEng[month - 1]} ${day} ${year}`;
-        return result;
+        const date = this.article.created
+        const year = parseInt(date.substring(0, 4))
+        const month = parseInt(date.substring(4, 6))
+        const day = date.substring(6, 8)
+        const result = `${this.monthEng[month - 1]} ${day} ${year}`
+        return result
       }
-      return '';
+      return ''
     },
     article() {
-      return this.$store.state.blogStore.currentArticle;
+      return this.$store.state.blogStore.currentArticle
     },
     editPriv() {
-      const isLoggedIn = this.$store.state.isLoggedIn;
-      const role = this.$store.state.token.role;
-      const username = this.$store.state.token.username;
-      const adminIndex = ['Admin', 'Owner'];
+      const isLoggedIn = this.$store.state.isLoggedIn
+      const role = this.$store.state.token.role
+      const username = this.$store.state.token.username
+      const adminIndex = ['Admin', 'Owner']
 
       return (
         isLoggedIn &&
         (username === this.article.username || adminIndex.includes(role))
-      );
+      )
     },
     comments() {
-      return this.$store.state.blogStore.comments;
+      return this.$store.state.blogStore.comments
     },
   },
   mounted() {
-    this.getSingleArticle();
-    this.getComments();
+    this.getSingleArticle()
+    this.getComments()
   },
   beforeDestroy() {
-    this.$store.commit('blogStore/setCurrentArticle', 'reset');
+    this.$store.commit('blogStore/setCurrentArticle', 'reset')
   },
   methods: {
     getSingleArticle() {
-      this.$store.dispatch('blogStore/getSingleArticle', this.articleId);
+      this.$store.dispatch('blogStore/getSingleArticle', this.articleId)
     },
     getComments() {
-      this.$store.dispatch('blogStore/getComments', this.articleId);
+      this.$store.dispatch('blogStore/getComments', this.articleId)
     },
     deleteArticle() {
       if (!this.deleteSent) {
-        this.deleteSent = true;
-        this.$store.dispatch('blogStore/deleteArticle', this.article);
+        this.deleteSent = true
+        this.$store.dispatch('blogStore/deleteArticle', this.article)
       }
     },
     editArticle() {
-      this.$router.push(`/blog/edit/${this.articleId}`);
+      this.$router.push(`/blog/edit/${this.articleId}`)
     },
     goList() {
-      let url = this.$route.path;
-      url = url.split('/');
+      let url = this.$route.path
+      url = url.split('/')
       this.$router.push({
         name: 'submenu',
         props: { tab: url[0], menu: url[1], submenu: url[2] },
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

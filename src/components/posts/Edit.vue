@@ -4,7 +4,12 @@
       <div v-show="step === 5">
         <ul class="footer-button-plus">
           <div class="edit">
-            <input id="editfile" type="file" class="inputfile" @change="onChanged" />
+            <input
+              id="editfile"
+              type="file"
+              class="inputfile"
+              @change="onChanged"
+            />
             <label for="editfile" class="input-plus">+</label>
           </div>
         </ul>
@@ -47,7 +52,8 @@
         v-for="(hashtag, i) in edit.hashtags.items"
         :key="i"
         @click="deletetagInput(i)"
-      >#{{ hashtag }}</span>
+        >#{{ hashtag }}</span
+      >
       <input
         v-if="edit.hashtags.status"
         v-model="edit.hashtags.text"
@@ -56,7 +62,14 @@
         @keydown.enter="editHashtagSubmit"
       />
 
-      <v-btn fab width="20" height="20" dark color="indigo" @click="addHashtagOpen">
+      <v-btn
+        fab
+        width="20"
+        height="20"
+        dark
+        color="indigo"
+        @click="addHashtagOpen"
+      >
         <v-icon dark>{{ tagMsg }}</v-icon>
       </v-btn>
     </div>
@@ -78,15 +91,15 @@
 </template>
 
 <script>
-import EventBus from '@/EventBus.js';
-import { createNamespacedHelpers } from 'vuex';
+import EventBus from '@/EventBus.js'
+import { createNamespacedHelpers } from 'vuex'
 
 const {
   mapGetters,
   mapActions,
   mapState,
   mapMutations,
-} = createNamespacedHelpers('postStore');
+} = createNamespacedHelpers('postStore')
 
 export default {
   name: 'EditPage',
@@ -105,12 +118,12 @@ export default {
         imagepId: '',
       },
       activeIndex: null,
-    };
+    }
   },
   computed: {
     ...mapState(['step', 'filters', 'currentPost', 'filter', 'localImageURL']),
     tagMsg() {
-      return this.edit.hashtags.status ? 'done' : 'add';
+      return this.edit.hashtags.status ? 'done' : 'add'
     },
   },
   watch: {
@@ -127,16 +140,16 @@ export default {
         imageURL: this.currentPost.imageURL,
         _id: this.currentPost._id,
         imagepId: this.currentPost.imagepId,
-      };
-      this.activeIndex = this.filters.indexOf(this.edit.filter);
+      }
+      this.activeIndex = this.filters.indexOf(this.edit.filter)
       this.$store.commit('postStore/onImageSelected', {
         localImageURL: this.currentPost.imageURL,
         step: 5,
-      });
+      })
     },
     localImageURL() {
       if (this.$store.state.postStore.localImageURL) {
-        this.edit.imageURL = this.$store.state.postStore.localImageURL;
+        this.edit.imageURL = this.$store.state.postStore.localImageURL
       }
     },
   },
@@ -149,52 +162,52 @@ export default {
         _id: this.edit._id,
         imagepId: this.edit.imagepId,
         imageURL: this.edit.imageURL,
-      };
-      this.$store.dispatch('postStore/editPost', payload);
-    });
-    EventBus.$on('filter-selected', (e) => {
-      this.edit.filter = e.filter;
-    });
+      }
+      this.$store.dispatch('postStore/editPost', payload)
+    })
+    EventBus.$on('filter-selected', e => {
+      this.edit.filter = e.filter
+    })
   },
   beforeDestroy() {
-    EventBus.$off('editPost');
-    EventBus.$off('filter-selected');
+    EventBus.$off('editPost')
+    EventBus.$off('filter-selected')
   },
   methods: {
     editHashtagSubmit(e) {
-      if (e && e.keyCode !== 13) return;
+      if (e && e.keyCode !== 13) return
       if (
         this.edit.hashtags.items.indexOf(this.edit.hashtags.text) === -1 &&
         this.edit.hashtags.text.length > 0
       ) {
-        this.edit.hashtags.items.push(this.edit.hashtags.text);
+        this.edit.hashtags.items.push(this.edit.hashtags.text)
       }
 
-      this.edit.hashtags.text = '';
-      this.edit.hashtags.status = false;
+      this.edit.hashtags.text = ''
+      this.edit.hashtags.status = false
     },
     deletetagInput(i) {
-      this.edit.hashtags.items.splice(i, 1);
+      this.edit.hashtags.items.splice(i, 1)
     },
     addHashtagOpen() {
       if (this.edit.hashtags.status) {
-        this.editHashtagSubmit();
+        this.editHashtagSubmit()
       } else {
-        this.edit.hashtags.status = true;
+        this.edit.hashtags.status = true
       }
     },
     onChanged(e) {
       this.$store.dispatch('postStore/onImageSelected', {
         item: e.target,
         position: 5,
-      });
+      })
     },
     selectFilter(filter, i) {
-      this.edit.filter = filter;
-      this.activeIndex = i;
+      this.edit.filter = filter
+      this.activeIndex = i
     },
   },
-};
+}
 </script>
 
 <style scoped>

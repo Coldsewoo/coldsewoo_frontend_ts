@@ -1,6 +1,6 @@
 import client from './client'
 
-const { req, apiClient } = client;
+const { req, apiClient } = client
 
 export default {
   getPosts() {
@@ -19,7 +19,7 @@ export default {
     return req(apiClient.get(`blog/articles/${articleId}`))
   },
   getCategories() {
-    return req(apiClient.get('blog/categories'))
+    return req(apiClient.get('blog/categories/'))
   },
   selectMenuItem(payload) {
     return req(apiClient.post('blog/categories', payload))
@@ -49,21 +49,40 @@ export default {
     return req(apiClient.delete(`blog/comments/${articleId}/${commentId}`))
   },
   deleteCommentPassword(articleId, commentId, password) {
-    return req(apiClient.delete(`blog/comments/${articleId}/${commentId}`, { data: password }))
+    return req(
+      apiClient.delete(`blog/comments/${articleId}/${commentId}`, {
+        data: password,
+      })
+    )
   },
   editComment(articleId, commentId, comment) {
-    return req(apiClient.put(`blog/comments/${articleId}/${commentId}`, comment))
+    return req(
+      apiClient.put(`blog/comments/${articleId}/${commentId}`, comment)
+    )
   },
   editCommentPassword(articleId, commentId, { comment, password }) {
-    return req(apiClient.put(`blog/comments/${articleId}/${commentId}`, { comment, password }))
+    return req(
+      apiClient.put(`blog/comments/${articleId}/${commentId}`, {
+        comment,
+        password,
+      })
+    )
   },
   addReply(articleId, commentId, payload) {
-    return req(apiClient.post(`blog/comments/${articleId}/${commentId}`, payload))
+    return req(
+      apiClient.post(`blog/comments/${articleId}/${commentId}`, payload)
+    )
   },
   deleteReplyRes(articleId, commentId, replyId) {
-    return req(apiClient.delete(`blog/comments/${articleId}/${commentId}/${replyId}`))
+    return req(
+      apiClient.delete(`blog/comments/${articleId}/${commentId}/${replyId}`)
+    )
   },
   deleteReplyResPassword(articleId, commentId, replyId, password) {
-    return req(apiClient.delete(`blog/comments/${articleId}/${commentId}/${replyId}`, { data: password }))
+    return req(
+      apiClient.delete(`blog/comments/${articleId}/${commentId}/${replyId}`, {
+        data: password,
+      })
+    )
   },
 }

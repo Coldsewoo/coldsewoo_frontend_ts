@@ -2,19 +2,19 @@
 
 const path = require('path')
 const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const packageConfig = require('../package.json')
-const axios = require('axios')
-const qs = require('querystring')
 
-exports.assetsPath = function (_path) {
+exports.assetsPath = function(_path) {
   const assetsSubDirectory =
-    process.env.NODE_ENV === 'production' ? config.build.assetsSubDirectory : config.dev.assetsSubDirectory
+    process.env.NODE_ENV === 'production'
+      ? config.build.assetsSubDirectory
+      : config.dev.assetsSubDirectory
 
   return path.posix.join(assetsSubDirectory, _path)
 }
 
-exports.cssLoaders = function (options) {
+exports.cssLoaders = function(options) {
   options = options || {}
 
   const cssLoader = {
@@ -33,7 +33,9 @@ exports.cssLoaders = function (options) {
 
   // generate loader string to be used with extract text plugin
   function generateLoaders(loader, loaderOptions) {
-    const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+    const loaders = options.usePostCSS
+      ? [cssLoader, postcssLoader]
+      : [cssLoader]
 
     if (loader) {
       loaders.push({
@@ -43,16 +45,16 @@ exports.cssLoaders = function (options) {
         }),
       })
     }
+    const vueLoader = []
 
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: 'vue-style-loader',
-      })
+      vueLoader.unshift(MiniCssExtractPlugin.loader)
+    } else {
+      vueLoader.unshift('vue-style-loader')
     }
-    return ['vue-style-loader'].concat(loaders)
+    return vueLoader.concat(loaders)
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
@@ -68,7 +70,7 @@ exports.cssLoaders = function (options) {
 }
 
 // Generate loaders for standalone style files (outside of .vue)
-exports.styleLoaders = function (options) {
+exports.styleLoaders = function(options) {
   const output = []
   const loaders = exports.cssLoaders(options)
 
@@ -99,34 +101,4 @@ exports.createNotifierCallback = () => {
       icon: path.join(__dirname, 'logo.png'),
     })
   }
-}
-
-exports.blogRoutes = () => {
-  return new Promise((resolve, reject) => {
-    axios({
-      url: 'https://coldsewoo-backend.cf/blog',
-      method: 'GET',
-    }).then((result) => {
-      const routes = result.data.map((e) => {
-        return {
-          path: `/blog/category/${e.categories.path}/${e.articleId}`,
-          title: e.title,
-          author: e.nickname,
-        }
-      })
-      resolve(
-        routes.map((e) => {
-          return {
-            route: e.path,
-            path: e.path
-              .split('/')
-              .map(e => qs.escape(e))
-              .join('/'),
-            title: e.title,
-            author: e.author,
-          }
-        }),
-      )
-    })
-  })
 }

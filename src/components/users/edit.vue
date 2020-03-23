@@ -1,7 +1,13 @@
 <template>
   <v-container fluid fill-height pa-2 class="container">
     <v-layout v-if="tokenName !== username">Invalid redirect</v-layout>
-    <v-layout v-if="tokenName === username" row wrap justify-center align-center>
+    <v-layout
+      v-if="tokenName === username"
+      row
+      wrap
+      justify-center
+      align-center
+    >
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar dark color="#7b22eecc">
@@ -92,7 +98,9 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="error" :to="'/users/profile/' + username">cancel</v-btn>
+            <v-btn color="error" :to="'/users/profile/' + username"
+              >cancel</v-btn
+            >
             <v-btn color="primary" @click.prevent="editAccount">Submit</v-btn>
           </v-card-actions>
         </v-card>
@@ -124,7 +132,7 @@ export default {
         passwordRules: [
           v =>
             /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-              v,
+              v
             ) ||
             'Minimum eight characters, at least one letter, one number and one special character',
         ],
@@ -142,40 +150,40 @@ export default {
           v => !!v || 'Email is required!',
           v =>
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-              v,
+              v
             ) || 'Should be a valid email address!',
         ],
         status: '',
         avatar: '',
       },
       user: {},
-    };
+    }
   },
   computed: {
     tokenName() {
-      return this.$store.state.token.username;
+      return this.$store.state.token.username
     },
   },
   watch: {
-    $router: (to, from) => this.$router.push(to).catch((err) => {}),
+    $router: (to, from) => this.$router.push(to).catch(err => {}),
   },
   async mounted() {
-    this.user = await this.$store.dispatch('getUser', this.username);
-    this.loadUser();
+    this.user = await this.$store.dispatch('getUser', this.username)
+    this.loadUser()
   },
   methods: {
     loadUser() {
-      this.accountForm.username = this.user.username;
-      this.accountForm.nickname = this.user.nickname;
-      this.accountForm.email = this.user.email;
-      this.accountForm.status = this.user.status;
-      this.accountForm.avatar = this.user.avatar;
+      this.accountForm.username = this.user.username
+      this.accountForm.nickname = this.user.nickname
+      this.accountForm.email = this.user.email
+      this.accountForm.status = this.user.status
+      this.accountForm.avatar = this.user.avatar
     },
     editAccount() {
-      this.$store.dispatch('userStore/editAccount', this.accountForm);
+      this.$store.dispatch('userStore/editAccount', this.accountForm)
     },
   },
-};
+}
 </script>
 
 <style scoped>

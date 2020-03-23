@@ -51,9 +51,8 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 import ErrorHandlerMixin from 'Mixins/ErrorHandlerMixin'
-
 
 export default {
   mixins: [ErrorHandlerMixin],
@@ -68,16 +67,16 @@ export default {
         passwordRules: [v => !!v || 'Password is required'],
         showPassword: false,
       },
-    };
+    }
   },
   computed: {
     token() {
-      return this.$store.state.token;
+      return this.$store.state.token
     },
   },
   watch: {
     token() {
-      if (this.token.token && this.token.token !== 'null') this.$router.go(-1);
+      if (this.token.token && this.token.token !== 'null') this.$router.go(-1)
     },
   },
   mounted() {
@@ -85,22 +84,25 @@ export default {
       this.$store.state.token.token &&
       this.$store.state.token.token !== 'null'
     ) {
-      return this.$router.push('/');
+      return this.$router.push('/')
     }
   },
   methods: {
     login() {
-      this.$store.dispatch('userStore/login', this.loginForm).then((success) => {
-        if (success) {
-          this.$router.push('/');
-        }
-      }).catch(err => this.handleAPIError(err));
+      this.$store
+        .dispatch('userStore/login', this.loginForm)
+        .then(success => {
+          if (success) {
+            this.$router.push('/')
+          }
+        })
+        .catch(err => this.handleAPIError(err))
     },
     getItem() {
-      this.$store.dispatch('postStore/getPostsAuth');
+      this.$store.dispatch('postStore/getPostsAuth')
     },
   },
-};
+}
 </script>
 
 <style scoped>

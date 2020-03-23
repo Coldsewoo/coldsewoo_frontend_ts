@@ -1,13 +1,15 @@
 import client from './client'
 
-const { req, apiClient } = client;
+const { req, apiClient } = client
 
 export default {
   login(payload) {
-    return req(apiClient.post('auth/login', {
-      username: payload.username,
-      password: payload.password,
-    }))
+    return req(
+      apiClient.post('auth/login', {
+        username: payload.username,
+        password: payload.password,
+      })
+    )
   },
   newAccountSubmit(payload) {
     return req(apiClient.post('auth/register', payload))

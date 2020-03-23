@@ -13,7 +13,11 @@
                 </template>
                 <v-list>
                   <v-btn-toggle v-model="toggle.decoration" multiple>
-                    <v-btn :class="{ 'is-active': isActive.bold() }" flat @click="commands.bold">
+                    <v-btn
+                      :class="{ 'is-active': isActive.bold() }"
+                      flat
+                      @click="commands.bold"
+                    >
                       <v-icon>format_bold</v-icon>
                     </v-btn>
                     <v-btn
@@ -48,11 +52,16 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-tile :class="{ 'is-active': isActive.code() }" @click="commands.code">Code</v-list-tile>
+                  <v-list-tile
+                    :class="{ 'is-active': isActive.code() }"
+                    @click="commands.code"
+                    >Code</v-list-tile
+                  >
                   <v-list-tile
                     :class="{ 'is-active': isActive.code_block() }"
                     @click="commands.code_block"
-                  >Code Block</v-list-tile>
+                    >Code Block</v-list-tile
+                  >
                 </v-list>
               </v-menu>
 
@@ -68,32 +77,38 @@
                       :class="{ 'is-active': isActive.heading({ level: 1 }) }"
                       flat
                       @click="commands.heading({ level: 1 })"
-                    >H1</v-btn>
+                      >H1</v-btn
+                    >
                     <v-btn
                       :class="{ 'is-active': isActive.heading({ level: 2 }) }"
                       flat
                       @click="commands.heading({ level: 2 })"
-                    >H2</v-btn>
+                      >H2</v-btn
+                    >
                     <v-btn
                       :class="{ 'is-active': isActive.heading({ level: 3 }) }"
                       flat
                       @click="commands.heading({ level: 3 })"
-                    >H3</v-btn>
+                      >H3</v-btn
+                    >
                     <v-btn
                       :class="{ 'is-active': isActive.heading({ level: 4 }) }"
                       flat
                       @click="commands.heading({ level: 4 })"
-                    >H4</v-btn>
+                      >H4</v-btn
+                    >
                     <v-btn
                       :class="{ 'is-active': isActive.heading({ level: 5 }) }"
                       flat
                       @click="commands.heading({ level: 5 })"
-                    >H5</v-btn>
+                      >H5</v-btn
+                    >
                     <v-btn
                       :class="{ 'is-active': isActive.heading({ level: 6 }) }"
                       flat
                       @click="commands.heading({ level: 6 })"
-                    >H6</v-btn>
+                      >H6</v-btn
+                    >
                   </v-btn-toggle>
                 </v-list>
               </v-menu>
@@ -148,7 +163,9 @@
                   <v-card max-width="400">
                     <v-card-text>
                       <v-layout ma-0 text-xs-center>
-                        <span class="title font-weight-light">Font-size : {{ font.size }}px</span>
+                        <span class="title font-weight-light"
+                          >Font-size : {{ font.size }}px</span
+                        >
                       </v-layout>
                     </v-card-text>
                     <v-slider
@@ -170,7 +187,11 @@
 
               <v-tooltip bottom nudge-top="5">
                 <template v-slot:activator="{ on }">
-                  <v-btn class="menubar__button" @click="commands.horizontal_rule" v-on="on">
+                  <v-btn
+                    class="menubar__button"
+                    @click="commands.horizontal_rule"
+                    v-on="on"
+                  >
                     <v-icon>remove</v-icon>
                   </v-btn>
                 </template>
@@ -184,7 +205,11 @@
                     class="input-photo"
                     @change="onImageSelected($event, commands.image)"
                   />
-                  <label for="file" class="menubar__button input-center" v-on="on">
+                  <label
+                    for="file"
+                    class="menubar__button input-center"
+                    v-on="on"
+                  >
                     <v-icon>insert_photo</v-icon>
                   </label>
                 </template>
@@ -196,15 +221,23 @@
                   commands.createTable({
                     rowsCount: 3,
                     colsCount: 3,
-                    withHeaderRow: false
+                    withHeaderRow: false,
                   })
                 "
               >
-                <img class="svgIcon" src="@/assets/images/icons/table.svg" alt="tableIcon" />
+                <img
+                  class="svgIcon"
+                  src="/img/icons/table.svg"
+                  alt="tableIcon"
+                />
               </v-btn>
               <v-tooltip bottom nudge-top="5">
                 <template v-slot:activator="{ on }">
-                  <v-btn class="menubar__button" @click="commands.undo" v-on="on">
+                  <v-btn
+                    class="menubar__button"
+                    @click="commands.undo"
+                    v-on="on"
+                  >
                     <v-icon>undo</v-icon>
                   </v-btn>
                 </template>
@@ -213,7 +246,11 @@
 
               <v-tooltip bottom nudge-top="5">
                 <template v-slot:activator="{ on }">
-                  <v-btn class="menubar__button" @click="commands.redo" v-on="on">
+                  <v-btn
+                    class="menubar__button"
+                    @click="commands.redo"
+                    v-on="on"
+                  >
                     <v-icon>redo</v-icon>
                   </v-btn>
                 </template>
@@ -230,46 +267,64 @@
               </v-tooltip>
               <span v-if="isActive.table()">
                 <v-btn class="menubar__button" @click="commands.deleteTable">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_table.svg" alt="tableIcon" />
-                </v-btn>
-                <v-btn class="menubar__button" @click="commands.addColumnBefore">
                   <img
                     class="svgIcon"
-                    src="@/assets/images/icons/add_col_before.svg"
+                    src="/img/icons/delete_table.svg"
+                    alt="tableIcon"
+                  />
+                </v-btn>
+                <v-btn
+                  class="menubar__button"
+                  @click="commands.addColumnBefore"
+                >
+                  <img
+                    class="svgIcon"
+                    src="/img/icons/add_col_before.svg"
                     alt="tableIcon"
                   />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addColumnAfter">
                   <img
                     class="svgIcon"
-                    src="@/assets/images/icons/add_col_after.svg"
+                    src="/img/icons/add_col_after.svg"
                     alt="tableIcon"
                   />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteColumn">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_col.svg" alt="tableIcon" />
+                  <img
+                    class="svgIcon"
+                    src="/img/icons/delete_col.svg"
+                    alt="tableIcon"
+                  />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowBefore">
                   <img
                     class="svgIcon"
-                    src="@/assets/images/icons/add_row_before.svg"
+                    src="/img/icons/add_row_before.svg"
                     alt="tableIcon"
                   />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.addRowAfter">
                   <img
                     class="svgIcon"
-                    src="@/assets/images/icons/add_row_after.svg"
+                    src="/img/icons/add_row_after.svg"
                     alt="tableIcon"
                   />
                 </v-btn>
                 <v-btn class="menubar__button" @click="commands.deleteRow">
-                  <img class="svgIcon" src="@/assets/images/icons/delete_row.svg" alt="tableIcon" />
-                </v-btn>
-                <v-btn class="menubar__button" @click="commands.toggleCellMerge">
                   <img
                     class="svgIcon"
-                    src="@/assets/images/icons/combine_cells.svg"
+                    src="/img/icons/delete_row.svg"
+                    alt="tableIcon"
+                  />
+                </v-btn>
+                <v-btn
+                  class="menubar__button"
+                  @click="commands.toggleCellMerge"
+                >
+                  <img
+                    class="svgIcon"
+                    src="/img/icons/combine_cells.svg"
                     alt="tableIcon"
                   />
                 </v-btn>
@@ -333,7 +388,9 @@
                   @click="showLinkMenu(getMarkAttrs('link'))"
                   :class="{ 'is-active': isActive.link() }"
                 >
-                  <span>{{ isActive.link() ? 'Update Link ' : 'Add Link '}}</span>
+                  <span>{{
+                    isActive.link() ? 'Update Link ' : 'Add Link '
+                  }}</span>
                   <v-icon color="white" style="padding-left:5px">link</v-icon>
                 </button>
               </template>
@@ -347,18 +404,18 @@
 </template>
 
 <script>
-import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';
-import typescript from 'highlight.js/lib/languages/typescript';
+import javascript from 'highlight.js/lib/languages/javascript'
+import css from 'highlight.js/lib/languages/css'
+import typescript from 'highlight.js/lib/languages/typescript'
 
-import 'Assets/editorStyle.scss';
-import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap';
-import { Sketch } from 'vue-color';
+import 'Assets/editorStyle.scss'
+import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
+import { Sketch } from 'vue-color'
 // import the component
-import Treeselect from '@riophae/vue-treeselect';
+import Treeselect from '@riophae/vue-treeselect'
 // import the styles
-import '@riophae/vue-treeselect/dist/vue-treeselect.css';
-import isEmpty from 'lodash.isempty';
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import isEmpty from 'lodash.isempty'
 
 import {
   Blockquote,
@@ -383,12 +440,12 @@ import {
   TableCell,
   TableRow,
   CodeBlockHighlight,
-} from 'tiptap-extensions';
+} from 'tiptap-extensions'
 
-import TextColor from 'Assets/fontColor.js';
-import TextSize from 'Assets/textSize.js';
+import TextColor from 'Assets/fontColor.js'
+import TextSize from 'Assets/textSize.js'
 import ItalicWithoutCMD from 'Assets/italicWithoutCMD.js'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 import BaseBlogComponent from './BaseBlogComponent'
 
 export default {
@@ -412,7 +469,7 @@ export default {
       titleTemplate: '%s | Coldsewoo - a blog',
       author: 'coldsewoo',
       description: `Blog ${this.status === 'edit' ? 'Edit' : 'New'} page`,
-    };
+    }
   },
   data() {
     return {
@@ -475,110 +532,110 @@ export default {
       uploadStatus: false,
       linkUrl: null,
       linkMenuIsActive: false,
-    };
+    }
   },
   computed: {
     categories() {
-      return this.$store.state.blogStore.categories;
+      return this.$store.state.blogStore.categories
     },
     categoryListForArticle() {
-      return this.$store.getters['blogStore/categoryListForArticle'];
+      return this.$store.getters['blogStore/categoryListForArticle']
     },
     latestImageURL() {
-      return this.$store.state.blogStore.latestImageURL;
+      return this.$store.state.blogStore.latestImageURL
     },
     article() {
       if (this.status === 'edit') {
-        return this.$store.state.blogStore.currentArticle;
+        return this.$store.state.blogStore.currentArticle
       }
-      return {};
+      return {}
     },
   },
   beforeDestroy() {
     if (this.uploadStatus || this.imagesToUpload.length === 0) {
-      return this.editor.destroy();
+      return this.editor.destroy()
     }
     const pidArr = this.imagesToUpload.map(e =>
-      this.$store.dispatch('blogStore/deleteImage', e.pId),
-    );
+      this.$store.dispatch('blogStore/deleteImage', e.pId)
+    )
     Promise.all(pidArr).then(() => {
-      this.editor.destroy();
-    });
+      this.editor.destroy()
+    })
   },
   watch: {
     article(art) {
       if (!isEmpty(art)) {
-        this.title = art.title;
-        this.value = art.categories.path;
-        this.editor.setContent(art.content);
+        this.title = art.title
+        this.value = art.categories.path
+        this.editor.setContent(art.content)
       }
     },
   },
   methods: {
     saveArticle() {
-      const content = this.editor.getJSON();
+      const content = this.editor.getJSON()
       const payload = {
         content,
         title: this.title,
         categories: this.value,
         images: this.imagesToUpload,
         status: this.status,
-      };
+      }
       payload.articleId =
-        this.status === 'edit' ? this.article.articleId : undefined;
+        this.status === 'edit' ? this.article.articleId : undefined
       setTimeout(() => {
-        this.$store.dispatch('blogStore/saveArticle', payload).then((result) => {
+        this.$store.dispatch('blogStore/saveArticle', payload).then(result => {
           if (result.status === 200) {
-            this.uploadStatus = true;
+            this.uploadStatus = true
             this.$router.push(
-              `/blog/category/${result.data.path}/${result.data.articleId}`,
-            );
+              `/blog/category/${result.data.path}/${result.data.articleId}`
+            )
           } else {
-            this.uploadStatus = false;
+            this.uploadStatus = false
           }
-        });
-      }, 0);
+        })
+      }, 0)
     },
     onImageSelected(e, command) {
-      const image = e.target.files[0];
+      const image = e.target.files[0]
       if (image.type.match('image.*')) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(image);
-        fileReader.onload = async (e) => {
-          this.previewImage = e.target.result;
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(image)
+        fileReader.onload = async e => {
+          this.previewImage = e.target.result
           const result = await this.$store.dispatch(
             'blogStore/onImageSelected',
-            this.previewImage,
-          );
-          const alt = result.thumbnail;
-          const src = result.image;
-          const title = result.pId;
-          command({ src, alt, title });
-          this.imagesToUpload.push(result);
+            this.previewImage
+          )
+          const alt = result.thumbnail
+          const src = result.image
+          const title = result.pId
+          command({ src, alt, title })
+          this.imagesToUpload.push(result)
           this.$nextTick(() => {
-            this.previewImage = null;
-          });
-        };
-      } else this.$store.commit('addError', 'Invalid Image');
+            this.previewImage = null
+          })
+        }
+      } else this.$store.commit('addError', 'Invalid Image')
     },
     showLinkMenu(attrs) {
-      this.linkUrl = attrs.href;
-      this.linkMenuIsActive = true;
+      this.linkUrl = attrs.href
+      this.linkMenuIsActive = true
       this.$nextTick(() => {
-        this.$refs.linkInput.focus();
-      });
+        this.$refs.linkInput.focus()
+      })
     },
     hideLinkMenu() {
-      this.linkUrl = null;
-      this.linkMenuIsActive = false;
+      this.linkUrl = null
+      this.linkMenuIsActive = false
     },
     setLinkUrl(command, url) {
-      command({ href: url });
-      this.hideLinkMenu();
-      this.editor.focus();
+      command({ href: url })
+      this.hideLinkMenu()
+      this.editor.focus()
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

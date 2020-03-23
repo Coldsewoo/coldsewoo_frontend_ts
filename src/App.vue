@@ -63,7 +63,7 @@
         />
         <v-toolbar-title class="toolbar-title">
           <router-link to="/" tag="a">
-            <span class="text-black">Cold</span>
+            <span class="text-black">cold</span>
             <span class="text-purple">sewoo</span>
           </router-link>
         </v-toolbar-title>
@@ -124,7 +124,7 @@
         <v-menu open-on-hover top offset-y>
           <template v-slot:activator="{ on }">
             <img
-              src="@/assets/GitHubMark.png"
+              src="/img/source/GitHubMark.png"
               width="25"
               height="25"
               v-on="on"
@@ -152,11 +152,11 @@
 </template>
 
 <script>
-import { throws } from 'assert';
+import { throws } from 'assert'
 
-window.onbeforeunload = function () {
-  window.scrollTo(0, 0);
-};
+window.onbeforeunload = function() {
+  window.scrollTo(0, 0)
+}
 
 export default {
   name: 'App',
@@ -168,76 +168,76 @@ export default {
       toolbar: {
         fixed: true,
       },
-    };
+    }
   },
   computed: {
     token() {
-      return this.$store.state.token;
+      return this.$store.state.token
     },
     isLoggedIn() {
-      return this.$store.state.isLoggedIn;
+      return this.$store.state.isLoggedIn
     },
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     tooManyRequests() {
-      return this.$store.state.tooManyRequests;
+      return this.$store.state.tooManyRequests
     },
     errorsList() {
-      return this.$store.state.errorsList;
+      return this.$store.state.errorsList
     },
   },
   watch: {
     token() {
       if (this.token.token && this.token.token !== 'null') {
-        this.$store.dispatch('getUser');
+        this.$store.dispatch('getUser')
       }
     },
     $route(to, from) {
-      this.$store.commit('resetErrors');
-      this.drawer.open = false;
+      this.$store.commit('resetErrors')
+      this.drawer.open = false
     },
   },
   mounted() {
-    this.$store.commit('getToken');
+    this.$store.commit('getToken')
     if (this.isLoggedIn) {
-      this.$store.dispatch('getUser');
+      this.$store.dispatch('getUser')
     }
   },
   methods: {
     logout() {
-      this.$store.dispatch('userStore/logout');
+      this.$store.dispatch('userStore/logout')
     },
     changeStep(step) {
-      this.$store.commit('postStore/changeStep', step);
+      this.$store.commit('postStore/changeStep', step)
     },
     // changes the drawer to permanent
     makeDrawerPermanent() {
-      this.drawer.permanent = true;
+      this.drawer.permanent = true
       // set the clipped state of the drawer and toolbar
-      this.drawer.clipped = false;
-      this.toolbar.clippedLeft = false;
+      this.drawer.clipped = false
+      this.toolbar.clippedLeft = false
     },
     // toggles the drawer variant (mini/full)
     toggleMiniDrawer() {
-      this.drawer.mini = !this.drawer.mini;
+      this.drawer.mini = !this.drawer.mini
     },
     // toggles the drawer type (permanent vs temporary) or shows/hides the drawer
     toggleDrawer() {
       if (this.drawer.permanent) {
-        this.drawer.permanent = !this.drawer.permanent;
+        this.drawer.permanent = !this.drawer.permanent
         // set the clipped state of the drawer and toolbar
         // this.drawer.clipped = true;
         // this.toolbar.clippedLeft = true;
       } else {
-        this.drawer.open = !this.drawer.open;
+        this.drawer.open = !this.drawer.open
       }
     },
     errorChecked(i) {
-      this.errorsList.splice(i, 1);
+      this.errorsList.splice(i, 1)
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -255,7 +255,7 @@ a {
 }
 
 #app {
-  font-family: "AppleGothic", "Avenue";
+  font-family: 'AppleGothic', 'Avenue';
   width: 100%;
   background: #fff;
   margin: auto;
